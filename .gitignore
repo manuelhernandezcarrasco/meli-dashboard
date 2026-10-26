@@ -1,0 +1,34 @@
+# secrets
+.env
+.env.*
+!.env.example
+tokens.json
+
+# real business data
+data/
+/*.xlsx
+salida*/
+
+# deps / builds
+node_modules/
+.next/
+out/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# agents / OS / editors
+.claude/
+.cursor/
+.DS_Store
+.idea/
+.vscode/
+
+# prisma client
+generated/

@@ -1,0 +1,312 @@
+[
+ {
+  "ventaMl": 3028500.0,
+  "ventaVa": 0.0,
+  "venta": 3028500.0,
+  "costoMl": 600939.0,
+  "cogs": 2221000.0,
+  "uds": 11.0,
+  "ingNetos": 2427561.0,
+  "margen": 206561.0
+ },
+ {
+  "ventaMl": 1123500.0,
+  "ventaVa": 0.0,
+  "venta": 1123500.0,
+  "costoMl": 229308.0,
+  "cogs": 891556.0,
+  "uds": 9.0,
+  "ingNetos": 894192.0,
+  "margen": 2636.0
+ },
+ {
+  "ventaMl": 2371800.0,
+  "ventaVa": 3200000.0,
+  "venta": 5571800.0,
+  "costoMl": 429391.0,
+  "cogs": 4333780.0,
+  "uds": 20.0,
+  "ingNetos": 5142409.0,
+  "margen": 808629.0
+ },
+ {
+  "ventaMl": 2045200.0,
+  "ventaVa": 0.0,
+  "venta": 2045200.0,
+  "costoMl": 410686.0,
+  "cogs": 1465300.0,
+  "uds": 14.0,
+  "ingNetos": 1634514.0,
+  "margen": 169214.0
+ },
+ {
+  "ventaMl": 3668200.0,
+  "ventaVa": 0.0,
+  "venta": 3668200.0,
+  "costoMl": 682752.0,
+  "cogs": 2722238.0,
+  "uds": 17.0,
+  "ingNetos": 2985448.0,
+  "margen": 263210.0
+ },
+ {
+  "ventaMl": 3387200.0,
+  "ventaVa": 0.0,
+  "venta": 3387200.0,
+  "costoMl": 640632.0,
+  "cogs": 2481496.0,
+  "uds": 9.0,
+  "ingNetos": 2746568.0,
+  "margen": 265072.0
+ },
+ {
+  "ventaMl": 3989000.0,
+  "ventaVa": 0.0,
+  "venta": 3989000.0,
+  "costoMl": 713209.0,
+  "cogs": 2872784.0,
+  "uds": 15.0,
+  "ingNetos": 3275791.0,
+  "margen": 403007.0
+ },
+ {
+  "ventaMl": 5120100.0,
+  "ventaVa": 0.0,
+  "venta": 5120100.0,
+  "costoMl": 962838.0,
+  "cogs": 3723520.0,
+  "uds": 18.0,
+  "ingNetos": 4157262.0,
+  "margen": 433742.0
+ },
+ {
+  "ventaMl": 6058000.0,
+  "ventaVa": 1920000.0,
+  "venta": 7978000.0,
+  "costoMl": 1142647.0,
+  "cogs": 5980408.0,
+  "uds": 22.0,
+  "ingNetos": 6835353.0,
+  "margen": 854945.0
+ },
+ {
+  "ventaMl": 5192900.0,
+  "ventaVa": 0.0,
+  "venta": 5192900.0,
+  "costoMl": 995245.0,
+  "cogs": 3873136.0,
+  "uds": 20.0,
+  "ingNetos": 4197655.0,
+  "margen": 324519.0
+ },
+ {
+  "ventaMl": 4703200.0,
+  "ventaVa": 0.0,
+  "venta": 4703200.0,
+  "costoMl": 900709.0,
+  "cogs": 3392144.0,
+  "uds": 15.0,
+  "ingNetos": 3802491.0,
+  "margen": 410347.0
+ },
+ {
+  "ventaMl": 2272300.0,
+  "ventaVa": 0.0,
+  "venta": 2272300.0,
+  "costoMl": 434452.0,
+  "cogs": 1705710.0,
+  "uds": 15.0,
+  "ingNetos": 1837848.0,
+  "margen": 132138.0
+ },
+ {
+  "ventaMl": 3304700.0,
+  "ventaVa": 0.0,
+  "venta": 3304700.0,
+  "costoMl": 634898.0,
+  "cogs": 2398452.0,
+  "uds": 14.0,
+  "ingNetos": 2669802.0,
+  "margen": 271350.0
+ },
+ {
+  "ventaMl": 2082800.0,
+  "ventaVa": 0.0,
+  "venta": 2082800.0,
+  "costoMl": 433554.0,
+  "cogs": 1541024.0,
+  "uds": 12.0,
+  "ingNetos": 1649246.0,
+  "margen": 108222.0
+ },
+ {
+  "ventaMl": 1798800.0,
+  "ventaVa": 0.0,
+  "venta": 1798800.0,
+  "costoMl": 360671.0,
+  "cogs": 1312000.0,
+  "uds": 8.0,
+  "ingNetos": 1438129.0,
+  "margen": 126129.0
+ },
+ {
+  "ventaMl": 3074800.0,
+  "ventaVa": 1536000.0,
+  "venta": 4610800.0,
+  "costoMl": 615399.0,
+  "cogs": 3390788.0,
+  "uds": 42.0,
+  "ingNetos": 3995401.0,
+  "margen": 604613.0
+ },
+ {
+  "ventaMl": 5610400.0,
+  "ventaVa": 0.0,
+  "venta": 5610400.0,
+  "costoMl": 1037839.0,
+  "cogs": 3943674.0,
+  "uds": 17.0,
+  "ingNetos": 4572561.0,
+  "margen": 628887.0
+ },
+ {
+  "ventaMl": 1990100.0,
+  "ventaVa": 0.0,
+  "venta": 1990100.0,
+  "costoMl": 425795.0,
+  "cogs": 1412692.0,
+  "uds": 11.0,
+  "ingNetos": 1564305.0,
+  "margen": 151613.0
+ },
+ {
+  "ventaMl": 3705500.0,
+  "ventaVa": 0.0,
+  "venta": 3705500.0,
+  "costoMl": 782309.0,
+  "cogs": 2680754.0,
+  "uds": 20.0,
+  "ingNetos": 2923191.0,
+  "margen": 242437.0
+ },
+ {
+  "ventaMl": 4994500.0,
+  "ventaVa": 0.0,
+  "venta": 4994500.0,
+  "costoMl": 953551.0,
+  "cogs": 3660788.0,
+  "uds": 16.0,
+  "ingNetos": 4040949.0,
+  "margen": 380161.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 820000.0,
+  "venta": 820000.0,
+  "costoMl": 0.0,
+  "cogs": 580000.0,
+  "uds": 10.0,
+  "ingNetos": 820000.0,
+  "margen": 240000.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ },
+ {
+  "ventaMl": 0.0,
+  "ventaVa": 0.0,
+  "venta": 0.0,
+  "costoMl": 0.0,
+  "cogs": 0.0,
+  "uds": 0.0,
+  "ingNetos": 0.0,
+  "margen": 0.0
+ }
+]

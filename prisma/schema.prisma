@@ -1,0 +1,34 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../generated/prisma"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Singleton row (id = 1) with the Mercado Libre OAuth tokens.
+model MlToken {
+  id           Int      @id @default(1)
+  accessToken  String
+  refreshToken String
+  userId       BigInt
+  expiresAt    DateTime
+  updatedAt    DateTime @updatedAt
+}
+
+/// Cache of API lookups: ship:<id>, gtin:<itemId>, tax:<paymentId>, orders:YYYY-MM
+model ApiCache {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+/// Last computed DashboardData per month (YYYY-MM).
+model Snapshot {
+  month      String   @id
+  payload    Json
+  computedAt DateTime
+}

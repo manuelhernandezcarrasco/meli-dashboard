@@ -1,0 +1,19 @@
+{
+  "refreshMinutes": 15,
+  "horaCierre": "23:55",
+  "mes": "",
+  "stockCriticoDias": 7,
+  "stockBajoDias": 15,
+  "reposicionDias": 30,
+  "impuestosMlPctEstimado": "auto",
+  "margenAsumido": {
+    "SONY": 0.08,
+    "PLAY STATION": 0.08,
+    "XBOX": 0.15,
+    "BOSCH": 0.15,
+    "VINOS": 0.2,
+    "ONFAN": 0.2,
+    "OTRAS": 0.3,
+    "SIN MATCH": 0.3
+  }
+}

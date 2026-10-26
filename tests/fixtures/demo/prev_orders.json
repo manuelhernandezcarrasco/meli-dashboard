@@ -1,0 +1,8527 @@
+[
+ {
+  "id": 2000009700001,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T11:03:00.000-03:00",
+  "shippingId": 44009700001,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 752000,
+    "saleFee": 117604
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700001,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700002,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T15:27:00.000-03:00",
+  "shippingId": 44009700002,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 659900,
+    "saleFee": 80748
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700002,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700003,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T09:25:00.000-03:00",
+  "shippingId": 44009700003,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 59900,
+    "saleFee": 7307
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700003,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700004,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T21:07:00.000-03:00",
+  "shippingId": 44009700004,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 720200,
+    "saleFee": 102871
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700004,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700005,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T14:35:00.000-03:00",
+  "shippingId": 44009700005,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 56800,
+    "saleFee": 8434
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700005,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700006,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T18:59:00.000-03:00",
+  "shippingId": 44009700006,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 56100,
+    "saleFee": 7749
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700006,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700007,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T17:56:00.000-03:00",
+  "shippingId": 44009700007,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 104500,
+    "saleFee": 13976
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700007,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700008,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T21:21:00.000-03:00",
+  "shippingId": 44009700008,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 573600,
+    "saleFee": 72319
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700008,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700009,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T18:22:00.000-03:00",
+  "shippingId": 44009700009,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 123300,
+    "saleFee": 17727
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700009,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700010,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T16:42:00.000-03:00",
+  "shippingId": 44009700010,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1059600,
+    "saleFee": 129907
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700010,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700011,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-01T22:24:00.000-03:00",
+  "shippingId": 44009700011,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 52900,
+    "saleFee": 8225
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700011,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700012,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T09:18:00.000-03:00",
+  "shippingId": 44009700012,
+  "items": [
+   {
+    "itemId": "MLA1401352258",
+    "title": "Bosch GO 3 Atornillador",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 93800,
+    "saleFee": 11741
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700012,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700013,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T10:25:00.000-03:00",
+  "shippingId": 44009700013,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 697700,
+    "saleFee": 99058
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700013,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700014,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T21:43:00.000-03:00",
+  "shippingId": 44009700014,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 23300,
+    "saleFee": 3620
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700014,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700015,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T15:00:00.000-03:00",
+  "shippingId": 44009700015,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 719000,
+    "saleFee": 100228
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700015,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700016,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T21:39:00.000-03:00",
+  "shippingId": 44009700016,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1022000,
+    "saleFee": 145792
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700016,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700017,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T09:55:00.000-03:00",
+  "shippingId": 44009700017,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 796200,
+    "saleFee": 120384
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700017,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700018,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T11:25:00.000-03:00",
+  "shippingId": 44009700018,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 23200,
+    "saleFee": 2842
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700018,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700019,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T09:36:00.000-03:00",
+  "shippingId": 44009700019,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 88200,
+    "saleFee": 11118
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700019,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700020,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T14:09:00.000-03:00",
+  "shippingId": 44009700020,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 627400,
+    "saleFee": 91209
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700020,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700021,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T11:29:00.000-03:00",
+  "shippingId": 44009700021,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 782500,
+    "saleFee": 108936
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700021,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700022,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-02T23:10:00.000-03:00",
+  "shippingId": 44009700022,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 92300,
+    "saleFee": 12982
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700022,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700023,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-03T08:19:00.000-03:00",
+  "shippingId": 44009700023,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 771300,
+    "saleFee": 122745
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700023,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700024,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-03T13:14:00.000-03:00",
+  "shippingId": 44009700024,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 37000,
+    "saleFee": 5228
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700024,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700025,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-03T14:52:00.000-03:00",
+  "shippingId": 44009700025,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 35800,
+    "saleFee": 4870
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700025,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700026,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-03T08:30:00.000-03:00",
+  "shippingId": 44009700026,
+  "items": [
+   {
+    "itemId": "MLA1438518643",
+    "title": "Angélica Zapata Malbec Alta 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 62200,
+    "saleFee": 8109
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700026,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700027,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-03T19:23:00.000-03:00",
+  "shippingId": 44009700027,
+  "items": [
+   {
+    "itemId": "MLA1481316297",
+    "title": "Rutini Cabernet Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 31500,
+    "saleFee": 3881
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700027,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700028,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-03T23:57:00.000-03:00",
+  "shippingId": 44009700028,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 640200,
+    "saleFee": 92452
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700028,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700029,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-03T11:50:00.000-03:00",
+  "shippingId": 44009700029,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 115900,
+    "saleFee": 17206
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700029,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700030,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-03T10:46:00.000-03:00",
+  "shippingId": 44009700030,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 185000,
+    "saleFee": 25129
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700030,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700031,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-03T12:37:00.000-03:00",
+  "shippingId": 44009700031,
+  "items": [
+   {
+    "itemId": "MLA1416432271",
+    "title": "Baseus Power Bank 20000",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 59900,
+    "saleFee": 9356
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700031,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700032,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-04T19:35:00.000-03:00",
+  "shippingId": 44009700032,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1088500,
+    "saleFee": 136323
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700032,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700033,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-04T12:55:00.000-03:00",
+  "shippingId": 44009700033,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 117500,
+    "saleFee": 15016
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700033,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700034,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-04T18:26:00.000-03:00",
+  "shippingId": 44009700034,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 20100,
+    "saleFee": 3083
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700034,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700035,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-04T21:56:00.000-03:00",
+  "shippingId": 44009700035,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 97600,
+    "saleFee": 13670
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700035,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700036,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-04T13:49:00.000-03:00",
+  "shippingId": 44009700036,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 55000,
+    "saleFee": 8358
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700036,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700037,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-04T18:33:00.000-03:00",
+  "shippingId": 44009700037,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 170400,
+    "saleFee": 24234
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700037,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700038,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-04T16:06:00.000-03:00",
+  "shippingId": 44009700038,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 34400,
+    "saleFee": 4827
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700038,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700039,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-04T14:28:00.000-03:00",
+  "shippingId": 44009700039,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 57700,
+    "saleFee": 8097
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700039,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700040,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T16:57:00.000-03:00",
+  "shippingId": 44009700040,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 128000,
+    "saleFee": 20190
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700040,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700041,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T10:27:00.000-03:00",
+  "shippingId": 44009700041,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 33300,
+    "saleFee": 4093
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700041,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700042,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T19:56:00.000-03:00",
+  "shippingId": 44009700042,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 58000,
+    "saleFee": 7278
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700042,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700043,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T13:53:00.000-03:00",
+  "shippingId": 44009700043,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 140900,
+    "saleFee": 18169
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700043,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700044,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T19:46:00.000-03:00",
+  "shippingId": 44009700044,
+  "items": [
+   {
+    "itemId": "MLA1481316297",
+    "title": "Rutini Cabernet Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 31800,
+    "saleFee": 4281
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700044,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700045,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T17:04:00.000-03:00",
+  "shippingId": 44009700045,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 183500,
+    "saleFee": 22848
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700045,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700046,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-05T16:49:00.000-03:00",
+  "shippingId": 44009700046,
+  "items": [
+   {
+    "itemId": "MLA1482926082",
+    "title": "OnFan Laptop Stand Aluminio",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 18200,
+    "saleFee": 2316
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700046,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700047,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T16:34:00.000-03:00",
+  "shippingId": 44009700047,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 58400,
+    "saleFee": 9155
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700047,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700048,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T13:04:00.000-03:00",
+  "shippingId": 44009700048,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 57000,
+    "saleFee": 7453
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700048,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700049,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T15:55:00.000-03:00",
+  "shippingId": 44009700049,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 99000,
+    "saleFee": 12362
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700049,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700050,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T12:45:00.000-03:00",
+  "shippingId": 44009700050,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 118000,
+    "saleFee": 15285
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700050,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700051,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T14:40:00.000-03:00",
+  "shippingId": 44009700051,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 604600,
+    "saleFee": 79928
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700051,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700052,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-05T19:16:00.000-03:00",
+  "shippingId": 44009700052,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 35600,
+    "saleFee": 4325
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700052,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700053,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-06T22:52:00.000-03:00",
+  "shippingId": 44009700053,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 55300,
+    "saleFee": 8074
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700053,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700054,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-06T17:14:00.000-03:00",
+  "shippingId": 44009700054,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 55300,
+    "saleFee": 7394
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700054,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700055,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-06T19:53:00.000-03:00",
+  "shippingId": 44009700055,
+  "items": [
+   {
+    "itemId": "MLA1438518643",
+    "title": "Angélica Zapata Malbec Alta 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 68500,
+    "saleFee": 8576
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700055,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700056,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-06T10:24:00.000-03:00",
+  "shippingId": 44009700056,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 97700,
+    "saleFee": 15126
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700056,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700057,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T13:28:00.000-03:00",
+  "shippingId": 44009700057,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1109500,
+    "saleFee": 133301
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700057,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700058,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T18:56:00.000-03:00",
+  "shippingId": 44009700058,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 179100,
+    "saleFee": 23710
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700058,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700059,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T14:49:00.000-03:00",
+  "shippingId": 44009700059,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 168800,
+    "saleFee": 20289
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700059,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700060,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T08:40:00.000-03:00",
+  "shippingId": 44009700060,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 91400,
+    "saleFee": 11819
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700060,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700061,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T20:46:00.000-03:00",
+  "shippingId": 44009700061,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1074500,
+    "saleFee": 171264
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700061,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700062,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T21:51:00.000-03:00",
+  "shippingId": 44009700062,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 178900,
+    "saleFee": 25086
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700062,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700063,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T08:37:00.000-03:00",
+  "shippingId": 44009700063,
+  "items": [
+   {
+    "itemId": "MLA1482926082",
+    "title": "OnFan Laptop Stand Aluminio",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 20200,
+    "saleFee": 3069
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700063,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700064,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T09:23:00.000-03:00",
+  "shippingId": 44009700064,
+  "items": [
+   {
+    "itemId": "MLA1481316297",
+    "title": "Rutini Cabernet Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 31500,
+    "saleFee": 4989
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700064,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700065,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T15:00:00.000-03:00",
+  "shippingId": 44009700065,
+  "items": [
+   {
+    "itemId": "MLA1412756468",
+    "title": "Satechi Hub USB-C 7 en 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 78700,
+    "saleFee": 10882
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700065,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700066,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T10:30:00.000-03:00",
+  "shippingId": 44009700066,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 101600,
+    "saleFee": 13217
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700066,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700067,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T22:24:00.000-03:00",
+  "shippingId": 44009700067,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 89100,
+    "saleFee": 10966
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700067,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700068,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T14:09:00.000-03:00",
+  "shippingId": 44009700068,
+  "items": [
+   {
+    "itemId": "MLA1482926082",
+    "title": "OnFan Laptop Stand Aluminio",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 18400,
+    "saleFee": 2452
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700068,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700069,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T23:17:00.000-03:00",
+  "shippingId": 44009700069,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 56900,
+    "saleFee": 9041
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700069,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700070,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-07T17:29:00.000-03:00",
+  "shippingId": 44009700070,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 610800,
+    "saleFee": 92039
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700070,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700071,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-07T23:29:00.000-03:00",
+  "shippingId": 44009700071,
+  "items": [
+   {
+    "itemId": "MLA1468025017",
+    "title": "Logitech MX Master 3S",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 55300,
+    "saleFee": 6805
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700071,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700072,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T14:05:00.000-03:00",
+  "shippingId": 44009700072,
+  "items": [
+   {
+    "itemId": "MLA1428302031",
+    "title": "Xbox Controller Carbon Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 103100,
+    "saleFee": 12957
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700072,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700073,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T16:45:00.000-03:00",
+  "shippingId": 44009700073,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 60000,
+    "saleFee": 8076
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700073,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700074,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T23:25:00.000-03:00",
+  "shippingId": 44009700074,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 144700,
+    "saleFee": 19112
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700074,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700075,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-08T18:48:00.000-03:00",
+  "shippingId": 44009700075,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 625100,
+    "saleFee": 83470
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700075,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700076,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T17:04:00.000-03:00",
+  "shippingId": 44009700076,
+  "items": [
+   {
+    "itemId": "MLA1416432271",
+    "title": "Baseus Power Bank 20000",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 59800,
+    "saleFee": 8116
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700076,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700077,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T16:17:00.000-03:00",
+  "shippingId": 44009700077,
+  "items": [
+   {
+    "itemId": "MLA1468025017",
+    "title": "Logitech MX Master 3S",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 55700,
+    "saleFee": 6911
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700077,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700078,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T16:20:00.000-03:00",
+  "shippingId": 44009700078,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 34200,
+    "saleFee": 4364
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700078,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700079,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T20:35:00.000-03:00",
+  "shippingId": 44009700079,
+  "items": [
+   {
+    "itemId": "MLA1412756468",
+    "title": "Satechi Hub USB-C 7 en 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 87100,
+    "saleFee": 12366
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700079,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700080,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T12:18:00.000-03:00",
+  "shippingId": 44009700080,
+  "items": [
+   {
+    "itemId": "MLA1481316297",
+    "title": "Rutini Cabernet Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 26500,
+    "saleFee": 3695
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700080,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700081,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T17:47:00.000-03:00",
+  "shippingId": 44009700081,
+  "items": [
+   {
+    "itemId": "MLA1482926082",
+    "title": "OnFan Laptop Stand Aluminio",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 19400,
+    "saleFee": 2901
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700081,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700082,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T20:41:00.000-03:00",
+  "shippingId": 44009700082,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 53800,
+    "saleFee": 6804
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700082,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700083,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T15:21:00.000-03:00",
+  "shippingId": 44009700083,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 772500,
+    "saleFee": 123491
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700083,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700084,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T10:35:00.000-03:00",
+  "shippingId": 44009700084,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 525300,
+    "saleFee": 64950
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700084,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700085,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-08T08:26:00.000-03:00",
+  "shippingId": 44009700085,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 680800,
+    "saleFee": 92121
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700085,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700086,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T23:23:00.000-03:00",
+  "shippingId": 44009700086,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 682300,
+    "saleFee": 85311
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700086,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700087,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T16:24:00.000-03:00",
+  "shippingId": 44009700087,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 137700,
+    "saleFee": 18726
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700087,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700088,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T08:27:00.000-03:00",
+  "shippingId": 44009700088,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 615200,
+    "saleFee": 91284
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700088,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700089,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T20:59:00.000-03:00",
+  "shippingId": 44009700089,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 21800,
+    "saleFee": 3336
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700089,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700090,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T12:43:00.000-03:00",
+  "shippingId": 44009700090,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 39200,
+    "saleFee": 4875
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700090,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700091,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T10:02:00.000-03:00",
+  "shippingId": 44009700091,
+  "items": [
+   {
+    "itemId": "MLA1438518643",
+    "title": "Angélica Zapata Malbec Alta 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 68400,
+    "saleFee": 8212
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700091,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700092,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T17:40:00.000-03:00",
+  "shippingId": 44009700092,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 652500,
+    "saleFee": 84872
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700092,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700093,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T14:14:00.000-03:00",
+  "shippingId": 44009700093,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 57000,
+    "saleFee": 8642
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700093,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700094,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T18:56:00.000-03:00",
+  "shippingId": 44009700094,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 107600,
+    "saleFee": 13955
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700094,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700095,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T17:12:00.000-03:00",
+  "shippingId": 44009700095,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 55300,
+    "saleFee": 7738
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700095,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700096,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T19:02:00.000-03:00",
+  "shippingId": 44009700096,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 54000,
+    "saleFee": 7983
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700096,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700097,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T17:32:00.000-03:00",
+  "shippingId": 44009700097,
+  "items": [
+   {
+    "itemId": "MLA1481316297",
+    "title": "Rutini Cabernet Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 28000,
+    "saleFee": 3436
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700097,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700098,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T22:48:00.000-03:00",
+  "shippingId": 44009700098,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 127000,
+    "saleFee": 19758
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700098,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700099,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-09T15:58:00.000-03:00",
+  "shippingId": 44009700099,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 659500,
+    "saleFee": 96690
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700099,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700100,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-10T21:03:00.000-03:00",
+  "shippingId": 44009700100,
+  "items": [
+   {
+    "itemId": "MLA1482926082",
+    "title": "OnFan Laptop Stand Aluminio",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 17700,
+    "saleFee": 2254
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700100,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700101,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-10T11:59:00.000-03:00",
+  "shippingId": 44009700101,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 585500,
+    "saleFee": 74139
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700101,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700102,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-10T17:24:00.000-03:00",
+  "shippingId": 44009700102,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 176400,
+    "saleFee": 27089
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700102,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700103,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-10T10:56:00.000-03:00",
+  "shippingId": 44009700103,
+  "items": [
+   {
+    "itemId": "MLA1468025017",
+    "title": "Logitech MX Master 3S",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 54200,
+    "saleFee": 6772
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700103,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700104,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-10T21:45:00.000-03:00",
+  "shippingId": 44009700104,
+  "items": [
+   {
+    "itemId": "MLA1428302031",
+    "title": "Xbox Controller Carbon Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 98600,
+    "saleFee": 13699
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700104,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700105,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-10T23:26:00.000-03:00",
+  "shippingId": 44009700105,
+  "items": [
+   {
+    "itemId": "MLA1412756468",
+    "title": "Satechi Hub USB-C 7 en 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 86400,
+    "saleFee": 11225
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700105,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700106,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-10T22:58:00.000-03:00",
+  "shippingId": 44009700106,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1049300,
+    "saleFee": 128518
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700106,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700107,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-10T18:39:00.000-03:00",
+  "shippingId": 44009700107,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 158000,
+    "saleFee": 19235
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700107,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700108,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-10T10:14:00.000-03:00",
+  "shippingId": 44009700108,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 56900,
+    "saleFee": 7072
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700108,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700109,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T21:08:00.000-03:00",
+  "shippingId": 44009700109,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 750800,
+    "saleFee": 117969
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700109,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700110,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T12:20:00.000-03:00",
+  "shippingId": 44009700110,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 181800,
+    "saleFee": 28079
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700110,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700111,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T14:10:00.000-03:00",
+  "shippingId": 44009700111,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 594000,
+    "saleFee": 77156
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700111,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700112,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T21:04:00.000-03:00",
+  "shippingId": 44009700112,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 85500,
+    "saleFee": 11166
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700112,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700113,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T22:08:00.000-03:00",
+  "shippingId": 44009700113,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 86500,
+    "saleFee": 11822
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700113,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700114,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T11:18:00.000-03:00",
+  "shippingId": 44009700114,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1105400,
+    "saleFee": 145638
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700114,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700115,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T15:15:00.000-03:00",
+  "shippingId": 44009700115,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 53500,
+    "saleFee": 6748
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700115,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700116,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T15:14:00.000-03:00",
+  "shippingId": 44009700116,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 22300,
+    "saleFee": 3255
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700116,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700117,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T08:52:00.000-03:00",
+  "shippingId": 44009700117,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 639400,
+    "saleFee": 82639
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700117,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700118,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T15:12:00.000-03:00",
+  "shippingId": 44009700118,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 548400,
+    "saleFee": 78980
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700118,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700119,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T13:16:00.000-03:00",
+  "shippingId": 44009700119,
+  "items": [
+   {
+    "itemId": "MLA1438518643",
+    "title": "Angélica Zapata Malbec Alta 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 62100,
+    "saleFee": 9377
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700119,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700120,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T19:23:00.000-03:00",
+  "shippingId": 44009700120,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 50100,
+    "saleFee": 6693
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700120,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700121,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-11T14:52:00.000-03:00",
+  "shippingId": 44009700121,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 103000,
+    "saleFee": 13708
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700121,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700122,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T23:06:00.000-03:00",
+  "shippingId": 44009700122,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 165300,
+    "saleFee": 25098
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700122,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700123,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T20:26:00.000-03:00",
+  "shippingId": 44009700123,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 51400,
+    "saleFee": 8200
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700123,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700124,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T19:01:00.000-03:00",
+  "shippingId": 44009700124,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 53900,
+    "saleFee": 8331
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700124,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700125,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T14:27:00.000-03:00",
+  "shippingId": 44009700125,
+  "items": [
+   {
+    "itemId": "MLA1468025017",
+    "title": "Logitech MX Master 3S",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 53400,
+    "saleFee": 8334
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700125,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700126,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T19:10:00.000-03:00",
+  "shippingId": 44009700126,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 598400,
+    "saleFee": 74919
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700126,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700127,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T19:10:00.000-03:00",
+  "shippingId": 44009700127,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 87200,
+    "saleFee": 10973
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700127,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700128,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T23:50:00.000-03:00",
+  "shippingId": 44009700128,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 99000,
+    "saleFee": 15709
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700128,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700129,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T23:38:00.000-03:00",
+  "shippingId": 44009700129,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 159800,
+    "saleFee": 25096
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700129,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700130,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T13:54:00.000-03:00",
+  "shippingId": 44009700130,
+  "items": [
+   {
+    "itemId": "MLA1412756468",
+    "title": "Satechi Hub USB-C 7 en 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 86100,
+    "saleFee": 11097
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700130,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700131,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T14:33:00.000-03:00",
+  "shippingId": 44009700131,
+  "items": [
+   {
+    "itemId": "MLA1416432271",
+    "title": "Baseus Power Bank 20000",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 58700,
+    "saleFee": 7411
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700131,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700132,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T14:35:00.000-03:00",
+  "shippingId": 44009700132,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 173300,
+    "saleFee": 26636
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700132,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700133,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-12T22:40:00.000-03:00",
+  "shippingId": 44009700133,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 56600,
+    "saleFee": 8554
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700133,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700134,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-13T22:00:00.000-03:00",
+  "shippingId": 44009700134,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 94100,
+    "saleFee": 13622
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700134,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700135,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-13T22:51:00.000-03:00",
+  "shippingId": 44009700135,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 127800,
+    "saleFee": 17755
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700135,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700136,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-13T10:32:00.000-03:00",
+  "shippingId": 44009700136,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 601000,
+    "saleFee": 84384
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700136,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700137,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-13T10:32:00.000-03:00",
+  "shippingId": 44009700137,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 95700,
+    "saleFee": 14910
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700137,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700138,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-13T11:56:00.000-03:00",
+  "shippingId": 44009700138,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 58000,
+    "saleFee": 8101
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700138,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700139,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-13T15:22:00.000-03:00",
+  "shippingId": 44009700139,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 833600,
+    "saleFee": 120387
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700139,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700140,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-13T22:32:00.000-03:00",
+  "shippingId": 44009700140,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 689000,
+    "saleFee": 109257
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700140,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700141,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-13T19:11:00.000-03:00",
+  "shippingId": 44009700141,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 136700,
+    "saleFee": 18610
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700141,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700142,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-13T16:33:00.000-03:00",
+  "shippingId": 44009700142,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 52600,
+    "saleFee": 6414
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700142,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700143,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-13T11:34:00.000-03:00",
+  "shippingId": 44009700143,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 39100,
+    "saleFee": 5677
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700143,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700144,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T12:48:00.000-03:00",
+  "shippingId": 44009700144,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 53500,
+    "saleFee": 6594
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700144,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700145,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T17:16:00.000-03:00",
+  "shippingId": 44009700145,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 728400,
+    "saleFee": 96442
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700145,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700146,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T08:14:00.000-03:00",
+  "shippingId": 44009700146,
+  "items": [
+   {
+    "itemId": "MLA1428302031",
+    "title": "Xbox Controller Carbon Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 112100,
+    "saleFee": 14122
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700146,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700147,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T09:14:00.000-03:00",
+  "shippingId": 44009700147,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1054800,
+    "saleFee": 152419
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700147,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700148,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T19:26:00.000-03:00",
+  "shippingId": 44009700148,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 85800,
+    "saleFee": 12299
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700148,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700149,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T23:00:00.000-03:00",
+  "shippingId": 44009700149,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1011100,
+    "saleFee": 159211
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700149,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700150,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T12:50:00.000-03:00",
+  "shippingId": 44009700150,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 667400,
+    "saleFee": 87290
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700150,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700151,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T19:37:00.000-03:00",
+  "shippingId": 44009700151,
+  "items": [
+   {
+    "itemId": "MLA1438518643",
+    "title": "Angélica Zapata Malbec Alta 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 72200,
+    "saleFee": 9946
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700151,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700152,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T09:01:00.000-03:00",
+  "shippingId": 44009700152,
+  "items": [
+   {
+    "itemId": "MLA1473485881",
+    "title": "OnFan Cargador GaN 65W",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 27200,
+    "saleFee": 3706
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700152,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700153,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T08:42:00.000-03:00",
+  "shippingId": 44009700153,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 656700,
+    "saleFee": 103520
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700153,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700154,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T21:11:00.000-03:00",
+  "shippingId": 44009700154,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 608800,
+    "saleFee": 85441
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700154,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700155,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T23:00:00.000-03:00",
+  "shippingId": 44009700155,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 95500,
+    "saleFee": 12893
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700155,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700156,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T22:06:00.000-03:00",
+  "shippingId": 44009700156,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 609900,
+    "saleFee": 79566
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700156,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700157,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T16:17:00.000-03:00",
+  "shippingId": 44009700157,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 51100,
+    "saleFee": 7432
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700157,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700158,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T17:57:00.000-03:00",
+  "shippingId": 44009700158,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 56800,
+    "saleFee": 7309
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700158,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700159,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T14:47:00.000-03:00",
+  "shippingId": 44009700159,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 20100,
+    "saleFee": 3148
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700159,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700160,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T23:33:00.000-03:00",
+  "shippingId": 44009700160,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 167700,
+    "saleFee": 24804
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700160,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700161,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-14T17:25:00.000-03:00",
+  "shippingId": 44009700161,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 35200,
+    "saleFee": 5101
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700161,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700162,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-15T13:09:00.000-03:00",
+  "shippingId": 44009700162,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 51500,
+    "saleFee": 7624
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700162,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700163,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-15T10:04:00.000-03:00",
+  "shippingId": 44009700163,
+  "items": [
+   {
+    "itemId": "MLA1401352258",
+    "title": "Bosch GO 3 Atornillador",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 88400,
+    "saleFee": 13637
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700163,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700164,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-15T10:48:00.000-03:00",
+  "shippingId": 44009700164,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 35000,
+    "saleFee": 5480
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700164,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700165,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-15T09:58:00.000-03:00",
+  "shippingId": 44009700165,
+  "items": [
+   {
+    "itemId": "MLA1473485881",
+    "title": "OnFan Cargador GaN 65W",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 24200,
+    "saleFee": 3690
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700165,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700166,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-15T11:50:00.000-03:00",
+  "shippingId": 44009700166,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 58400,
+    "saleFee": 8777
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700166,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700167,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-15T08:59:00.000-03:00",
+  "shippingId": 44009700167,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 688400,
+    "saleFee": 90389
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700167,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700168,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-15T23:39:00.000-03:00",
+  "shippingId": 44009700168,
+  "items": [
+   {
+    "itemId": "MLA1481316297",
+    "title": "Rutini Cabernet Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 28100,
+    "saleFee": 4210
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700168,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700169,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-15T23:34:00.000-03:00",
+  "shippingId": 44009700169,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 33900,
+    "saleFee": 4836
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700169,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700170,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-16T14:48:00.000-03:00",
+  "shippingId": 44009700170,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1026600,
+    "saleFee": 163347
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700170,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700171,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-16T13:37:00.000-03:00",
+  "shippingId": 44009700171,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 106700,
+    "saleFee": 14286
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700171,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700172,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-16T14:14:00.000-03:00",
+  "shippingId": 44009700172,
+  "items": [
+   {
+    "itemId": "MLA1438518643",
+    "title": "Angélica Zapata Malbec Alta 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 62900,
+    "saleFee": 8802
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700172,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700173,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-16T11:22:00.000-03:00",
+  "shippingId": 44009700173,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 661100,
+    "saleFee": 81848
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700173,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700174,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-16T08:19:00.000-03:00",
+  "shippingId": 44009700174,
+  "items": [
+   {
+    "itemId": "MLA1473485881",
+    "title": "OnFan Cargador GaN 65W",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 28100,
+    "saleFee": 3668
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700174,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700175,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-16T15:08:00.000-03:00",
+  "shippingId": 44009700175,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 21900,
+    "saleFee": 3094
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700175,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700176,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-16T18:55:00.000-03:00",
+  "shippingId": 44009700176,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 57600,
+    "saleFee": 8855
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700176,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700177,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-16T16:08:00.000-03:00",
+  "shippingId": 44009700177,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 57500,
+    "saleFee": 7668
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700177,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700178,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-17T12:15:00.000-03:00",
+  "shippingId": 44009700178,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 128500,
+    "saleFee": 19137
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700178,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700179,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-17T14:46:00.000-03:00",
+  "shippingId": 44009700179,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1038400,
+    "saleFee": 165933
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700179,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700180,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-17T12:46:00.000-03:00",
+  "shippingId": 44009700180,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 176600,
+    "saleFee": 23293
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700180,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700181,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-17T20:00:00.000-03:00",
+  "shippingId": 44009700181,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 91800,
+    "saleFee": 12481
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700181,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700182,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-17T22:16:00.000-03:00",
+  "shippingId": 44009700182,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 38400,
+    "saleFee": 5535
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700182,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700183,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-17T21:42:00.000-03:00",
+  "shippingId": 44009700183,
+  "items": [
+   {
+    "itemId": "MLA1416432271",
+    "title": "Baseus Power Bank 20000",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 57400,
+    "saleFee": 8546
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700183,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700184,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-17T13:29:00.000-03:00",
+  "shippingId": 44009700184,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 23100,
+    "saleFee": 3172
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700184,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700185,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-17T20:40:00.000-03:00",
+  "shippingId": 44009700185,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 102600,
+    "saleFee": 12954
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700185,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700186,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-17T13:20:00.000-03:00",
+  "shippingId": 44009700186,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 35500,
+    "saleFee": 5365
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700186,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700187,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-17T14:50:00.000-03:00",
+  "shippingId": 44009700187,
+  "items": [
+   {
+    "itemId": "MLA1412756468",
+    "title": "Satechi Hub USB-C 7 en 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 79300,
+    "saleFee": 12534
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700187,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700188,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T23:40:00.000-03:00",
+  "shippingId": 44009700188,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 50900,
+    "saleFee": 7722
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700188,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700189,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T13:48:00.000-03:00",
+  "shippingId": 44009700189,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 179500,
+    "saleFee": 28237
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700189,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700190,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T20:00:00.000-03:00",
+  "shippingId": 44009700190,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 56000,
+    "saleFee": 6888
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700190,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700191,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T11:47:00.000-03:00",
+  "shippingId": 44009700191,
+  "items": [
+   {
+    "itemId": "MLA1482926082",
+    "title": "OnFan Laptop Stand Aluminio",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 19700,
+    "saleFee": 2680
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700191,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700192,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T20:10:00.000-03:00",
+  "shippingId": 44009700192,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 843400,
+    "saleFee": 105570
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700192,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700193,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T15:09:00.000-03:00",
+  "shippingId": 44009700193,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 39300,
+    "saleFee": 5271
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700193,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700194,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T17:41:00.000-03:00",
+  "shippingId": 44009700194,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 58400,
+    "saleFee": 7300
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700194,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700195,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T20:27:00.000-03:00",
+  "shippingId": 44009700195,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 34700,
+    "saleFee": 5106
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700195,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700196,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T17:31:00.000-03:00",
+  "shippingId": 44009700196,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 142600,
+    "saleFee": 19556
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700196,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700197,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-18T20:52:00.000-03:00",
+  "shippingId": 44009700197,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 56500,
+    "saleFee": 8056
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700197,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700198,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T08:13:00.000-03:00",
+  "shippingId": 44009700198,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 34600,
+    "saleFee": 5469
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700198,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700199,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T15:28:00.000-03:00",
+  "shippingId": 44009700199,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 52300,
+    "saleFee": 7001
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700199,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700200,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T10:57:00.000-03:00",
+  "shippingId": 44009700200,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 185600,
+    "saleFee": 26344
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700200,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700201,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T10:28:00.000-03:00",
+  "shippingId": 44009700201,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 52700,
+    "saleFee": 7739
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700201,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700202,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T12:35:00.000-03:00",
+  "shippingId": 44009700202,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 599900,
+    "saleFee": 73391
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700202,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700203,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T08:20:00.000-03:00",
+  "shippingId": 44009700203,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 125700,
+    "saleFee": 17437
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700203,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700204,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T21:43:00.000-03:00",
+  "shippingId": 44009700204,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 56600,
+    "saleFee": 6963
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700204,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700205,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T18:06:00.000-03:00",
+  "shippingId": 44009700205,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 56300,
+    "saleFee": 7906
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700205,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700206,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T12:55:00.000-03:00",
+  "shippingId": 44009700206,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 145300,
+    "saleFee": 21266
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700206,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700207,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T17:27:00.000-03:00",
+  "shippingId": 44009700207,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 195400,
+    "saleFee": 25414
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700207,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700208,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T18:17:00.000-03:00",
+  "shippingId": 44009700208,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 89500,
+    "saleFee": 13865
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700208,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700209,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-19T14:19:00.000-03:00",
+  "shippingId": 44009700209,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 175000,
+    "saleFee": 21893
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700209,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700210,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-20T09:06:00.000-03:00",
+  "shippingId": 44009700210,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 34000,
+    "saleFee": 4088
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700210,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700211,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-20T20:40:00.000-03:00",
+  "shippingId": 44009700211,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 186300,
+    "saleFee": 27376
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700211,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700212,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-20T22:11:00.000-03:00",
+  "shippingId": 44009700212,
+  "items": [
+   {
+    "itemId": "MLA1481316297",
+    "title": "Rutini Cabernet Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 31000,
+    "saleFee": 3846
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700212,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700213,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-20T08:52:00.000-03:00",
+  "shippingId": 44009700213,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 157300,
+    "saleFee": 19749
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700213,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700214,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-20T09:27:00.000-03:00",
+  "shippingId": 44009700214,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 102800,
+    "saleFee": 14665
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700214,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700215,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T21:58:00.000-03:00",
+  "shippingId": 44009700215,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 134800,
+    "saleFee": 18358
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700215,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700216,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T12:26:00.000-03:00",
+  "shippingId": 44009700216,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 96500,
+    "saleFee": 13698
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700216,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700217,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-21T21:43:00.000-03:00",
+  "shippingId": 44009700217,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 92700,
+    "saleFee": 13606
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700217,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700218,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-21T23:46:00.000-03:00",
+  "shippingId": 44009700218,
+  "items": [
+   {
+    "itemId": "MLA1468025017",
+    "title": "Logitech MX Master 3S",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 58800,
+    "saleFee": 8394
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700218,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700219,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T19:45:00.000-03:00",
+  "shippingId": 44009700219,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 589200,
+    "saleFee": 87080
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700219,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700220,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T23:59:00.000-03:00",
+  "shippingId": 44009700220,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 677500,
+    "saleFee": 105419
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700220,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700221,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T10:19:00.000-03:00",
+  "shippingId": 44009700221,
+  "items": [
+   {
+    "itemId": "MLA1482926082",
+    "title": "OnFan Laptop Stand Aluminio",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 17700,
+    "saleFee": 2640
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700221,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700222,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T19:46:00.000-03:00",
+  "shippingId": 44009700222,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 184000,
+    "saleFee": 25309
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700222,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700223,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T13:26:00.000-03:00",
+  "shippingId": 44009700223,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 51300,
+    "saleFee": 7135
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700223,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700224,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T18:03:00.000-03:00",
+  "shippingId": 44009700224,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 36700,
+    "saleFee": 5317
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700224,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700225,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T08:38:00.000-03:00",
+  "shippingId": 44009700225,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 58200,
+    "saleFee": 8922
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700225,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700226,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-21T20:38:00.000-03:00",
+  "shippingId": 44009700226,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1175900,
+    "saleFee": 177394
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700226,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700227,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T21:58:00.000-03:00",
+  "shippingId": 44009700227,
+  "items": [
+   {
+    "itemId": "MLA1438518643",
+    "title": "Angélica Zapata Malbec Alta 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 63100,
+    "saleFee": 9632
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700227,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700228,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T12:54:00.000-03:00",
+  "shippingId": 44009700228,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 20100,
+    "saleFee": 3053
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700228,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700229,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T23:12:00.000-03:00",
+  "shippingId": 44009700229,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 57900,
+    "saleFee": 8772
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700229,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700230,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T20:13:00.000-03:00",
+  "shippingId": 44009700230,
+  "items": [
+   {
+    "itemId": "MLA1481316297",
+    "title": "Rutini Cabernet Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 31700,
+    "saleFee": 4978
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700230,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700231,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T10:22:00.000-03:00",
+  "shippingId": 44009700231,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 976600,
+    "saleFee": 147356
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700231,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700232,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T18:37:00.000-03:00",
+  "shippingId": 44009700232,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 723400,
+    "saleFee": 92649
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700232,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700233,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T17:36:00.000-03:00",
+  "shippingId": 44009700233,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 660700,
+    "saleFee": 88769
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700233,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700234,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T23:06:00.000-03:00",
+  "shippingId": 44009700234,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 39700,
+    "saleFee": 5354
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700234,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700235,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T16:01:00.000-03:00",
+  "shippingId": 44009700235,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 124300,
+    "saleFee": 15384
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700235,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700236,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T14:49:00.000-03:00",
+  "shippingId": 44009700236,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 766900,
+    "saleFee": 100612
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700236,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700237,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-22T12:02:00.000-03:00",
+  "shippingId": 44009700237,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 637300,
+    "saleFee": 85114
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700237,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700238,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T22:54:00.000-03:00",
+  "shippingId": 44009700238,
+  "items": [
+   {
+    "itemId": "MLA1412756468",
+    "title": "Satechi Hub USB-C 7 en 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 72900,
+    "saleFee": 11401
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700238,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700239,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T10:36:00.000-03:00",
+  "shippingId": 44009700239,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 94900,
+    "saleFee": 12273
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700239,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700240,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T13:15:00.000-03:00",
+  "shippingId": 44009700240,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 101300,
+    "saleFee": 16174
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700240,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700241,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T19:35:00.000-03:00",
+  "shippingId": 44009700241,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 654400,
+    "saleFee": 102206
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700241,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700242,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T23:09:00.000-03:00",
+  "shippingId": 44009700242,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 32800,
+    "saleFee": 4353
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700242,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700243,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T22:06:00.000-03:00",
+  "shippingId": 44009700243,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 101000,
+    "saleFee": 14022
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700243,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700244,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T22:09:00.000-03:00",
+  "shippingId": 44009700244,
+  "items": [
+   {
+    "itemId": "MLA1412756468",
+    "title": "Satechi Hub USB-C 7 en 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 77800,
+    "saleFee": 12181
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700244,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700245,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T13:14:00.000-03:00",
+  "shippingId": 44009700245,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 21800,
+    "saleFee": 2684
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700245,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700246,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T22:59:00.000-03:00",
+  "shippingId": 44009700246,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1043100,
+    "saleFee": 163924
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700246,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700247,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-23T15:40:00.000-03:00",
+  "shippingId": 44009700247,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 36500,
+    "saleFee": 4914
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700247,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700248,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T12:09:00.000-03:00",
+  "shippingId": 44009700248,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 656500,
+    "saleFee": 85776
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700248,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700249,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T17:10:00.000-03:00",
+  "shippingId": 44009700249,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 526900,
+    "saleFee": 68722
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700249,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700250,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T12:03:00.000-03:00",
+  "shippingId": 44009700250,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 638500,
+    "saleFee": 92736
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700250,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700251,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T11:12:00.000-03:00",
+  "shippingId": 44009700251,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 40300,
+    "saleFee": 6401
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700251,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700252,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T15:18:00.000-03:00",
+  "shippingId": 44009700252,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 537100,
+    "saleFee": 73382
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700252,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700253,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T12:01:00.000-03:00",
+  "shippingId": 44009700253,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 182900,
+    "saleFee": 25182
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700253,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700254,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T17:27:00.000-03:00",
+  "shippingId": 44009700254,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 134500,
+    "saleFee": 16358
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700254,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700255,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T13:14:00.000-03:00",
+  "shippingId": 44009700255,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 538600,
+    "saleFee": 79963
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700255,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700256,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T23:11:00.000-03:00",
+  "shippingId": 44009700256,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 158400,
+    "saleFee": 20313
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700256,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700257,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T17:04:00.000-03:00",
+  "shippingId": 44009700257,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1112800,
+    "saleFee": 164349
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700257,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700258,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T19:53:00.000-03:00",
+  "shippingId": 44009700258,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 58600,
+    "saleFee": 8530
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700258,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700259,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T23:42:00.000-03:00",
+  "shippingId": 44009700259,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 711200,
+    "saleFee": 92919
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700259,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700260,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-24T19:54:00.000-03:00",
+  "shippingId": 44009700260,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 182900,
+    "saleFee": 21982
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700260,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700261,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T15:55:00.000-03:00",
+  "shippingId": 44009700261,
+  "items": [
+   {
+    "itemId": "MLA1473485881",
+    "title": "OnFan Cargador GaN 65W",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 28600,
+    "saleFee": 4476
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700261,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700262,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T17:46:00.000-03:00",
+  "shippingId": 44009700262,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 39800,
+    "saleFee": 5564
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700262,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700263,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T10:11:00.000-03:00",
+  "shippingId": 44009700263,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 135000,
+    "saleFee": 17107
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700263,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700264,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T14:53:00.000-03:00",
+  "shippingId": 44009700264,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 99700,
+    "saleFee": 14354
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700264,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700265,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T11:06:00.000-03:00",
+  "shippingId": 44009700265,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1073200,
+    "saleFee": 159568
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700265,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700266,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T16:07:00.000-03:00",
+  "shippingId": 44009700266,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 86900,
+    "saleFee": 11838
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700266,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700267,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T12:29:00.000-03:00",
+  "shippingId": 44009700267,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 655400,
+    "saleFee": 98220
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700267,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700268,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T20:38:00.000-03:00",
+  "shippingId": 44009700268,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 182700,
+    "saleFee": 28061
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700268,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700269,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T18:53:00.000-03:00",
+  "shippingId": 44009700269,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 53700,
+    "saleFee": 7164
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700269,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700270,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T18:54:00.000-03:00",
+  "shippingId": 44009700270,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 618700,
+    "saleFee": 88130
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700270,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700271,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T21:00:00.000-03:00",
+  "shippingId": 44009700271,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 173200,
+    "saleFee": 23309
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700271,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700272,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T08:26:00.000-03:00",
+  "shippingId": 44009700272,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 50600,
+    "saleFee": 8035
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700272,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700273,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-25T09:41:00.000-03:00",
+  "shippingId": 44009700273,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 40400,
+    "saleFee": 5851
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700273,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700274,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T09:16:00.000-03:00",
+  "shippingId": 44009700274,
+  "items": [
+   {
+    "itemId": "MLA1482926082",
+    "title": "OnFan Laptop Stand Aluminio",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 19600,
+    "saleFee": 2447
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700274,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700275,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T19:07:00.000-03:00",
+  "shippingId": 44009700275,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 101700,
+    "saleFee": 12449
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700275,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700276,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-25T10:34:00.000-03:00",
+  "shippingId": 44009700276,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 834500,
+    "saleFee": 131248
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700276,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700277,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T21:17:00.000-03:00",
+  "shippingId": 44009700277,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 601300,
+    "saleFee": 78010
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700277,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700278,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T15:12:00.000-03:00",
+  "shippingId": 44009700278,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 94000,
+    "saleFee": 13343
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700278,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700279,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-26T17:21:00.000-03:00",
+  "shippingId": 44009700279,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 200000,
+    "saleFee": 25773
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700279,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700280,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T19:15:00.000-03:00",
+  "shippingId": 44009700280,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 131300,
+    "saleFee": 17457
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700280,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700281,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T14:49:00.000-03:00",
+  "shippingId": 44009700281,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 177100,
+    "saleFee": 21406
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700281,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700282,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T20:22:00.000-03:00",
+  "shippingId": 44009700282,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 55900,
+    "saleFee": 8352
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700282,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700283,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T12:42:00.000-03:00",
+  "shippingId": 44009700283,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 611600,
+    "saleFee": 82014
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700283,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700284,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T11:47:00.000-03:00",
+  "shippingId": 44009700284,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 56000,
+    "saleFee": 8785
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700284,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700285,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T12:06:00.000-03:00",
+  "shippingId": 44009700285,
+  "items": [
+   {
+    "itemId": "MLA1468025017",
+    "title": "Logitech MX Master 3S",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 52500,
+    "saleFee": 6309
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700285,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700286,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T12:50:00.000-03:00",
+  "shippingId": 44009700286,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 37600,
+    "saleFee": 4932
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700286,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700287,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T22:22:00.000-03:00",
+  "shippingId": 44009700287,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 994300,
+    "saleFee": 130966
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700287,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700288,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T23:19:00.000-03:00",
+  "shippingId": 44009700288,
+  "items": [
+   {
+    "itemId": "MLA1416432271",
+    "title": "Baseus Power Bank 20000",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 55400,
+    "saleFee": 7056
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700288,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700289,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T10:21:00.000-03:00",
+  "shippingId": 44009700289,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 92300,
+    "saleFee": 12272
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700289,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700290,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T21:00:00.000-03:00",
+  "shippingId": 44009700290,
+  "items": [
+   {
+    "itemId": "MLA1495093555",
+    "title": "El Enemigo Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 38100,
+    "saleFee": 4611
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700290,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700291,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-26T17:27:00.000-03:00",
+  "shippingId": 44009700291,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 770900,
+    "saleFee": 108464
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700291,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700292,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T19:00:00.000-03:00",
+  "shippingId": 44009700292,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 54100,
+    "saleFee": 7956
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700292,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700293,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T12:26:00.000-03:00",
+  "shippingId": 44009700293,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 50900,
+    "saleFee": 7099
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700293,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700294,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T18:47:00.000-03:00",
+  "shippingId": 44009700294,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 575400,
+    "saleFee": 87826
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700294,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700295,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T17:07:00.000-03:00",
+  "shippingId": 44009700295,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 165500,
+    "saleFee": 24202
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700295,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700296,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T21:33:00.000-03:00",
+  "shippingId": 44009700296,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 95800,
+    "saleFee": 12607
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700296,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700297,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T11:40:00.000-03:00",
+  "shippingId": 44009700297,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 134400,
+    "saleFee": 19550
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700297,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700298,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T08:25:00.000-03:00",
+  "shippingId": 44009700298,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 91600,
+    "saleFee": 14078
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700298,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700299,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T23:36:00.000-03:00",
+  "shippingId": 44009700299,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1104100,
+    "saleFee": 144240
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700299,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700300,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T21:09:00.000-03:00",
+  "shippingId": 44009700300,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 55100,
+    "saleFee": 6958
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700300,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700301,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T23:39:00.000-03:00",
+  "shippingId": 44009700301,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 34400,
+    "saleFee": 4721
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700301,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700302,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T12:22:00.000-03:00",
+  "shippingId": 44009700302,
+  "items": [
+   {
+    "itemId": "MLA1438518643",
+    "title": "Angélica Zapata Malbec Alta 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 67700,
+    "saleFee": 8870
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700302,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700303,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T10:28:00.000-03:00",
+  "shippingId": 44009700303,
+  "items": [
+   {
+    "itemId": "MLA1401352258",
+    "title": "Bosch GO 3 Atornillador",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 96900,
+    "saleFee": 14047
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700303,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700304,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-27T09:39:00.000-03:00",
+  "shippingId": 44009700304,
+  "items": [
+   {
+    "itemId": "MLA1401352258",
+    "title": "Bosch GO 3 Atornillador",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 89700,
+    "saleFee": 11619
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700304,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700305,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T22:38:00.000-03:00",
+  "shippingId": 44009700305,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 101500,
+    "saleFee": 13203
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700305,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700306,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T15:25:00.000-03:00",
+  "shippingId": 44009700306,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 24100,
+    "saleFee": 3736
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700306,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700307,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T19:00:00.000-03:00",
+  "shippingId": 44009700307,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 142200,
+    "saleFee": 22590
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700307,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700308,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T20:41:00.000-03:00",
+  "shippingId": 44009700308,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 99800,
+    "saleFee": 12237
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700308,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700309,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T15:29:00.000-03:00",
+  "shippingId": 44009700309,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 686700,
+    "saleFee": 90194
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700309,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700310,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T18:15:00.000-03:00",
+  "shippingId": 44009700310,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 654000,
+    "saleFee": 96946
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700310,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700311,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T12:29:00.000-03:00",
+  "shippingId": 44009700311,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 616600,
+    "saleFee": 94619
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700311,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700312,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T20:37:00.000-03:00",
+  "shippingId": 44009700312,
+  "items": [
+   {
+    "itemId": "MLA1438518643",
+    "title": "Angélica Zapata Malbec Alta 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 61700,
+    "saleFee": 7917
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700312,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700313,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T22:45:00.000-03:00",
+  "shippingId": 44009700313,
+  "items": [
+   {
+    "itemId": "MLA1421633789",
+    "title": "Xbox Series S 512GB",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 767800,
+    "saleFee": 122784
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700313,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700314,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T15:32:00.000-03:00",
+  "shippingId": 44009700314,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 1056400,
+    "saleFee": 135749
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700314,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700315,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T16:48:00.000-03:00",
+  "shippingId": 44009700315,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 20400,
+    "saleFee": 2762
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700315,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700316,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T10:49:00.000-03:00",
+  "shippingId": 44009700316,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 55500,
+    "saleFee": 8549
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700316,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700317,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T19:48:00.000-03:00",
+  "shippingId": 44009700317,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 190900,
+    "saleFee": 25176
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700317,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700318,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T20:25:00.000-03:00",
+  "shippingId": 44009700318,
+  "items": [
+   {
+    "itemId": "MLA1490034978",
+    "title": "Sony MDR-G600 (H6)",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 89900,
+    "saleFee": 13824
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700318,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700319,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T16:23:00.000-03:00",
+  "shippingId": 44009700319,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 137600,
+    "saleFee": 20253
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700319,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700320,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-28T22:54:00.000-03:00",
+  "shippingId": 44009700320,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 53300,
+    "saleFee": 7250
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700320,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700321,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-29T15:02:00.000-03:00",
+  "shippingId": 44009700321,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 2,
+    "unitPrice": 159500,
+    "saleFee": 21722
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700321,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700322,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-29T12:02:00.000-03:00",
+  "shippingId": 44009700322,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1054500,
+    "saleFee": 149838
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700322,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700323,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-29T15:45:00.000-03:00",
+  "shippingId": 44009700323,
+  "items": [
+   {
+    "itemId": "MLA1483254832",
+    "title": "PS5 Slim Digital",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 1167300,
+    "saleFee": 164392
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700323,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700324,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-29T11:49:00.000-03:00",
+  "shippingId": 44009700324,
+  "items": [
+   {
+    "itemId": "MLA1482926082",
+    "title": "OnFan Laptop Stand Aluminio",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 19800,
+    "saleFee": 2895
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700324,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700325,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-29T15:02:00.000-03:00",
+  "shippingId": 44009700325,
+  "items": [
+   {
+    "itemId": "MLA1428845824",
+    "title": "Salentein Reserva Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 23600,
+    "saleFee": 3579
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700325,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700326,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-29T10:47:00.000-03:00",
+  "shippingId": 44009700326,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 773800,
+    "saleFee": 105040
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700326,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700327,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-29T21:21:00.000-03:00",
+  "shippingId": 44009700327,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 58500,
+    "saleFee": 8638
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700327,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700328,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-29T09:13:00.000-03:00",
+  "shippingId": 44009700328,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 58500,
+    "saleFee": 8022
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700328,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700329,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-29T09:52:00.000-03:00",
+  "shippingId": 44009700329,
+  "items": [
+   {
+    "itemId": "MLA1472631804",
+    "title": "PS5 Dualsense Midnight Black",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 146300,
+    "saleFee": 22271
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700329,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700330,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T16:03:00.000-03:00",
+  "shippingId": 44009700330,
+  "items": [
+   {
+    "itemId": "MLA1471716064",
+    "title": "Sony ULT Field 1",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 160900,
+    "saleFee": 20390
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700330,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700331,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T23:15:00.000-03:00",
+  "shippingId": 44009700331,
+  "items": [
+   {
+    "itemId": "MLA1490845475",
+    "title": "Sony WH-CH720N Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 171500,
+    "saleFee": 25421
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700331,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700332,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T17:45:00.000-03:00",
+  "shippingId": 44009700332,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 110900,
+    "saleFee": 13937
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700332,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700333,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T13:09:00.000-03:00",
+  "shippingId": 44009700333,
+  "items": [
+   {
+    "itemId": "MLA1478062191",
+    "title": "PS5 Dualsense Volcanic Red",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 53100,
+    "saleFee": 7644
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700333,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700334,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T11:00:00.000-03:00",
+  "shippingId": 44009700334,
+  "items": [
+   {
+    "itemId": "MLA1410511342",
+    "title": "PS Portal",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 591900,
+    "saleFee": 79563
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700334,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700335,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T14:19:00.000-03:00",
+  "shippingId": 44009700335,
+  "items": [
+   {
+    "itemId": "MLA1462628068",
+    "title": "Sony WH-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 656900,
+    "saleFee": 90600
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700335,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700336,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T19:35:00.000-03:00",
+  "shippingId": 44009700336,
+  "items": [
+   {
+    "itemId": "MLA1490323275",
+    "title": "Sony WF-1000XM5 Negro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 622900,
+    "saleFee": 76537
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700336,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700337,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T18:36:00.000-03:00",
+  "shippingId": 44009700337,
+  "items": [
+   {
+    "itemId": "MLA1427451787",
+    "title": "Bosch GSB 13 RE Taladro",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 118000,
+    "saleFee": 15408
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700337,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700338,
+  "packId": null,
+  "status": "cancelled",
+  "dateCreated": "2026-09-30T18:58:00.000-03:00",
+  "shippingId": 44009700338,
+  "items": [
+   {
+    "itemId": "MLA1420200620",
+    "title": "PlayStation Pulse Explore",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 60100,
+    "saleFee": 7431
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700338,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700339,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T15:47:00.000-03:00",
+  "shippingId": 44009700339,
+  "items": [
+   {
+    "itemId": "MLA1454091745",
+    "title": "Sony SRS-XB100 Gris",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 100800,
+    "saleFee": 12208
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700339,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700340,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T13:46:00.000-03:00",
+  "shippingId": 44009700340,
+  "items": [
+   {
+    "itemId": "MLA1417434793",
+    "title": "DV Catena Malbec-Malbec 750",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 39600,
+    "saleFee": 6067
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700340,
+    "status": "approved"
+   }
+  ]
+ },
+ {
+  "id": 2000009700341,
+  "packId": null,
+  "status": "paid",
+  "dateCreated": "2026-09-30T18:08:00.000-03:00",
+  "shippingId": 44009700341,
+  "items": [
+   {
+    "itemId": "MLA1456247503",
+    "title": "Rutini Estuche 2 Malbec",
+    "sellerSku": "",
+    "sellerCustomField": null,
+    "variationId": null,
+    "quantity": 1,
+    "unitPrice": 53000,
+    "saleFee": 7528
+   }
+  ],
+  "payments": [
+   {
+    "id": 2090009700341,
+    "status": "approved"
+   }
+  ]
+ }
+]

@@ -1,0 +1,67 @@
+{
+ "va": [
+  {
+   "date": "2026-09-04",
+   "cliente": "Mexx",
+   "ean": "4548736143111",
+   "desc": "Sony WH-1000XM5 Negro",
+   "qty": 4.0,
+   "pu": 610000.0
+  },
+  {
+   "date": "2026-09-18",
+   "cliente": "Mexx",
+   "ean": "711719577591",
+   "desc": "PS5 Slim Digital",
+   "qty": 3.0,
+   "pu": 930000.0
+  },
+  {
+   "date": "2026-10-03",
+   "cliente": "Mexx",
+   "ean": "4548736143111",
+   "desc": "Sony WH-1000XM5 Negro",
+   "qty": 5.0,
+   "pu": 640000.0
+  },
+  {
+   "date": "2026-10-09",
+   "cliente": "Mexx",
+   "ean": "711719577591",
+   "desc": "PS5 Slim Digital",
+   "qty": 2.0,
+   "pu": 960000.0
+  },
+  {
+   "date": "2026-10-16",
+   "cliente": "Distribuidora Norte",
+   "ean": "7798057480019",
+   "desc": "Angélica Zapata Malbec Alta 750",
+   "qty": 24.0,
+   "pu": 64000.0
+  },
+  {
+   "date": "2026-10-22",
+   "cliente": "Mexx",
+   "ean": "4897098680017",
+   "desc": "Satechi Hub USB-C 7 en 1",
+   "qty": 10.0,
+   "pu": 82000.0
+  }
+ ],
+ "mapItem": {},
+ "mapSku": {},
+ "override": {},
+ "ingresos": [
+  {
+   "date": "2026-10-12",
+   "ean": "4548736143111",
+   "qty": 15.0
+  },
+  {
+   "date": "2026-10-20",
+   "ean": "7790189000126",
+   "qty": 36.0
+  }
+ ]
+}

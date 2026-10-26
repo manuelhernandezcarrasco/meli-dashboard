@@ -1,0 +1,3845 @@
+{
+ "2090013200001": {
+  "total": 4840.0,
+  "det": {
+   "IIBB Retención Córdoba": 3753.0,
+   "Imp. Débitos y Créditos": 1087.0
+  }
+ },
+ "2090013200002": {
+  "total": 31873.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 23316.0,
+   "Imp. Débitos y Créditos": 8557.0
+  }
+ },
+ "2090013200003": {
+  "total": 37755.0,
+  "det": {
+   "IIBB Retención CABA": 29059.0,
+   "Imp. Débitos y Créditos": 8696.0
+  }
+ },
+ "2090013200004": {
+  "total": 17983.0,
+  "det": {
+   "IIBB Retención Córdoba": 13819.0,
+   "Imp. Débitos y Créditos": 4164.0
+  }
+ },
+ "2090013200006": {
+  "total": 9193.0,
+  "det": {
+   "IIBB Retención CABA": 6767.0,
+   "Imp. Débitos y Créditos": 2426.0
+  }
+ },
+ "2090013200007": {
+  "total": 1349.0,
+  "det": {
+   "IIBB Retención Córdoba": 859.0,
+   "Imp. Débitos y Créditos": 490.0
+  }
+ },
+ "2090013200008": {
+  "total": 8055.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6056.0,
+   "Imp. Débitos y Créditos": 1999.0
+  }
+ },
+ "2090013200009": {
+  "total": 33647.0,
+  "det": {
+   "IIBB Retención CABA": 25161.0,
+   "Imp. Débitos y Créditos": 8486.0
+  }
+ },
+ "2090013200010": {
+  "total": 21891.0,
+  "det": {
+   "IIBB Retención CABA": 14047.0,
+   "Imp. Débitos y Créditos": 7844.0
+  }
+ },
+ "2090013200011": {
+  "total": 996.0,
+  "det": {
+   "IIBB Retención CABA": 742.0,
+   "Imp. Débitos y Créditos": 254.0
+  }
+ },
+ "2090013200012": {
+  "total": 2254.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1625.0,
+   "Imp. Débitos y Créditos": 629.0
+  }
+ },
+ "2090013200013": {
+  "total": 3243.0,
+  "det": {
+   "IIBB Retención Córdoba": 2215.0,
+   "Imp. Débitos y Créditos": 1028.0
+  }
+ },
+ "2090013200014": {
+  "total": 5351.0,
+  "det": {
+   "IIBB Retención CABA": 4029.0,
+   "Imp. Débitos y Créditos": 1322.0
+  }
+ },
+ "2090013200015": {
+  "total": 2210.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1581.0,
+   "Imp. Débitos y Créditos": 629.0
+  }
+ },
+ "2090013200016": {
+  "total": 1044.0,
+  "det": {
+   "IIBB Retención CABA": 792.0,
+   "Imp. Débitos y Créditos": 252.0
+  }
+ },
+ "2090013200017": {
+  "total": 5688.0,
+  "det": {
+   "IIBB Retención CABA": 4165.0,
+   "Imp. Débitos y Créditos": 1523.0
+  }
+ },
+ "2090013200019": {
+  "total": 4403.0,
+  "det": {
+   "IIBB Retención CABA": 3145.0,
+   "Imp. Débitos y Créditos": 1258.0
+  }
+ },
+ "2090013200020": {
+  "total": 3818.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2457.0,
+   "Imp. Débitos y Créditos": 1361.0
+  }
+ },
+ "2090013200022": {
+  "total": 25180.0,
+  "det": {
+   "IIBB Retención CABA": 17067.0,
+   "Imp. Débitos y Créditos": 8113.0
+  }
+ },
+ "2090013200023": {
+  "total": 7673.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 5448.0,
+   "Imp. Débitos y Créditos": 2225.0
+  }
+ },
+ "2090013200024": {
+  "total": 4803.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3099.0,
+   "Imp. Débitos y Créditos": 1704.0
+  }
+ },
+ "2090013200025": {
+  "total": 5440.0,
+  "det": {
+   "IIBB Retención Córdoba": 3755.0,
+   "Imp. Débitos y Créditos": 1685.0
+  }
+ },
+ "2090013200027": {
+  "total": 1936.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1480.0,
+   "Imp. Débitos y Créditos": 456.0
+  }
+ },
+ "2090013200028": {
+  "total": 5633.0,
+  "det": {
+   "IIBB Retención CABA": 4272.0,
+   "Imp. Débitos y Créditos": 1361.0
+  }
+ },
+ "2090013200030": {
+  "total": 2019.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1354.0,
+   "Imp. Débitos y Créditos": 665.0
+  }
+ },
+ "2090013200031": {
+  "total": 4021.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2942.0,
+   "Imp. Débitos y Créditos": 1079.0
+  }
+ },
+ "2090013200032": {
+  "total": 7409.0,
+  "det": {
+   "IIBB Retención CABA": 5316.0,
+   "Imp. Débitos y Créditos": 2093.0
+  }
+ },
+ "2090013200033": {
+  "total": 46494.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 33372.0,
+   "Imp. Débitos y Créditos": 13122.0
+  }
+ },
+ "2090013200034": {
+  "total": 5061.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3928.0,
+   "Imp. Débitos y Créditos": 1133.0
+  }
+ },
+ "2090013200035": {
+  "total": 4333.0,
+  "det": {
+   "IIBB Retención Córdoba": 3020.0,
+   "Imp. Débitos y Créditos": 1313.0
+  }
+ },
+ "2090013200036": {
+  "total": 866.0,
+  "det": {
+   "IIBB Retención CABA": 583.0,
+   "Imp. Débitos y Créditos": 283.0
+  }
+ },
+ "2090013200037": {
+  "total": 5468.0,
+  "det": {
+   "IIBB Retención Córdoba": 4102.0,
+   "Imp. Débitos y Créditos": 1366.0
+  }
+ },
+ "2090013200038": {
+  "total": 1960.0,
+  "det": {
+   "IIBB Retención CABA": 1330.0,
+   "Imp. Débitos y Créditos": 630.0
+  }
+ },
+ "2090013200039": {
+  "total": 5856.0,
+  "det": {
+   "IIBB Retención Córdoba": 4109.0,
+   "Imp. Débitos y Créditos": 1747.0
+  }
+ },
+ "2090013200040": {
+  "total": 1287.0,
+  "det": {
+   "IIBB Retención CABA": 831.0,
+   "Imp. Débitos y Créditos": 456.0
+  }
+ },
+ "2090013200041": {
+  "total": 907.0,
+  "det": {
+   "IIBB Retención Córdoba": 621.0,
+   "Imp. Débitos y Créditos": 286.0
+  }
+ },
+ "2090013200042": {
+  "total": 2207.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1650.0,
+   "Imp. Débitos y Créditos": 557.0
+  }
+ },
+ "2090013200043": {
+  "total": 1760.0,
+  "det": {
+   "IIBB Retención Córdoba": 1281.0,
+   "Imp. Débitos y Créditos": 479.0
+  }
+ },
+ "2090013200044": {
+  "total": 735.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 494.0,
+   "Imp. Débitos y Créditos": 241.0
+  }
+ },
+ "2090013200045": {
+  "total": 35065.0,
+  "det": {
+   "IIBB Retención CABA": 27042.0,
+   "Imp. Débitos y Créditos": 8023.0
+  }
+ },
+ "2090013200046": {
+  "total": 6696.0,
+  "det": {
+   "IIBB Retención CABA": 4462.0,
+   "Imp. Débitos y Créditos": 2234.0
+  }
+ },
+ "2090013200047": {
+  "total": 14677.0,
+  "det": {
+   "IIBB Retención Córdoba": 9906.0,
+   "Imp. Débitos y Créditos": 4771.0
+  }
+ },
+ "2090013200048": {
+  "total": 9870.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 7355.0,
+   "Imp. Débitos y Créditos": 2515.0
+  }
+ },
+ "2090013200049": {
+  "total": 36039.0,
+  "det": {
+   "IIBB Retención CABA": 23585.0,
+   "Imp. Débitos y Créditos": 12454.0
+  }
+ },
+ "2090013200050": {
+  "total": 785.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 537.0,
+   "Imp. Débitos y Créditos": 248.0
+  }
+ },
+ "2090013200051": {
+  "total": 833.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 598.0,
+   "Imp. Débitos y Créditos": 235.0
+  }
+ },
+ "2090013200052": {
+  "total": 2073.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1441.0,
+   "Imp. Débitos y Créditos": 632.0
+  }
+ },
+ "2090013200053": {
+  "total": 3036.0,
+  "det": {
+   "IIBB Retención Córdoba": 2390.0,
+   "Imp. Débitos y Créditos": 646.0
+  }
+ },
+ "2090013200054": {
+  "total": 8411.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6216.0,
+   "Imp. Débitos y Créditos": 2195.0
+  }
+ },
+ "2090013200055": {
+  "total": 1797.0,
+  "det": {
+   "IIBB Retención Córdoba": 1160.0,
+   "Imp. Débitos y Créditos": 637.0
+  }
+ },
+ "2090013200056": {
+  "total": 5209.0,
+  "det": {
+   "IIBB Retención CABA": 3977.0,
+   "Imp. Débitos y Créditos": 1232.0
+  }
+ },
+ "2090013200058": {
+  "total": 21269.0,
+  "det": {
+   "IIBB Retención CABA": 13653.0,
+   "Imp. Débitos y Créditos": 7616.0
+  }
+ },
+ "2090013200059": {
+  "total": 26988.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 19835.0,
+   "Imp. Débitos y Créditos": 7153.0
+  }
+ },
+ "2090013200060": {
+  "total": 2919.0,
+  "det": {
+   "IIBB Retención CABA": 2066.0,
+   "Imp. Débitos y Créditos": 853.0
+  }
+ },
+ "2090013200061": {
+  "total": 28574.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 21493.0,
+   "Imp. Débitos y Créditos": 7081.0
+  }
+ },
+ "2090013200062": {
+  "total": 39203.0,
+  "det": {
+   "IIBB Retención Córdoba": 30753.0,
+   "Imp. Débitos y Créditos": 8450.0
+  }
+ },
+ "2090013200063": {
+  "total": 3830.0,
+  "det": {
+   "IIBB Retención CABA": 2782.0,
+   "Imp. Débitos y Créditos": 1048.0
+  }
+ },
+ "2090013200064": {
+  "total": 6942.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 5456.0,
+   "Imp. Débitos y Créditos": 1486.0
+  }
+ },
+ "2090013200066": {
+  "total": 34156.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 21987.0,
+   "Imp. Débitos y Créditos": 12169.0
+  }
+ },
+ "2090013200067": {
+  "total": 3066.0,
+  "det": {
+   "IIBB Retención CABA": 2420.0,
+   "Imp. Débitos y Créditos": 646.0
+  }
+ },
+ "2090013200069": {
+  "total": 3162.0,
+  "det": {
+   "IIBB Retención Córdoba": 2016.0,
+   "Imp. Débitos y Créditos": 1146.0
+  }
+ },
+ "2090013200070": {
+  "total": 1756.0,
+  "det": {
+   "IIBB Retención Córdoba": 1331.0,
+   "Imp. Débitos y Créditos": 425.0
+  }
+ },
+ "2090013200071": {
+  "total": 4699.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3317.0,
+   "Imp. Débitos y Créditos": 1382.0
+  }
+ },
+ "2090013200072": {
+  "total": 2985.0,
+  "det": {
+   "IIBB Retención CABA": 2319.0,
+   "Imp. Débitos y Créditos": 666.0
+  }
+ },
+ "2090013200073": {
+  "total": 1629.0,
+  "det": {
+   "IIBB Retención CABA": 1264.0,
+   "Imp. Débitos y Créditos": 365.0
+  }
+ },
+ "2090013200074": {
+  "total": 36524.0,
+  "det": {
+   "IIBB Retención Córdoba": 27498.0,
+   "Imp. Débitos y Créditos": 9026.0
+  }
+ },
+ "2090013200075": {
+  "total": 32078.0,
+  "det": {
+   "IIBB Retención CABA": 23926.0,
+   "Imp. Débitos y Créditos": 8152.0
+  }
+ },
+ "2090013200077": {
+  "total": 38131.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 29657.0,
+   "Imp. Débitos y Créditos": 8474.0
+  }
+ },
+ "2090013200078": {
+  "total": 3122.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2445.0,
+   "Imp. Débitos y Créditos": 677.0
+  }
+ },
+ "2090013200079": {
+  "total": 4551.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3281.0,
+   "Imp. Débitos y Créditos": 1270.0
+  }
+ },
+ "2090013200080": {
+  "total": 2388.0,
+  "det": {
+   "IIBB Retención CABA": 1751.0,
+   "Imp. Débitos y Créditos": 637.0
+  }
+ },
+ "2090013200081": {
+  "total": 9453.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 7041.0,
+   "Imp. Débitos y Créditos": 2412.0
+  }
+ },
+ "2090013200082": {
+  "total": 3183.0,
+  "det": {
+   "IIBB Retención CABA": 2500.0,
+   "Imp. Débitos y Créditos": 683.0
+  }
+ },
+ "2090013200083": {
+  "total": 35674.0,
+  "det": {
+   "IIBB Retención Córdoba": 26848.0,
+   "Imp. Débitos y Créditos": 8826.0
+  }
+ },
+ "2090013200084": {
+  "total": 7552.0,
+  "det": {
+   "IIBB Retención CABA": 5352.0,
+   "Imp. Débitos y Créditos": 2200.0
+  }
+ },
+ "2090013200085": {
+  "total": 1294.0,
+  "det": {
+   "IIBB Retención Córdoba": 875.0,
+   "Imp. Débitos y Créditos": 419.0
+  }
+ },
+ "2090013200086": {
+  "total": 32548.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 24495.0,
+   "Imp. Débitos y Créditos": 8053.0
+  }
+ },
+ "2090013200087": {
+  "total": 2153.0,
+  "det": {
+   "IIBB Retención CABA": 1510.0,
+   "Imp. Débitos y Créditos": 643.0
+  }
+ },
+ "2090013200088": {
+  "total": 9719.0,
+  "det": {
+   "IIBB Retención CABA": 7282.0,
+   "Imp. Débitos y Créditos": 2437.0
+  }
+ },
+ "2090013200089": {
+  "total": 59845.0,
+  "det": {
+   "IIBB Retención CABA": 46548.0,
+   "Imp. Débitos y Créditos": 13297.0
+  }
+ },
+ "2090013200090": {
+  "total": 2080.0,
+  "det": {
+   "IIBB Retención Córdoba": 1626.0,
+   "Imp. Débitos y Créditos": 454.0
+  }
+ },
+ "2090013200091": {
+  "total": 46814.0,
+  "det": {
+   "IIBB Retención CABA": 34165.0,
+   "Imp. Débitos y Créditos": 12649.0
+  }
+ },
+ "2090013200092": {
+  "total": 1887.0,
+  "det": {
+   "IIBB Retención CABA": 1432.0,
+   "Imp. Débitos y Créditos": 455.0
+  }
+ },
+ "2090013200093": {
+  "total": 30624.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 23630.0,
+   "Imp. Débitos y Créditos": 6994.0
+  }
+ },
+ "2090013200094": {
+  "total": 1279.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 884.0,
+   "Imp. Débitos y Créditos": 395.0
+  }
+ },
+ "2090013200095": {
+  "total": 6812.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4845.0,
+   "Imp. Débitos y Créditos": 1967.0
+  }
+ },
+ "2090013200096": {
+  "total": 3669.0,
+  "det": {
+   "IIBB Retención Córdoba": 2565.0,
+   "Imp. Débitos y Créditos": 1104.0
+  }
+ },
+ "2090013200097": {
+  "total": 50012.0,
+  "det": {
+   "IIBB Retención Córdoba": 36156.0,
+   "Imp. Débitos y Créditos": 13856.0
+  }
+ },
+ "2090013200100": {
+  "total": 6458.0,
+  "det": {
+   "IIBB Retención CABA": 4875.0,
+   "Imp. Débitos y Créditos": 1583.0
+  }
+ },
+ "2090013200101": {
+  "total": 2138.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1492.0,
+   "Imp. Débitos y Créditos": 646.0
+  }
+ },
+ "2090013200102": {
+  "total": 1912.0,
+  "det": {
+   "IIBB Retención CABA": 1434.0,
+   "Imp. Débitos y Créditos": 478.0
+  }
+ },
+ "2090013200103": {
+  "total": 34842.0,
+  "det": {
+   "IIBB Retención CABA": 22024.0,
+   "Imp. Débitos y Créditos": 12818.0
+  }
+ },
+ "2090013200104": {
+  "total": 5478.0,
+  "det": {
+   "IIBB Retención CABA": 4201.0,
+   "Imp. Débitos y Créditos": 1277.0
+  }
+ },
+ "2090013200105": {
+  "total": 3544.0,
+  "det": {
+   "IIBB Retención Córdoba": 2325.0,
+   "Imp. Débitos y Créditos": 1219.0
+  }
+ },
+ "2090013200106": {
+  "total": 6777.0,
+  "det": {
+   "IIBB Retención Córdoba": 5096.0,
+   "Imp. Débitos y Créditos": 1681.0
+  }
+ },
+ "2090013200107": {
+  "total": 29851.0,
+  "det": {
+   "IIBB Retención CABA": 22557.0,
+   "Imp. Débitos y Créditos": 7294.0
+  }
+ },
+ "2090013200108": {
+  "total": 1328.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 913.0,
+   "Imp. Débitos y Créditos": 415.0
+  }
+ },
+ "2090013200109": {
+  "total": 100025.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 73570.0,
+   "Imp. Débitos y Créditos": 26455.0
+  }
+ },
+ "2090013200111": {
+  "total": 24688.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 18176.0,
+   "Imp. Débitos y Créditos": 6512.0
+  }
+ },
+ "2090013200112": {
+  "total": 4869.0,
+  "det": {
+   "IIBB Retención Córdoba": 3635.0,
+   "Imp. Débitos y Créditos": 1234.0
+  }
+ },
+ "2090013200113": {
+  "total": 37190.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 28804.0,
+   "Imp. Débitos y Créditos": 8386.0
+  }
+ },
+ "2090013200114": {
+  "total": 3367.0,
+  "det": {
+   "IIBB Retención CABA": 2185.0,
+   "Imp. Débitos y Créditos": 1182.0
+  }
+ },
+ "2090013200115": {
+  "total": 3203.0,
+  "det": {
+   "IIBB Retención Córdoba": 2281.0,
+   "Imp. Débitos y Créditos": 922.0
+  }
+ },
+ "2090013200116": {
+  "total": 1010.0,
+  "det": {
+   "IIBB Retención CABA": 756.0,
+   "Imp. Débitos y Créditos": 254.0
+  }
+ },
+ "2090013200117": {
+  "total": 53372.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 39373.0,
+   "Imp. Débitos y Créditos": 13999.0
+  }
+ },
+ "2090013200118": {
+  "total": 3863.0,
+  "det": {
+   "IIBB Retención Córdoba": 2970.0,
+   "Imp. Débitos y Créditos": 893.0
+  }
+ },
+ "2090013200119": {
+  "total": 3306.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2318.0,
+   "Imp. Débitos y Créditos": 988.0
+  }
+ },
+ "2090013200120": {
+  "total": 2968.0,
+  "det": {
+   "IIBB Retención CABA": 2256.0,
+   "Imp. Débitos y Créditos": 712.0
+  }
+ },
+ "2090013200121": {
+  "total": 5962.0,
+  "det": {
+   "IIBB Retención Córdoba": 4664.0,
+   "Imp. Débitos y Créditos": 1298.0
+  }
+ },
+ "2090013200122": {
+  "total": 34307.0,
+  "det": {
+   "IIBB Retención CABA": 26753.0,
+   "Imp. Débitos y Créditos": 7554.0
+  }
+ },
+ "2090013200123": {
+  "total": 2930.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2156.0,
+   "Imp. Débitos y Créditos": 774.0
+  }
+ },
+ "2090013200124": {
+  "total": 813.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 560.0,
+   "Imp. Débitos y Créditos": 253.0
+  }
+ },
+ "2090013200125": {
+  "total": 2328.0,
+  "det": {
+   "IIBB Retención CABA": 1642.0,
+   "Imp. Débitos y Créditos": 686.0
+  }
+ },
+ "2090013200127": {
+  "total": 55186.0,
+  "det": {
+   "IIBB Retención Córdoba": 39617.0,
+   "Imp. Débitos y Créditos": 15569.0
+  }
+ },
+ "2090013200128": {
+  "total": 1071.0,
+  "det": {
+   "IIBB Retención CABA": 728.0,
+   "Imp. Débitos y Créditos": 343.0
+  }
+ },
+ "2090013200129": {
+  "total": 5814.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4472.0,
+   "Imp. Débitos y Créditos": 1342.0
+  }
+ },
+ "2090013200130": {
+  "total": 2670.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2018.0,
+   "Imp. Débitos y Créditos": 652.0
+  }
+ },
+ "2090013200131": {
+  "total": 46640.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 30970.0,
+   "Imp. Débitos y Créditos": 15670.0
+  }
+ },
+ "2090013200132": {
+  "total": 832.0,
+  "det": {
+   "IIBB Retención Córdoba": 610.0,
+   "Imp. Débitos y Créditos": 222.0
+  }
+ },
+ "2090013200133": {
+  "total": 39924.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 31314.0,
+   "Imp. Débitos y Créditos": 8610.0
+  }
+ },
+ "2090013200134": {
+  "total": 1902.0,
+  "det": {
+   "IIBB Retención Córdoba": 1234.0,
+   "Imp. Débitos y Créditos": 668.0
+  }
+ },
+ "2090013200135": {
+  "total": 32362.0,
+  "det": {
+   "IIBB Retención Córdoba": 23914.0,
+   "Imp. Débitos y Créditos": 8448.0
+  }
+ },
+ "2090013200136": {
+  "total": 32026.0,
+  "det": {
+   "IIBB Retención Córdoba": 24015.0,
+   "Imp. Débitos y Créditos": 8011.0
+  }
+ },
+ "2090013200137": {
+  "total": 26501.0,
+  "det": {
+   "IIBB Retención Córdoba": 18222.0,
+   "Imp. Débitos y Créditos": 8279.0
+  }
+ },
+ "2090013200138": {
+  "total": 6719.0,
+  "det": {
+   "IIBB Retención Córdoba": 4552.0,
+   "Imp. Débitos y Créditos": 2167.0
+  }
+ },
+ "2090013200139": {
+  "total": 51271.0,
+  "det": {
+   "IIBB Retención Córdoba": 37631.0,
+   "Imp. Débitos y Créditos": 13640.0
+  }
+ },
+ "2090013200140": {
+  "total": 1408.0,
+  "det": {
+   "IIBB Retención CABA": 1008.0,
+   "Imp. Débitos y Créditos": 400.0
+  }
+ },
+ "2090013200141": {
+  "total": 5330.0,
+  "det": {
+   "IIBB Retención CABA": 3973.0,
+   "Imp. Débitos y Créditos": 1357.0
+  }
+ },
+ "2090013200143": {
+  "total": 10822.0,
+  "det": {
+   "IIBB Retención Córdoba": 8458.0,
+   "Imp. Débitos y Créditos": 2364.0
+  }
+ },
+ "2090013200144": {
+  "total": 4620.0,
+  "det": {
+   "IIBB Retención Córdoba": 3038.0,
+   "Imp. Débitos y Créditos": 1582.0
+  }
+ },
+ "2090013200146": {
+  "total": 24919.0,
+  "det": {
+   "IIBB Retención Córdoba": 18041.0,
+   "Imp. Débitos y Créditos": 6878.0
+  }
+ },
+ "2090013200147": {
+  "total": 2281.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1574.0,
+   "Imp. Débitos y Créditos": 707.0
+  }
+ },
+ "2090013200148": {
+  "total": 2142.0,
+  "det": {
+   "IIBB Retención CABA": 1507.0,
+   "Imp. Débitos y Créditos": 635.0
+  }
+ },
+ "2090013200149": {
+  "total": 2753.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2021.0,
+   "Imp. Débitos y Créditos": 732.0
+  }
+ },
+ "2090013200150": {
+  "total": 2685.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2006.0,
+   "Imp. Débitos y Créditos": 679.0
+  }
+ },
+ "2090013200151": {
+  "total": 4717.0,
+  "det": {
+   "IIBB Retención CABA": 3575.0,
+   "Imp. Débitos y Créditos": 1142.0
+  }
+ },
+ "2090013200152": {
+  "total": 6888.0,
+  "det": {
+   "IIBB Retención CABA": 4645.0,
+   "Imp. Débitos y Créditos": 2243.0
+  }
+ },
+ "2090013200153": {
+  "total": 1482.0,
+  "det": {
+   "IIBB Retención Córdoba": 1027.0,
+   "Imp. Débitos y Créditos": 455.0
+  }
+ },
+ "2090013200154": {
+  "total": 4545.0,
+  "det": {
+   "IIBB Retención CABA": 3397.0,
+   "Imp. Débitos y Créditos": 1148.0
+  }
+ },
+ "2090013200155": {
+  "total": 4618.0,
+  "det": {
+   "IIBB Retención Córdoba": 3428.0,
+   "Imp. Débitos y Créditos": 1190.0
+  }
+ },
+ "2090013200156": {
+  "total": 1435.0,
+  "det": {
+   "IIBB Retención Córdoba": 985.0,
+   "Imp. Débitos y Créditos": 450.0
+  }
+ },
+ "2090013200157": {
+  "total": 5494.0,
+  "det": {
+   "IIBB Retención Córdoba": 4272.0,
+   "Imp. Débitos y Créditos": 1222.0
+  }
+ },
+ "2090013200159": {
+  "total": 2650.0,
+  "det": {
+   "IIBB Retención Córdoba": 1979.0,
+   "Imp. Débitos y Créditos": 671.0
+  }
+ },
+ "2090013200160": {
+  "total": 7664.0,
+  "det": {
+   "IIBB Retención Córdoba": 5636.0,
+   "Imp. Débitos y Créditos": 2028.0
+  }
+ },
+ "2090013200161": {
+  "total": 5333.0,
+  "det": {
+   "IIBB Retención CABA": 4132.0,
+   "Imp. Débitos y Créditos": 1201.0
+  }
+ },
+ "2090013200162": {
+  "total": 2129.0,
+  "det": {
+   "IIBB Retención CABA": 1453.0,
+   "Imp. Débitos y Créditos": 676.0
+  }
+ },
+ "2090013200163": {
+  "total": 1528.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1192.0,
+   "Imp. Débitos y Créditos": 336.0
+  }
+ },
+ "2090013200164": {
+  "total": 1248.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 972.0,
+   "Imp. Débitos y Créditos": 276.0
+  }
+ },
+ "2090013200165": {
+  "total": 9798.0,
+  "det": {
+   "IIBB Retención CABA": 7628.0,
+   "Imp. Débitos y Créditos": 2170.0
+  }
+ },
+ "2090013200166": {
+  "total": 5668.0,
+  "det": {
+   "IIBB Retención CABA": 3742.0,
+   "Imp. Débitos y Créditos": 1926.0
+  }
+ },
+ "2090013200168": {
+  "total": 29481.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 22781.0,
+   "Imp. Débitos y Créditos": 6700.0
+  }
+ },
+ "2090013200169": {
+  "total": 3434.0,
+  "det": {
+   "IIBB Retención Córdoba": 2262.0,
+   "Imp. Débitos y Créditos": 1172.0
+  }
+ },
+ "2090013200170": {
+  "total": 54326.0,
+  "det": {
+   "IIBB Retención Córdoba": 41782.0,
+   "Imp. Débitos y Créditos": 12544.0
+  }
+ },
+ "2090013200172": {
+  "total": 2777.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2169.0,
+   "Imp. Débitos y Créditos": 608.0
+  }
+ },
+ "2090013200173": {
+  "total": 8296.0,
+  "det": {
+   "IIBB Retención CABA": 6290.0,
+   "Imp. Débitos y Créditos": 2006.0
+  }
+ },
+ "2090013200174": {
+  "total": 2255.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1648.0,
+   "Imp. Débitos y Créditos": 607.0
+  }
+ },
+ "2090013200175": {
+  "total": 9784.0,
+  "det": {
+   "IIBB Retención CABA": 7529.0,
+   "Imp. Débitos y Créditos": 2255.0
+  }
+ },
+ "2090013200176": {
+  "total": 3175.0,
+  "det": {
+   "IIBB Retención CABA": 2018.0,
+   "Imp. Débitos y Créditos": 1157.0
+  }
+ },
+ "2090013200177": {
+  "total": 11264.0,
+  "det": {
+   "IIBB Retención Córdoba": 8790.0,
+   "Imp. Débitos y Créditos": 2474.0
+  }
+ },
+ "2090013200178": {
+  "total": 3823.0,
+  "det": {
+   "IIBB Retención CABA": 2570.0,
+   "Imp. Débitos y Créditos": 1253.0
+  }
+ },
+ "2090013200179": {
+  "total": 35700.0,
+  "det": {
+   "IIBB Retención CABA": 28152.0,
+   "Imp. Débitos y Créditos": 7548.0
+  }
+ },
+ "2090013200180": {
+  "total": 2427.0,
+  "det": {
+   "IIBB Retención CABA": 1801.0,
+   "Imp. Débitos y Créditos": 626.0
+  }
+ },
+ "2090013200181": {
+  "total": 2848.0,
+  "det": {
+   "IIBB Retención Córdoba": 2063.0,
+   "Imp. Débitos y Créditos": 785.0
+  }
+ },
+ "2090013200182": {
+  "total": 5522.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3936.0,
+   "Imp. Débitos y Créditos": 1586.0
+  }
+ },
+ "2090013200183": {
+  "total": 945.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 680.0,
+   "Imp. Débitos y Créditos": 265.0
+  }
+ },
+ "2090013200184": {
+  "total": 26944.0,
+  "det": {
+   "IIBB Retención CABA": 20187.0,
+   "Imp. Débitos y Créditos": 6757.0
+  }
+ },
+ "2090013200186": {
+  "total": 7443.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 5383.0,
+   "Imp. Débitos y Créditos": 2060.0
+  }
+ },
+ "2090013200187": {
+  "total": 7889.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6169.0,
+   "Imp. Débitos y Créditos": 1720.0
+  }
+ },
+ "2090013200188": {
+  "total": 1613.0,
+  "det": {
+   "IIBB Retención CABA": 1181.0,
+   "Imp. Débitos y Créditos": 432.0
+  }
+ },
+ "2090013200190": {
+  "total": 5777.0,
+  "det": {
+   "IIBB Retención Córdoba": 4491.0,
+   "Imp. Débitos y Créditos": 1286.0
+  }
+ },
+ "2090013200191": {
+  "total": 26816.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 19857.0,
+   "Imp. Débitos y Créditos": 6959.0
+  }
+ },
+ "2090013200192": {
+  "total": 2093.0,
+  "det": {
+   "IIBB Retención Córdoba": 1649.0,
+   "Imp. Débitos y Créditos": 444.0
+  }
+ },
+ "2090013200193": {
+  "total": 4409.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3052.0,
+   "Imp. Débitos y Créditos": 1357.0
+  }
+ },
+ "2090013200194": {
+  "total": 32212.0,
+  "det": {
+   "IIBB Retención Córdoba": 24699.0,
+   "Imp. Débitos y Créditos": 7513.0
+  }
+ },
+ "2090013200195": {
+  "total": 2060.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1360.0,
+   "Imp. Débitos y Créditos": 700.0
+  }
+ },
+ "2090013200196": {
+  "total": 15542.0,
+  "det": {
+   "IIBB Retención Córdoba": 11764.0,
+   "Imp. Débitos y Créditos": 3778.0
+  }
+ },
+ "2090013200197": {
+  "total": 4101.0,
+  "det": {
+   "IIBB Retención CABA": 2933.0,
+   "Imp. Débitos y Créditos": 1168.0
+  }
+ },
+ "2090013200198": {
+  "total": 3376.0,
+  "det": {
+   "IIBB Retención CABA": 2596.0,
+   "Imp. Débitos y Créditos": 780.0
+  }
+ },
+ "2090013200199": {
+  "total": 4714.0,
+  "det": {
+   "IIBB Retención CABA": 2961.0,
+   "Imp. Débitos y Créditos": 1753.0
+  }
+ },
+ "2090013200200": {
+  "total": 8987.0,
+  "det": {
+   "IIBB Retención Córdoba": 7011.0,
+   "Imp. Débitos y Créditos": 1976.0
+  }
+ },
+ "2090013200202": {
+  "total": 4496.0,
+  "det": {
+   "IIBB Retención Córdoba": 3129.0,
+   "Imp. Débitos y Créditos": 1367.0
+  }
+ },
+ "2090013200203": {
+  "total": 33195.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 24580.0,
+   "Imp. Débitos y Créditos": 8615.0
+  }
+ },
+ "2090013200204": {
+  "total": 4792.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3510.0,
+   "Imp. Débitos y Créditos": 1282.0
+  }
+ },
+ "2090013200205": {
+  "total": 1857.0,
+  "det": {
+   "IIBB Retención CABA": 1407.0,
+   "Imp. Débitos y Créditos": 450.0
+  }
+ },
+ "2090013200206": {
+  "total": 11191.0,
+  "det": {
+   "IIBB Retención Córdoba": 7068.0,
+   "Imp. Débitos y Créditos": 4123.0
+  }
+ },
+ "2090013200207": {
+  "total": 27606.0,
+  "det": {
+   "IIBB Retención Córdoba": 18871.0,
+   "Imp. Débitos y Créditos": 8735.0
+  }
+ },
+ "2090013200208": {
+  "total": 20226.0,
+  "det": {
+   "IIBB Retención Córdoba": 12929.0,
+   "Imp. Débitos y Créditos": 7297.0
+  }
+ },
+ "2090013200209": {
+  "total": 1842.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1157.0,
+   "Imp. Débitos y Créditos": 685.0
+  }
+ },
+ "2090013200210": {
+  "total": 1481.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1156.0,
+   "Imp. Débitos y Créditos": 325.0
+  }
+ },
+ "2090013200211": {
+  "total": 4048.0,
+  "det": {
+   "IIBB Retención Córdoba": 2902.0,
+   "Imp. Débitos y Créditos": 1146.0
+  }
+ },
+ "2090013200212": {
+  "total": 2742.0,
+  "det": {
+   "IIBB Retención CABA": 2056.0,
+   "Imp. Débitos y Créditos": 686.0
+  }
+ },
+ "2090013200213": {
+  "total": 26604.0,
+  "det": {
+   "IIBB Retención CABA": 19624.0,
+   "Imp. Débitos y Créditos": 6980.0
+  }
+ },
+ "2090013200214": {
+  "total": 737.0,
+  "det": {
+   "IIBB Retención CABA": 525.0,
+   "Imp. Débitos y Créditos": 212.0
+  }
+ },
+ "2090013200215": {
+  "total": 17693.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 12845.0,
+   "Imp. Débitos y Créditos": 4848.0
+  }
+ },
+ "2090013200216": {
+  "total": 4605.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3392.0,
+   "Imp. Débitos y Créditos": 1213.0
+  }
+ },
+ "2090013200217": {
+  "total": 3182.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2496.0,
+   "Imp. Débitos y Créditos": 686.0
+  }
+ },
+ "2090013200218": {
+  "total": 33957.0,
+  "det": {
+   "IIBB Retención Córdoba": 24247.0,
+   "Imp. Débitos y Créditos": 9710.0
+  }
+ },
+ "2090013200219": {
+  "total": 3996.0,
+  "det": {
+   "IIBB Retención Córdoba": 2771.0,
+   "Imp. Débitos y Créditos": 1225.0
+  }
+ },
+ "2090013200220": {
+  "total": 3000.0,
+  "det": {
+   "IIBB Retención Córdoba": 2348.0,
+   "Imp. Débitos y Créditos": 652.0
+  }
+ },
+ "2090013200221": {
+  "total": 27258.0,
+  "det": {
+   "IIBB Retención Córdoba": 18956.0,
+   "Imp. Débitos y Créditos": 8302.0
+  }
+ },
+ "2090013200223": {
+  "total": 39441.0,
+  "det": {
+   "IIBB Retención CABA": 29545.0,
+   "Imp. Débitos y Créditos": 9896.0
+  }
+ },
+ "2090013200224": {
+  "total": 4338.0,
+  "det": {
+   "IIBB Retención Córdoba": 3091.0,
+   "Imp. Débitos y Créditos": 1247.0
+  }
+ },
+ "2090013200225": {
+  "total": 64418.0,
+  "det": {
+   "IIBB Retención Córdoba": 45988.0,
+   "Imp. Débitos y Créditos": 18430.0
+  }
+ },
+ "2090013200226": {
+  "total": 8058.0,
+  "det": {
+   "IIBB Retención Córdoba": 6319.0,
+   "Imp. Débitos y Créditos": 1739.0
+  }
+ },
+ "2090013200228": {
+  "total": 7067.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 5370.0,
+   "Imp. Débitos y Créditos": 1697.0
+  }
+ },
+ "2090013200229": {
+  "total": 2380.0,
+  "det": {
+   "IIBB Retención CABA": 1518.0,
+   "Imp. Débitos y Créditos": 862.0
+  }
+ },
+ "2090013200231": {
+  "total": 6730.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4462.0,
+   "Imp. Débitos y Créditos": 2268.0
+  }
+ },
+ "2090013200232": {
+  "total": 2689.0,
+  "det": {
+   "IIBB Retención CABA": 2004.0,
+   "Imp. Débitos y Créditos": 685.0
+  }
+ },
+ "2090013200233": {
+  "total": 48072.0,
+  "det": {
+   "IIBB Retención Córdoba": 34476.0,
+   "Imp. Débitos y Créditos": 13596.0
+  }
+ },
+ "2090013200234": {
+  "total": 1600.0,
+  "det": {
+   "IIBB Retención CABA": 1131.0,
+   "Imp. Débitos y Créditos": 469.0
+  }
+ },
+ "2090013200235": {
+  "total": 1559.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1125.0,
+   "Imp. Débitos y Créditos": 434.0
+  }
+ },
+ "2090013200236": {
+  "total": 8356.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6224.0,
+   "Imp. Débitos y Créditos": 2132.0
+  }
+ },
+ "2090013200237": {
+  "total": 4708.0,
+  "det": {
+   "IIBB Retención Córdoba": 3378.0,
+   "Imp. Débitos y Créditos": 1330.0
+  }
+ },
+ "2090013200238": {
+  "total": 2897.0,
+  "det": {
+   "IIBB Retención Córdoba": 2233.0,
+   "Imp. Débitos y Créditos": 664.0
+  }
+ },
+ "2090013200239": {
+  "total": 9568.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 7288.0,
+   "Imp. Débitos y Créditos": 2280.0
+  }
+ },
+ "2090013200240": {
+  "total": 16020.0,
+  "det": {
+   "IIBB Retención CABA": 11707.0,
+   "Imp. Débitos y Créditos": 4313.0
+  }
+ },
+ "2090013200241": {
+  "total": 4167.0,
+  "det": {
+   "IIBB Retención Córdoba": 3117.0,
+   "Imp. Débitos y Créditos": 1050.0
+  }
+ },
+ "2090013200242": {
+  "total": 4791.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3574.0,
+   "Imp. Débitos y Créditos": 1217.0
+  }
+ },
+ "2090013200243": {
+  "total": 2457.0,
+  "det": {
+   "IIBB Retención Córdoba": 1827.0,
+   "Imp. Débitos y Créditos": 630.0
+  }
+ },
+ "2090013200244": {
+  "total": 24898.0,
+  "det": {
+   "IIBB Retención CABA": 16767.0,
+   "Imp. Débitos y Créditos": 8131.0
+  }
+ },
+ "2090013200245": {
+  "total": 77597.0,
+  "det": {
+   "IIBB Retención Córdoba": 60634.0,
+   "Imp. Débitos y Créditos": 16963.0
+  }
+ },
+ "2090013200246": {
+  "total": 6593.0,
+  "det": {
+   "IIBB Retención CABA": 4935.0,
+   "Imp. Débitos y Créditos": 1658.0
+  }
+ },
+ "2090013200248": {
+  "total": 1847.0,
+  "det": {
+   "IIBB Retención CABA": 1381.0,
+   "Imp. Débitos y Créditos": 466.0
+  }
+ },
+ "2090013200249": {
+  "total": 1094.0,
+  "det": {
+   "IIBB Retención Córdoba": 757.0,
+   "Imp. Débitos y Créditos": 337.0
+  }
+ },
+ "2090013200250": {
+  "total": 1992.0,
+  "det": {
+   "IIBB Retención Córdoba": 1328.0,
+   "Imp. Débitos y Créditos": 664.0
+  }
+ },
+ "2090013200251": {
+  "total": 7493.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 5454.0,
+   "Imp. Débitos y Créditos": 2039.0
+  }
+ },
+ "2090013200252": {
+  "total": 7104.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 5004.0,
+   "Imp. Débitos y Créditos": 2100.0
+  }
+ },
+ "2090013200253": {
+  "total": 36929.0,
+  "det": {
+   "IIBB Retención CABA": 28416.0,
+   "Imp. Débitos y Créditos": 8513.0
+  }
+ },
+ "2090013200254": {
+  "total": 39135.0,
+  "det": {
+   "IIBB Retención Córdoba": 30266.0,
+   "Imp. Débitos y Créditos": 8869.0
+  }
+ },
+ "2090013200255": {
+  "total": 2318.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1665.0,
+   "Imp. Débitos y Créditos": 653.0
+  }
+ },
+ "2090013200256": {
+  "total": 32188.0,
+  "det": {
+   "IIBB Retención CABA": 22818.0,
+   "Imp. Débitos y Créditos": 9370.0
+  }
+ },
+ "2090013200257": {
+  "total": 2335.0,
+  "det": {
+   "IIBB Retención Córdoba": 1637.0,
+   "Imp. Débitos y Créditos": 698.0
+  }
+ },
+ "2090013200258": {
+  "total": 2659.0,
+  "det": {
+   "IIBB Retención Córdoba": 2053.0,
+   "Imp. Débitos y Créditos": 606.0
+  }
+ },
+ "2090013200259": {
+  "total": 2358.0,
+  "det": {
+   "IIBB Retención Córdoba": 1672.0,
+   "Imp. Débitos y Créditos": 686.0
+  }
+ },
+ "2090013200261": {
+  "total": 44807.0,
+  "det": {
+   "IIBB Retención CABA": 33013.0,
+   "Imp. Débitos y Créditos": 11794.0
+  }
+ },
+ "2090013200262": {
+  "total": 5692.0,
+  "det": {
+   "IIBB Retención Córdoba": 4144.0,
+   "Imp. Débitos y Créditos": 1548.0
+  }
+ },
+ "2090013200263": {
+  "total": 983.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 759.0,
+   "Imp. Débitos y Créditos": 224.0
+  }
+ },
+ "2090013200265": {
+  "total": 2750.0,
+  "det": {
+   "IIBB Retención Córdoba": 2049.0,
+   "Imp. Débitos y Créditos": 701.0
+  }
+ },
+ "2090013200266": {
+  "total": 4887.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3717.0,
+   "Imp. Débitos y Créditos": 1170.0
+  }
+ },
+ "2090013200267": {
+  "total": 62776.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 48837.0,
+   "Imp. Débitos y Créditos": 13939.0
+  }
+ },
+ "2090009700001": {
+  "total": 37712.0,
+  "det": {
+   "IIBB Retención Córdoba": 28688.0,
+   "Imp. Débitos y Créditos": 9024.0
+  }
+ },
+ "2090009700002": {
+  "total": 26437.0,
+  "det": {
+   "IIBB Retención CABA": 18518.0,
+   "Imp. Débitos y Créditos": 7919.0
+  }
+ },
+ "2090009700003": {
+  "total": 3293.0,
+  "det": {
+   "IIBB Retención Córdoba": 2574.0,
+   "Imp. Débitos y Créditos": 719.0
+  }
+ },
+ "2090009700004": {
+  "total": 30932.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 22290.0,
+   "Imp. Débitos y Créditos": 8642.0
+  }
+ },
+ "2090009700005": {
+  "total": 2469.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1787.0,
+   "Imp. Débitos y Créditos": 682.0
+  }
+ },
+ "2090009700006": {
+  "total": 3050.0,
+  "det": {
+   "IIBB Retención Córdoba": 2377.0,
+   "Imp. Débitos y Créditos": 673.0
+  }
+ },
+ "2090009700007": {
+  "total": 5509.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4255.0,
+   "Imp. Débitos y Créditos": 1254.0
+  }
+ },
+ "2090009700009": {
+  "total": 5141.0,
+  "det": {
+   "IIBB Retención Córdoba": 3661.0,
+   "Imp. Débitos y Créditos": 1480.0
+  }
+ },
+ "2090009700010": {
+  "total": 43662.0,
+  "det": {
+   "IIBB Retención Córdoba": 30947.0,
+   "Imp. Débitos y Créditos": 12715.0
+  }
+ },
+ "2090009700011": {
+  "total": 2799.0,
+  "det": {
+   "IIBB Retención CABA": 2164.0,
+   "Imp. Débitos y Créditos": 635.0
+  }
+ },
+ "2090009700012": {
+  "total": 3212.0,
+  "det": {
+   "IIBB Retención CABA": 2086.0,
+   "Imp. Débitos y Créditos": 1126.0
+  }
+ },
+ "2090009700013": {
+  "total": 72974.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 56229.0,
+   "Imp. Débitos y Créditos": 16745.0
+  }
+ },
+ "2090009700014": {
+  "total": 2125.0,
+  "det": {
+   "IIBB Retención CABA": 1566.0,
+   "Imp. Débitos y Créditos": 559.0
+  }
+ },
+ "2090009700015": {
+  "total": 34713.0,
+  "det": {
+   "IIBB Retención CABA": 26085.0,
+   "Imp. Débitos y Créditos": 8628.0
+  }
+ },
+ "2090009700016": {
+  "total": 47573.0,
+  "det": {
+   "IIBB Retención CABA": 35309.0,
+   "Imp. Débitos y Créditos": 12264.0
+  }
+ },
+ "2090009700017": {
+  "total": 27151.0,
+  "det": {
+   "IIBB Retención Córdoba": 17597.0,
+   "Imp. Débitos y Créditos": 9554.0
+  }
+ },
+ "2090009700019": {
+  "total": 3009.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1951.0,
+   "Imp. Débitos y Créditos": 1058.0
+  }
+ },
+ "2090009700020": {
+  "total": 21605.0,
+  "det": {
+   "IIBB Retención CABA": 14076.0,
+   "Imp. Débitos y Créditos": 7529.0
+  }
+ },
+ "2090009700021": {
+  "total": 29842.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 20452.0,
+   "Imp. Débitos y Créditos": 9390.0
+  }
+ },
+ "2090009700022": {
+  "total": 3734.0,
+  "det": {
+   "IIBB Retención Córdoba": 2626.0,
+   "Imp. Débitos y Créditos": 1108.0
+  }
+ },
+ "2090009700023": {
+  "total": 31196.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 21940.0,
+   "Imp. Débitos y Créditos": 9256.0
+  }
+ },
+ "2090009700024": {
+  "total": 1310.0,
+  "det": {
+   "IIBB Retención Córdoba": 866.0,
+   "Imp. Débitos y Créditos": 444.0
+  }
+ },
+ "2090009700025": {
+  "total": 1211.0,
+  "det": {
+   "IIBB Retención Córdoba": 781.0,
+   "Imp. Débitos y Créditos": 430.0
+  }
+ },
+ "2090009700026": {
+  "total": 2628.0,
+  "det": {
+   "IIBB Retención CABA": 1882.0,
+   "Imp. Débitos y Créditos": 746.0
+  }
+ },
+ "2090009700027": {
+  "total": 1283.0,
+  "det": {
+   "IIBB Retención Córdoba": 905.0,
+   "Imp. Débitos y Créditos": 378.0
+  }
+ },
+ "2090009700029": {
+  "total": 6284.0,
+  "det": {
+   "IIBB Retención CABA": 4893.0,
+   "Imp. Débitos y Créditos": 1391.0
+  }
+ },
+ "2090009700030": {
+  "total": 6033.0,
+  "det": {
+   "IIBB Retención Córdoba": 3813.0,
+   "Imp. Débitos y Créditos": 2220.0
+  }
+ },
+ "2090009700031": {
+  "total": 3118.0,
+  "det": {
+   "IIBB Retención CABA": 2399.0,
+   "Imp. Débitos y Créditos": 719.0
+  }
+ },
+ "2090009700032": {
+  "total": 59747.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 46685.0,
+   "Imp. Débitos y Créditos": 13062.0
+  }
+ },
+ "2090009700033": {
+  "total": 6671.0,
+  "det": {
+   "IIBB Retención CABA": 5261.0,
+   "Imp. Débitos y Créditos": 1410.0
+  }
+ },
+ "2090009700034": {
+  "total": 804.0,
+  "det": {
+   "IIBB Retención CABA": 563.0,
+   "Imp. Débitos y Créditos": 241.0
+  }
+ },
+ "2090009700035": {
+  "total": 7671.0,
+  "det": {
+   "IIBB Retención Córdoba": 5329.0,
+   "Imp. Débitos y Créditos": 2342.0
+  }
+ },
+ "2090009700036": {
+  "total": 2408.0,
+  "det": {
+   "IIBB Retención CABA": 1748.0,
+   "Imp. Débitos y Créditos": 660.0
+  }
+ },
+ "2090009700037": {
+  "total": 8213.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6168.0,
+   "Imp. Débitos y Créditos": 2045.0
+  }
+ },
+ "2090009700038": {
+  "total": 1885.0,
+  "det": {
+   "IIBB Retención CABA": 1472.0,
+   "Imp. Débitos y Créditos": 413.0
+  }
+ },
+ "2090009700039": {
+  "total": 5378.0,
+  "det": {
+   "IIBB Retención CABA": 3993.0,
+   "Imp. Débitos y Créditos": 1385.0
+  }
+ },
+ "2090009700040": {
+  "total": 5096.0,
+  "det": {
+   "IIBB Retención CABA": 3560.0,
+   "Imp. Débitos y Créditos": 1536.0
+  }
+ },
+ "2090009700041": {
+  "total": 1247.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 847.0,
+   "Imp. Débitos y Créditos": 400.0
+  }
+ },
+ "2090009700042": {
+  "total": 5081.0,
+  "det": {
+   "IIBB Retención Córdoba": 3689.0,
+   "Imp. Débitos y Créditos": 1392.0
+  }
+ },
+ "2090009700043": {
+  "total": 5161.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3470.0,
+   "Imp. Débitos y Créditos": 1691.0
+  }
+ },
+ "2090009700044": {
+  "total": 1742.0,
+  "det": {
+   "IIBB Retención CABA": 1360.0,
+   "Imp. Débitos y Créditos": 382.0
+  }
+ },
+ "2090009700045": {
+  "total": 8387.0,
+  "det": {
+   "IIBB Retención Córdoba": 6185.0,
+   "Imp. Débitos y Créditos": 2202.0
+  }
+ },
+ "2090009700046": {
+  "total": 1942.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1505.0,
+   "Imp. Débitos y Créditos": 437.0
+  }
+ },
+ "2090009700047": {
+  "total": 3204.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2503.0,
+   "Imp. Débitos y Créditos": 701.0
+  }
+ },
+ "2090009700048": {
+  "total": 2924.0,
+  "det": {
+   "IIBB Retención Córdoba": 2240.0,
+   "Imp. Débitos y Créditos": 684.0
+  }
+ },
+ "2090009700050": {
+  "total": 3923.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2507.0,
+   "Imp. Débitos y Créditos": 1416.0
+  }
+ },
+ "2090009700051": {
+  "total": 34100.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 26845.0,
+   "Imp. Débitos y Créditos": 7255.0
+  }
+ },
+ "2090009700052": {
+  "total": 1840.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1413.0,
+   "Imp. Débitos y Créditos": 427.0
+  }
+ },
+ "2090009700054": {
+  "total": 5956.0,
+  "det": {
+   "IIBB Retención CABA": 4629.0,
+   "Imp. Débitos y Créditos": 1327.0
+  }
+ },
+ "2090009700055": {
+  "total": 3556.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2734.0,
+   "Imp. Débitos y Créditos": 822.0
+  }
+ },
+ "2090009700056": {
+  "total": 5263.0,
+  "det": {
+   "IIBB Retención Córdoba": 4091.0,
+   "Imp. Débitos y Créditos": 1172.0
+  }
+ },
+ "2090009700057": {
+  "total": 39519.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 26205.0,
+   "Imp. Débitos y Créditos": 13314.0
+  }
+ },
+ "2090009700058": {
+  "total": 12636.0,
+  "det": {
+   "IIBB Retención Córdoba": 8338.0,
+   "Imp. Débitos y Créditos": 4298.0
+  }
+ },
+ "2090009700059": {
+  "total": 6527.0,
+  "det": {
+   "IIBB Retención Córdoba": 4501.0,
+   "Imp. Débitos y Créditos": 2026.0
+  }
+ },
+ "2090009700060": {
+  "total": 4232.0,
+  "det": {
+   "IIBB Retención CABA": 3135.0,
+   "Imp. Débitos y Créditos": 1097.0
+  }
+ },
+ "2090009700061": {
+  "total": 56449.0,
+  "det": {
+   "IIBB Retención CABA": 43555.0,
+   "Imp. Débitos y Créditos": 12894.0
+  }
+ },
+ "2090009700062": {
+  "total": 6094.0,
+  "det": {
+   "IIBB Retención CABA": 3947.0,
+   "Imp. Débitos y Créditos": 2147.0
+  }
+ },
+ "2090009700063": {
+  "total": 913.0,
+  "det": {
+   "IIBB Retención Córdoba": 671.0,
+   "Imp. Débitos y Créditos": 242.0
+  }
+ },
+ "2090009700064": {
+  "total": 1377.0,
+  "det": {
+   "IIBB Retención Córdoba": 999.0,
+   "Imp. Débitos y Créditos": 378.0
+  }
+ },
+ "2090009700065": {
+  "total": 3587.0,
+  "det": {
+   "IIBB Retención Córdoba": 2643.0,
+   "Imp. Débitos y Créditos": 944.0
+  }
+ },
+ "2090009700066": {
+  "total": 10512.0,
+  "det": {
+   "IIBB Retención CABA": 8074.0,
+   "Imp. Débitos y Créditos": 2438.0
+  }
+ },
+ "2090009700067": {
+  "total": 3054.0,
+  "det": {
+   "IIBB Retención Córdoba": 1985.0,
+   "Imp. Débitos y Créditos": 1069.0
+  }
+ },
+ "2090009700068": {
+  "total": 606.0,
+  "det": {
+   "IIBB Retención CABA": 385.0,
+   "Imp. Débitos y Créditos": 221.0
+  }
+ },
+ "2090009700069": {
+  "total": 2045.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1362.0,
+   "Imp. Débitos y Créditos": 683.0
+  }
+ },
+ "2090009700070": {
+  "total": 24373.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 17043.0,
+   "Imp. Débitos y Créditos": 7330.0
+  }
+ },
+ "2090009700071": {
+  "total": 2193.0,
+  "det": {
+   "IIBB Retención Córdoba": 1529.0,
+   "Imp. Débitos y Créditos": 664.0
+  }
+ },
+ "2090009700072": {
+  "total": 3472.0,
+  "det": {
+   "IIBB Retención Córdoba": 2235.0,
+   "Imp. Débitos y Créditos": 1237.0
+  }
+ },
+ "2090009700074": {
+  "total": 6056.0,
+  "det": {
+   "IIBB Retención Córdoba": 4320.0,
+   "Imp. Débitos y Créditos": 1736.0
+  }
+ },
+ "2090009700075": {
+  "total": 30222.0,
+  "det": {
+   "IIBB Retención CABA": 22721.0,
+   "Imp. Débitos y Créditos": 7501.0
+  }
+ },
+ "2090009700077": {
+  "total": 2444.0,
+  "det": {
+   "IIBB Retención Córdoba": 1776.0,
+   "Imp. Débitos y Créditos": 668.0
+  }
+ },
+ "2090009700078": {
+  "total": 2972.0,
+  "det": {
+   "IIBB Retención CABA": 2151.0,
+   "Imp. Débitos y Créditos": 821.0
+  }
+ },
+ "2090009700080": {
+  "total": 985.0,
+  "det": {
+   "IIBB Retención Córdoba": 667.0,
+   "Imp. Débitos y Créditos": 318.0
+  }
+ },
+ "2090009700081": {
+  "total": 925.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 692.0,
+   "Imp. Débitos y Créditos": 233.0
+  }
+ },
+ "2090009700082": {
+  "total": 2123.0,
+  "det": {
+   "IIBB Retención Córdoba": 1477.0,
+   "Imp. Débitos y Créditos": 646.0
+  }
+ },
+ "2090009700083": {
+  "total": 35450.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 26180.0,
+   "Imp. Débitos y Créditos": 9270.0
+  }
+ },
+ "2090009700085": {
+  "total": 34235.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 26065.0,
+   "Imp. Débitos y Créditos": 8170.0
+  }
+ },
+ "2090009700086": {
+  "total": 31434.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 23246.0,
+   "Imp. Débitos y Créditos": 8188.0
+  }
+ },
+ "2090009700087": {
+  "total": 11890.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 8585.0,
+   "Imp. Débitos y Créditos": 3305.0
+  }
+ },
+ "2090009700088": {
+  "total": 21852.0,
+  "det": {
+   "IIBB Retención CABA": 14470.0,
+   "Imp. Débitos y Créditos": 7382.0
+  }
+ },
+ "2090009700090": {
+  "total": 1430.0,
+  "det": {
+   "IIBB Retención Córdoba": 960.0,
+   "Imp. Débitos y Créditos": 470.0
+  }
+ },
+ "2090009700091": {
+  "total": 3620.0,
+  "det": {
+   "IIBB Retención CABA": 2799.0,
+   "Imp. Débitos y Créditos": 821.0
+  }
+ },
+ "2090009700092": {
+  "total": 22518.0,
+  "det": {
+   "IIBB Retención CABA": 14688.0,
+   "Imp. Débitos y Créditos": 7830.0
+  }
+ },
+ "2090009700094": {
+  "total": 9075.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6493.0,
+   "Imp. Débitos y Créditos": 2582.0
+  }
+ },
+ "2090009700096": {
+  "total": 2979.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2331.0,
+   "Imp. Débitos y Créditos": 648.0
+  }
+ },
+ "2090009700097": {
+  "total": 1433.0,
+  "det": {
+   "IIBB Retención CABA": 1097.0,
+   "Imp. Débitos y Créditos": 336.0
+  }
+ },
+ "2090009700098": {
+  "total": 5597.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4073.0,
+   "Imp. Débitos y Créditos": 1524.0
+  }
+ },
+ "2090009700099": {
+  "total": 21358.0,
+  "det": {
+   "IIBB Retención Córdoba": 13444.0,
+   "Imp. Débitos y Créditos": 7914.0
+  }
+ },
+ "2090009700100": {
+  "total": 707.0,
+  "det": {
+   "IIBB Retención Córdoba": 495.0,
+   "Imp. Débitos y Créditos": 212.0
+  }
+ },
+ "2090009700101": {
+  "total": 28400.0,
+  "det": {
+   "IIBB Retención CABA": 21374.0,
+   "Imp. Débitos y Créditos": 7026.0
+  }
+ },
+ "2090009700102": {
+  "total": 6795.0,
+  "det": {
+   "IIBB Retención CABA": 4678.0,
+   "Imp. Débitos y Créditos": 2117.0
+  }
+ },
+ "2090009700103": {
+  "total": 2616.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1966.0,
+   "Imp. Débitos y Créditos": 650.0
+  }
+ },
+ "2090009700104": {
+  "total": 3660.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2477.0,
+   "Imp. Débitos y Créditos": 1183.0
+  }
+ },
+ "2090009700105": {
+  "total": 4547.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3510.0,
+   "Imp. Débitos y Créditos": 1037.0
+  }
+ },
+ "2090009700106": {
+  "total": 40238.0,
+  "det": {
+   "IIBB Retención CABA": 27646.0,
+   "Imp. Débitos y Créditos": 12592.0
+  }
+ },
+ "2090009700107": {
+  "total": 7222.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 5326.0,
+   "Imp. Débitos y Créditos": 1896.0
+  }
+ },
+ "2090009700108": {
+  "total": 5103.0,
+  "det": {
+   "IIBB Retención Córdoba": 3737.0,
+   "Imp. Débitos y Créditos": 1366.0
+  }
+ },
+ "2090009700109": {
+  "total": 42548.0,
+  "det": {
+   "IIBB Retención CABA": 33538.0,
+   "Imp. Débitos y Créditos": 9010.0
+  }
+ },
+ "2090009700110": {
+  "total": 9031.0,
+  "det": {
+   "IIBB Retención Córdoba": 6849.0,
+   "Imp. Débitos y Créditos": 2182.0
+  }
+ },
+ "2090009700111": {
+  "total": 33040.0,
+  "det": {
+   "IIBB Retención Córdoba": 25912.0,
+   "Imp. Débitos y Créditos": 7128.0
+  }
+ },
+ "2090009700112": {
+  "total": 4396.0,
+  "det": {
+   "IIBB Retención CABA": 3370.0,
+   "Imp. Débitos y Créditos": 1026.0
+  }
+ },
+ "2090009700113": {
+  "total": 4015.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2977.0,
+   "Imp. Débitos y Créditos": 1038.0
+  }
+ },
+ "2090009700114": {
+  "total": 37909.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 24644.0,
+   "Imp. Débitos y Créditos": 13265.0
+  }
+ },
+ "2090009700115": {
+  "total": 2331.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1689.0,
+   "Imp. Débitos y Créditos": 642.0
+  }
+ },
+ "2090009700116": {
+  "total": 790.0,
+  "det": {
+   "IIBB Retención Córdoba": 522.0,
+   "Imp. Débitos y Créditos": 268.0
+  }
+ },
+ "2090009700117": {
+  "total": 29191.0,
+  "det": {
+   "IIBB Retención Córdoba": 21518.0,
+   "Imp. Débitos y Créditos": 7673.0
+  }
+ },
+ "2090009700119": {
+  "total": 3399.0,
+  "det": {
+   "IIBB Retención CABA": 2654.0,
+   "Imp. Débitos y Créditos": 745.0
+  }
+ },
+ "2090009700120": {
+  "total": 2356.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1755.0,
+   "Imp. Débitos y Créditos": 601.0
+  }
+ },
+ "2090009700121": {
+  "total": 4039.0,
+  "det": {
+   "IIBB Retención CABA": 2803.0,
+   "Imp. Débitos y Créditos": 1236.0
+  }
+ },
+ "2090009700122": {
+  "total": 8424.0,
+  "det": {
+   "IIBB Retención CABA": 6440.0,
+   "Imp. Débitos y Créditos": 1984.0
+  }
+ },
+ "2090009700123": {
+  "total": 1883.0,
+  "det": {
+   "IIBB Retención CABA": 1266.0,
+   "Imp. Débitos y Créditos": 617.0
+  }
+ },
+ "2090009700124": {
+  "total": 2337.0,
+  "det": {
+   "IIBB Retención CABA": 1690.0,
+   "Imp. Débitos y Créditos": 647.0
+  }
+ },
+ "2090009700125": {
+  "total": 1894.0,
+  "det": {
+   "IIBB Retención Córdoba": 1253.0,
+   "Imp. Débitos y Créditos": 641.0
+  }
+ },
+ "2090009700126": {
+  "total": 32709.0,
+  "det": {
+   "IIBB Retención Córdoba": 25528.0,
+   "Imp. Débitos y Créditos": 7181.0
+  }
+ },
+ "2090009700127": {
+  "total": 4542.0,
+  "det": {
+   "IIBB Retención Córdoba": 3496.0,
+   "Imp. Débitos y Créditos": 1046.0
+  }
+ },
+ "2090009700129": {
+  "total": 10491.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6656.0,
+   "Imp. Débitos y Créditos": 3835.0
+  }
+ },
+ "2090009700130": {
+  "total": 3981.0,
+  "det": {
+   "IIBB Retención CABA": 2948.0,
+   "Imp. Débitos y Créditos": 1033.0
+  }
+ },
+ "2090009700131": {
+  "total": 2071.0,
+  "det": {
+   "IIBB Retención Córdoba": 1367.0,
+   "Imp. Débitos y Créditos": 704.0
+  }
+ },
+ "2090009700132": {
+  "total": 11554.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 7395.0,
+   "Imp. Débitos y Créditos": 4159.0
+  }
+ },
+ "2090009700133": {
+  "total": 2760.0,
+  "det": {
+   "IIBB Retención Córdoba": 2081.0,
+   "Imp. Débitos y Créditos": 679.0
+  }
+ },
+ "2090009700134": {
+  "total": 4423.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3294.0,
+   "Imp. Débitos y Créditos": 1129.0
+  }
+ },
+ "2090009700135": {
+  "total": 6955.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 5421.0,
+   "Imp. Débitos y Créditos": 1534.0
+  }
+ },
+ "2090009700136": {
+  "total": 30621.0,
+  "det": {
+   "IIBB Retención Córdoba": 23409.0,
+   "Imp. Débitos y Créditos": 7212.0
+  }
+ },
+ "2090009700137": {
+  "total": 5189.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4041.0,
+   "Imp. Débitos y Créditos": 1148.0
+  }
+ },
+ "2090009700138": {
+  "total": 2449.0,
+  "det": {
+   "IIBB Retención Córdoba": 1753.0,
+   "Imp. Débitos y Créditos": 696.0
+  }
+ },
+ "2090009700139": {
+  "total": 29064.0,
+  "det": {
+   "IIBB Retención Córdoba": 19061.0,
+   "Imp. Débitos y Créditos": 10003.0
+  }
+ },
+ "2090009700140": {
+  "total": 31091.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 22823.0,
+   "Imp. Débitos y Créditos": 8268.0
+  }
+ },
+ "2090009700141": {
+  "total": 5470.0,
+  "det": {
+   "IIBB Retención CABA": 3830.0,
+   "Imp. Débitos y Créditos": 1640.0
+  }
+ },
+ "2090009700143": {
+  "total": 1967.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1498.0,
+   "Imp. Débitos y Créditos": 469.0
+  }
+ },
+ "2090009700144": {
+  "total": 2892.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2250.0,
+   "Imp. Débitos y Créditos": 642.0
+  }
+ },
+ "2090009700145": {
+  "total": 51150.0,
+  "det": {
+   "IIBB Retención CABA": 33668.0,
+   "Imp. Débitos y Créditos": 17482.0
+  }
+ },
+ "2090009700146": {
+  "total": 12067.0,
+  "det": {
+   "IIBB Retención Córdoba": 9377.0,
+   "Imp. Débitos y Créditos": 2690.0
+  }
+ },
+ "2090009700147": {
+  "total": 52079.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 39421.0,
+   "Imp. Débitos y Créditos": 12658.0
+  }
+ },
+ "2090009700148": {
+  "total": 3915.0,
+  "det": {
+   "IIBB Retención CABA": 2885.0,
+   "Imp. Débitos y Créditos": 1030.0
+  }
+ },
+ "2090009700149": {
+  "total": 54593.0,
+  "det": {
+   "IIBB Retención CABA": 42460.0,
+   "Imp. Débitos y Créditos": 12133.0
+  }
+ },
+ "2090009700150": {
+  "total": 37483.0,
+  "det": {
+   "IIBB Retención Córdoba": 29474.0,
+   "Imp. Débitos y Créditos": 8009.0
+  }
+ },
+ "2090009700151": {
+  "total": 3071.0,
+  "det": {
+   "IIBB Retención Córdoba": 2205.0,
+   "Imp. Débitos y Créditos": 866.0
+  }
+ },
+ "2090009700152": {
+  "total": 1312.0,
+  "det": {
+   "IIBB Retención CABA": 986.0,
+   "Imp. Débitos y Créditos": 326.0
+  }
+ },
+ "2090009700153": {
+  "total": 35846.0,
+  "det": {
+   "IIBB Retención CABA": 27966.0,
+   "Imp. Débitos y Créditos": 7880.0
+  }
+ },
+ "2090009700155": {
+  "total": 10324.0,
+  "det": {
+   "IIBB Retención CABA": 8032.0,
+   "Imp. Débitos y Créditos": 2292.0
+  }
+ },
+ "2090009700156": {
+  "total": 19526.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 12207.0,
+   "Imp. Débitos y Créditos": 7319.0
+  }
+ },
+ "2090009700157": {
+  "total": 3331.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2105.0,
+   "Imp. Débitos y Créditos": 1226.0
+  }
+ },
+ "2090009700158": {
+  "total": 6177.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4814.0,
+   "Imp. Débitos y Créditos": 1363.0
+  }
+ },
+ "2090009700159": {
+  "total": 714.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 473.0,
+   "Imp. Débitos y Créditos": 241.0
+  }
+ },
+ "2090009700160": {
+  "total": 5558.0,
+  "det": {
+   "IIBB Retención CABA": 3546.0,
+   "Imp. Débitos y Créditos": 2012.0
+  }
+ },
+ "2090009700162": {
+  "total": 2066.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1448.0,
+   "Imp. Débitos y Créditos": 618.0
+  }
+ },
+ "2090009700163": {
+  "total": 4771.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3710.0,
+   "Imp. Débitos y Créditos": 1061.0
+  }
+ },
+ "2090009700164": {
+  "total": 3809.0,
+  "det": {
+   "IIBB Retención Córdoba": 2969.0,
+   "Imp. Débitos y Créditos": 840.0
+  }
+ },
+ "2090009700165": {
+  "total": 1318.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1028.0,
+   "Imp. Débitos y Créditos": 290.0
+  }
+ },
+ "2090009700167": {
+  "total": 39160.0,
+  "det": {
+   "IIBB Retención Córdoba": 30899.0,
+   "Imp. Débitos y Créditos": 8261.0
+  }
+ },
+ "2090009700168": {
+  "total": 1065.0,
+  "det": {
+   "IIBB Retención Córdoba": 728.0,
+   "Imp. Débitos y Créditos": 337.0
+  }
+ },
+ "2090009700169": {
+  "total": 1636.0,
+  "det": {
+   "IIBB Retención CABA": 1229.0,
+   "Imp. Débitos y Créditos": 407.0
+  }
+ },
+ "2090009700170": {
+  "total": 57524.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 45205.0,
+   "Imp. Débitos y Créditos": 12319.0
+  }
+ },
+ "2090009700171": {
+  "total": 5316.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4036.0,
+   "Imp. Débitos y Créditos": 1280.0
+  }
+ },
+ "2090009700172": {
+  "total": 7036.0,
+  "det": {
+   "IIBB Retención Córdoba": 5526.0,
+   "Imp. Débitos y Créditos": 1510.0
+  }
+ },
+ "2090009700173": {
+  "total": 22460.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 14527.0,
+   "Imp. Débitos y Créditos": 7933.0
+  }
+ },
+ "2090009700174": {
+  "total": 984.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 647.0,
+   "Imp. Débitos y Créditos": 337.0
+  }
+ },
+ "2090009700175": {
+  "total": 800.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 537.0,
+   "Imp. Débitos y Créditos": 263.0
+  }
+ },
+ "2090009700176": {
+  "total": 2268.0,
+  "det": {
+   "IIBB Retención Córdoba": 1577.0,
+   "Imp. Débitos y Créditos": 691.0
+  }
+ },
+ "2090009700177": {
+  "total": 2594.0,
+  "det": {
+   "IIBB Retención Córdoba": 1904.0,
+   "Imp. Débitos y Créditos": 690.0
+  }
+ },
+ "2090009700178": {
+  "total": 4848.0,
+  "det": {
+   "IIBB Retención Córdoba": 3306.0,
+   "Imp. Débitos y Créditos": 1542.0
+  }
+ },
+ "2090009700179": {
+  "total": 50545.0,
+  "det": {
+   "IIBB Retención CABA": 38084.0,
+   "Imp. Débitos y Créditos": 12461.0
+  }
+ },
+ "2090009700180": {
+  "total": 8599.0,
+  "det": {
+   "IIBB Retención Córdoba": 6480.0,
+   "Imp. Débitos y Créditos": 2119.0
+  }
+ },
+ "2090009700181": {
+  "total": 7896.0,
+  "det": {
+   "IIBB Retención CABA": 5693.0,
+   "Imp. Débitos y Créditos": 2203.0
+  }
+ },
+ "2090009700182": {
+  "total": 2100.0,
+  "det": {
+   "IIBB Retención Córdoba": 1639.0,
+   "Imp. Débitos y Créditos": 461.0
+  }
+ },
+ "2090009700184": {
+  "total": 884.0,
+  "det": {
+   "IIBB Retención Córdoba": 607.0,
+   "Imp. Débitos y Créditos": 277.0
+  }
+ },
+ "2090009700185": {
+  "total": 7410.0,
+  "det": {
+   "IIBB Retención CABA": 4948.0,
+   "Imp. Débitos y Créditos": 2462.0
+  }
+ },
+ "2090009700186": {
+  "total": 1354.0,
+  "det": {
+   "IIBB Retención CABA": 928.0,
+   "Imp. Débitos y Créditos": 426.0
+  }
+ },
+ "2090009700187": {
+  "total": 5189.0,
+  "det": {
+   "IIBB Retención Córdoba": 3286.0,
+   "Imp. Débitos y Créditos": 1903.0
+  }
+ },
+ "2090009700188": {
+  "total": 2886.0,
+  "det": {
+   "IIBB Retención CABA": 2275.0,
+   "Imp. Débitos y Créditos": 611.0
+  }
+ },
+ "2090009700190": {
+  "total": 2331.0,
+  "det": {
+   "IIBB Retención Córdoba": 1659.0,
+   "Imp. Débitos y Créditos": 672.0
+  }
+ },
+ "2090009700191": {
+  "total": 660.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 424.0,
+   "Imp. Débitos y Créditos": 236.0
+  }
+ },
+ "2090009700193": {
+  "total": 1573.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1101.0,
+   "Imp. Débitos y Créditos": 472.0
+  }
+ },
+ "2090009700194": {
+  "total": 2623.0,
+  "det": {
+   "IIBB Retención CABA": 1922.0,
+   "Imp. Débitos y Créditos": 701.0
+  }
+ },
+ "2090009700195": {
+  "total": 1704.0,
+  "det": {
+   "IIBB Retención Córdoba": 1288.0,
+   "Imp. Débitos y Créditos": 416.0
+  }
+ },
+ "2090009700196": {
+  "total": 5183.0,
+  "det": {
+   "IIBB Retención Córdoba": 3472.0,
+   "Imp. Débitos y Créditos": 1711.0
+  }
+ },
+ "2090009700197": {
+  "total": 1966.0,
+  "det": {
+   "IIBB Retención CABA": 1288.0,
+   "Imp. Débitos y Créditos": 678.0
+  }
+ },
+ "2090009700198": {
+  "total": 1488.0,
+  "det": {
+   "IIBB Retención Córdoba": 1073.0,
+   "Imp. Débitos y Créditos": 415.0
+  }
+ },
+ "2090009700199": {
+  "total": 2708.0,
+  "det": {
+   "IIBB Retención Córdoba": 2080.0,
+   "Imp. Débitos y Créditos": 628.0
+  }
+ },
+ "2090009700200": {
+  "total": 8464.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6237.0,
+   "Imp. Débitos y Créditos": 2227.0
+  }
+ },
+ "2090009700201": {
+  "total": 2343.0,
+  "det": {
+   "IIBB Retención Córdoba": 1711.0,
+   "Imp. Débitos y Créditos": 632.0
+  }
+ },
+ "2090009700203": {
+  "total": 4187.0,
+  "det": {
+   "IIBB Retención Córdoba": 2679.0,
+   "Imp. Débitos y Créditos": 1508.0
+  }
+ },
+ "2090009700204": {
+  "total": 2271.0,
+  "det": {
+   "IIBB Retención CABA": 1592.0,
+   "Imp. Débitos y Créditos": 679.0
+  }
+ },
+ "2090009700205": {
+  "total": 2500.0,
+  "det": {
+   "IIBB Retención Córdoba": 1824.0,
+   "Imp. Débitos y Créditos": 676.0
+  }
+ },
+ "2090009700206": {
+  "total": 7277.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 5533.0,
+   "Imp. Débitos y Créditos": 1744.0
+  }
+ },
+ "2090009700207": {
+  "total": 6607.0,
+  "det": {
+   "IIBB Retención CABA": 4262.0,
+   "Imp. Débitos y Créditos": 2345.0
+  }
+ },
+ "2090009700208": {
+  "total": 4296.0,
+  "det": {
+   "IIBB Retención Córdoba": 3222.0,
+   "Imp. Débitos y Créditos": 1074.0
+  }
+ },
+ "2090009700209": {
+  "total": 6641.0,
+  "det": {
+   "IIBB Retención Córdoba": 4541.0,
+   "Imp. Débitos y Créditos": 2100.0
+  }
+ },
+ "2090009700210": {
+  "total": 1450.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1042.0,
+   "Imp. Débitos y Créditos": 408.0
+  }
+ },
+ "2090009700211": {
+  "total": 9401.0,
+  "det": {
+   "IIBB Retención Córdoba": 7165.0,
+   "Imp. Débitos y Créditos": 2236.0
+  }
+ },
+ "2090009700212": {
+  "total": 1378.0,
+  "det": {
+   "IIBB Retención Córdoba": 1006.0,
+   "Imp. Débitos y Créditos": 372.0
+  }
+ },
+ "2090009700213": {
+  "total": 5709.0,
+  "det": {
+   "IIBB Retención Córdoba": 3821.0,
+   "Imp. Débitos y Créditos": 1888.0
+  }
+ },
+ "2090009700214": {
+  "total": 9133.0,
+  "det": {
+   "IIBB Retención CABA": 6666.0,
+   "Imp. Débitos y Créditos": 2467.0
+  }
+ },
+ "2090009700215": {
+  "total": 6965.0,
+  "det": {
+   "IIBB Retención Córdoba": 5347.0,
+   "Imp. Débitos y Créditos": 1618.0
+  }
+ },
+ "2090009700217": {
+  "total": 9171.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6946.0,
+   "Imp. Débitos y Créditos": 2225.0
+  }
+ },
+ "2090009700218": {
+  "total": 2071.0,
+  "det": {
+   "IIBB Retención CABA": 1365.0,
+   "Imp. Débitos y Créditos": 706.0
+  }
+ },
+ "2090009700219": {
+  "total": 66762.0,
+  "det": {
+   "IIBB Retención Córdoba": 52621.0,
+   "Imp. Débitos y Créditos": 14141.0
+  }
+ },
+ "2090009700220": {
+  "total": 30516.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 22386.0,
+   "Imp. Débitos y Créditos": 8130.0
+  }
+ },
+ "2090009700221": {
+  "total": 672.0,
+  "det": {
+   "IIBB Retención CABA": 460.0,
+   "Imp. Débitos y Créditos": 212.0
+  }
+ },
+ "2090009700222": {
+  "total": 6309.0,
+  "det": {
+   "IIBB Retención CABA": 4101.0,
+   "Imp. Débitos y Créditos": 2208.0
+  }
+ },
+ "2090009700223": {
+  "total": 2186.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1570.0,
+   "Imp. Débitos y Créditos": 616.0
+  }
+ },
+ "2090009700226": {
+  "total": 55634.0,
+  "det": {
+   "IIBB Retención Córdoba": 41523.0,
+   "Imp. Débitos y Créditos": 14111.0
+  }
+ },
+ "2090009700227": {
+  "total": 2890.0,
+  "det": {
+   "IIBB Retención CABA": 2133.0,
+   "Imp. Débitos y Créditos": 757.0
+  }
+ },
+ "2090009700228": {
+  "total": 686.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 445.0,
+   "Imp. Débitos y Créditos": 241.0
+  }
+ },
+ "2090009700229": {
+  "total": 2341.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1646.0,
+   "Imp. Débitos y Créditos": 695.0
+  }
+ },
+ "2090009700230": {
+  "total": 1187.0,
+  "det": {
+   "IIBB Retención Córdoba": 807.0,
+   "Imp. Débitos y Créditos": 380.0
+  }
+ },
+ "2090009700231": {
+  "total": 47116.0,
+  "det": {
+   "IIBB Retención Córdoba": 35397.0,
+   "Imp. Débitos y Créditos": 11719.0
+  }
+ },
+ "2090009700233": {
+  "total": 36206.0,
+  "det": {
+   "IIBB Retención Córdoba": 28278.0,
+   "Imp. Débitos y Créditos": 7928.0
+  }
+ },
+ "2090009700234": {
+  "total": 1729.0,
+  "det": {
+   "IIBB Retención CABA": 1253.0,
+   "Imp. Débitos y Créditos": 476.0
+  }
+ },
+ "2090009700235": {
+  "total": 5162.0,
+  "det": {
+   "IIBB Retención CABA": 3670.0,
+   "Imp. Débitos y Créditos": 1492.0
+  }
+ },
+ "2090009700236": {
+  "total": 32564.0,
+  "det": {
+   "IIBB Retención CABA": 23361.0,
+   "Imp. Débitos y Créditos": 9203.0
+  }
+ },
+ "2090009700237": {
+  "total": 33206.0,
+  "det": {
+   "IIBB Retención Córdoba": 25558.0,
+   "Imp. Débitos y Créditos": 7648.0
+  }
+ },
+ "2090009700238": {
+  "total": 2724.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1849.0,
+   "Imp. Débitos y Créditos": 875.0
+  }
+ },
+ "2090009700239": {
+  "total": 4158.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3019.0,
+   "Imp. Débitos y Créditos": 1139.0
+  }
+ },
+ "2090009700240": {
+  "total": 4962.0,
+  "det": {
+   "IIBB Retención Córdoba": 3746.0,
+   "Imp. Débitos y Créditos": 1216.0
+  }
+ },
+ "2090009700241": {
+  "total": 29781.0,
+  "det": {
+   "IIBB Retención CABA": 21928.0,
+   "Imp. Débitos y Créditos": 7853.0
+  }
+ },
+ "2090009700242": {
+  "total": 1617.0,
+  "det": {
+   "IIBB Retención CABA": 1223.0,
+   "Imp. Débitos y Créditos": 394.0
+  }
+ },
+ "2090009700243": {
+  "total": 4800.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3588.0,
+   "Imp. Débitos y Créditos": 1212.0
+  }
+ },
+ "2090009700244": {
+  "total": 3000.0,
+  "det": {
+   "IIBB Retención Córdoba": 2066.0,
+   "Imp. Débitos y Créditos": 934.0
+  }
+ },
+ "2090009700245": {
+  "total": 2175.0,
+  "det": {
+   "IIBB Retención Córdoba": 1652.0,
+   "Imp. Débitos y Créditos": 523.0
+  }
+ },
+ "2090009700246": {
+  "total": 34872.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 22355.0,
+   "Imp. Débitos y Créditos": 12517.0
+  }
+ },
+ "2090009700247": {
+  "total": 1293.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 855.0,
+   "Imp. Débitos y Créditos": 438.0
+  }
+ },
+ "2090009700248": {
+  "total": 21343.0,
+  "det": {
+   "IIBB Retención CABA": 13465.0,
+   "Imp. Débitos y Créditos": 7878.0
+  }
+ },
+ "2090009700249": {
+  "total": 22788.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 16465.0,
+   "Imp. Débitos y Créditos": 6323.0
+  }
+ },
+ "2090009700250": {
+  "total": 25624.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 17962.0,
+   "Imp. Débitos y Créditos": 7662.0
+  }
+ },
+ "2090009700251": {
+  "total": 1964.0,
+  "det": {
+   "IIBB Retención Córdoba": 1480.0,
+   "Imp. Débitos y Créditos": 484.0
+  }
+ },
+ "2090009700252": {
+  "total": 20387.0,
+  "det": {
+   "IIBB Retención Córdoba": 13942.0,
+   "Imp. Débitos y Créditos": 6445.0
+  }
+ },
+ "2090009700254": {
+  "total": 4733.0,
+  "det": {
+   "IIBB Retención Córdoba": 3119.0,
+   "Imp. Débitos y Créditos": 1614.0
+  }
+ },
+ "2090009700255": {
+  "total": 22945.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 16482.0,
+   "Imp. Débitos y Créditos": 6463.0
+  }
+ },
+ "2090009700256": {
+  "total": 7116.0,
+  "det": {
+   "IIBB Retención CABA": 5215.0,
+   "Imp. Débitos y Créditos": 1901.0
+  }
+ },
+ "2090009700257": {
+  "total": 55793.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 42439.0,
+   "Imp. Débitos y Créditos": 13354.0
+  }
+ },
+ "2090009700258": {
+  "total": 6329.0,
+  "det": {
+   "IIBB Retención CABA": 4923.0,
+   "Imp. Débitos y Créditos": 1406.0
+  }
+ },
+ "2090009700259": {
+  "total": 35431.0,
+  "det": {
+   "IIBB Retención Córdoba": 26897.0,
+   "Imp. Débitos y Créditos": 8534.0
+  }
+ },
+ "2090009700260": {
+  "total": 8216.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 6021.0,
+   "Imp. Débitos y Créditos": 2195.0
+  }
+ },
+ "2090009700261": {
+  "total": 1124.0,
+  "det": {
+   "IIBB Retención CABA": 781.0,
+   "Imp. Débitos y Créditos": 343.0
+  }
+ },
+ "2090009700262": {
+  "total": 1414.0,
+  "det": {
+   "IIBB Retención CABA": 936.0,
+   "Imp. Débitos y Créditos": 478.0
+  }
+ },
+ "2090009700263": {
+  "total": 6448.0,
+  "det": {
+   "IIBB Retención Córdoba": 4828.0,
+   "Imp. Débitos y Créditos": 1620.0
+  }
+ },
+ "2090009700264": {
+  "total": 7867.0,
+  "det": {
+   "IIBB Retención Córdoba": 5474.0,
+   "Imp. Débitos y Créditos": 2393.0
+  }
+ },
+ "2090009700265": {
+  "total": 49316.0,
+  "det": {
+   "IIBB Retención CABA": 36438.0,
+   "Imp. Débitos y Créditos": 12878.0
+  }
+ },
+ "2090009700266": {
+  "total": 4856.0,
+  "det": {
+   "IIBB Retención CABA": 3813.0,
+   "Imp. Débitos y Créditos": 1043.0
+  }
+ },
+ "2090009700267": {
+  "total": 67615.0,
+  "det": {
+   "IIBB Retención CABA": 51885.0,
+   "Imp. Débitos y Créditos": 15730.0
+  }
+ },
+ "2090009700268": {
+  "total": 12787.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 8402.0,
+   "Imp. Débitos y Créditos": 4385.0
+  }
+ },
+ "2090009700269": {
+  "total": 4466.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 3177.0,
+   "Imp. Débitos y Créditos": 1289.0
+  }
+ },
+ "2090009700270": {
+  "total": 30677.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 23253.0,
+   "Imp. Débitos y Créditos": 7424.0
+  }
+ },
+ "2090009700271": {
+  "total": 6416.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4338.0,
+   "Imp. Débitos y Créditos": 2078.0
+  }
+ },
+ "2090009700272": {
+  "total": 2460.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1853.0,
+   "Imp. Débitos y Créditos": 607.0
+  }
+ },
+ "2090009700273": {
+  "total": 2043.0,
+  "det": {
+   "IIBB Retención CABA": 1558.0,
+   "Imp. Débitos y Créditos": 485.0
+  }
+ },
+ "2090009700274": {
+  "total": 861.0,
+  "det": {
+   "IIBB Retención CABA": 626.0,
+   "Imp. Débitos y Créditos": 235.0
+  }
+ },
+ "2090009700275": {
+  "total": 4038.0,
+  "det": {
+   "IIBB Retención Córdoba": 2818.0,
+   "Imp. Débitos y Créditos": 1220.0
+  }
+ },
+ "2090009700276": {
+  "total": 58429.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 38401.0,
+   "Imp. Débitos y Créditos": 20028.0
+  }
+ },
+ "2090009700277": {
+  "total": 23331.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 16115.0,
+   "Imp. Débitos y Créditos": 7216.0
+  }
+ },
+ "2090009700278": {
+  "total": 3713.0,
+  "det": {
+   "IIBB Retención Córdoba": 2585.0,
+   "Imp. Débitos y Créditos": 1128.0
+  }
+ },
+ "2090009700279": {
+  "total": 6761.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 4361.0,
+   "Imp. Débitos y Créditos": 2400.0
+  }
+ },
+ "2090009700281": {
+  "total": 16343.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 12093.0,
+   "Imp. Débitos y Créditos": 4250.0
+  }
+ },
+ "2090009700282": {
+  "total": 3029.0,
+  "det": {
+   "IIBB Retención Córdoba": 2358.0,
+   "Imp. Débitos y Créditos": 671.0
+  }
+ },
+ "2090009700283": {
+  "total": 57957.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 43279.0,
+   "Imp. Débitos y Créditos": 14678.0
+  }
+ },
+ "2090009700284": {
+  "total": 1835.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1163.0,
+   "Imp. Débitos y Créditos": 672.0
+  }
+ },
+ "2090009700285": {
+  "total": 2693.0,
+  "det": {
+   "IIBB Retención CABA": 2063.0,
+   "Imp. Débitos y Créditos": 630.0
+  }
+ },
+ "2090009700286": {
+  "total": 1713.0,
+  "det": {
+   "IIBB Retención Córdoba": 1262.0,
+   "Imp. Débitos y Créditos": 451.0
+  }
+ },
+ "2090009700287": {
+  "total": 38683.0,
+  "det": {
+   "IIBB Retención CABA": 26751.0,
+   "Imp. Débitos y Créditos": 11932.0
+  }
+ },
+ "2090009700288": {
+  "total": 2302.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1637.0,
+   "Imp. Débitos y Créditos": 665.0
+  }
+ },
+ "2090009700289": {
+  "total": 4809.0,
+  "det": {
+   "IIBB Retención CABA": 3701.0,
+   "Imp. Débitos y Créditos": 1108.0
+  }
+ },
+ "2090009700290": {
+  "total": 3026.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2112.0,
+   "Imp. Débitos y Créditos": 914.0
+  }
+ },
+ "2090009700291": {
+  "total": 27557.0,
+  "det": {
+   "IIBB Retención CABA": 18306.0,
+   "Imp. Débitos y Créditos": 9251.0
+  }
+ },
+ "2090009700292": {
+  "total": 2080.0,
+  "det": {
+   "IIBB Retención CABA": 1431.0,
+   "Imp. Débitos y Créditos": 649.0
+  }
+ },
+ "2090009700293": {
+  "total": 1630.0,
+  "det": {
+   "IIBB Retención Córdoba": 1019.0,
+   "Imp. Débitos y Créditos": 611.0
+  }
+ },
+ "2090009700294": {
+  "total": 36927.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 23117.0,
+   "Imp. Débitos y Créditos": 13810.0
+  }
+ },
+ "2090009700295": {
+  "total": 16925.0,
+  "det": {
+   "IIBB Retención Córdoba": 12953.0,
+   "Imp. Débitos y Créditos": 3972.0
+  }
+ },
+ "2090009700297": {
+  "total": 7556.0,
+  "det": {
+   "IIBB Retención Córdoba": 5943.0,
+   "Imp. Débitos y Créditos": 1613.0
+  }
+ },
+ "2090009700298": {
+  "total": 3169.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2070.0,
+   "Imp. Débitos y Créditos": 1099.0
+  }
+ },
+ "2090009700300": {
+  "total": 5442.0,
+  "det": {
+   "IIBB Retención CABA": 4120.0,
+   "Imp. Débitos y Créditos": 1322.0
+  }
+ },
+ "2090009700301": {
+  "total": 1810.0,
+  "det": {
+   "IIBB Retención CABA": 1397.0,
+   "Imp. Débitos y Créditos": 413.0
+  }
+ },
+ "2090009700302": {
+  "total": 3333.0,
+  "det": {
+   "IIBB Retención Córdoba": 2521.0,
+   "Imp. Débitos y Créditos": 812.0
+  }
+ },
+ "2090009700303": {
+  "total": 3996.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2833.0,
+   "Imp. Débitos y Créditos": 1163.0
+  }
+ },
+ "2090009700304": {
+  "total": 4368.0,
+  "det": {
+   "IIBB Retención Córdoba": 3292.0,
+   "Imp. Débitos y Créditos": 1076.0
+  }
+ },
+ "2090009700305": {
+  "total": 3881.0,
+  "det": {
+   "IIBB Retención Córdoba": 2663.0,
+   "Imp. Débitos y Créditos": 1218.0
+  }
+ },
+ "2090009700306": {
+  "total": 1324.0,
+  "det": {
+   "IIBB Retención CABA": 1035.0,
+   "Imp. Débitos y Créditos": 289.0
+  }
+ },
+ "2090009700307": {
+  "total": 8066.0,
+  "det": {
+   "IIBB Retención CABA": 6360.0,
+   "Imp. Débitos y Créditos": 1706.0
+  }
+ },
+ "2090009700308": {
+  "total": 3968.0,
+  "det": {
+   "IIBB Retención Córdoba": 2770.0,
+   "Imp. Débitos y Créditos": 1198.0
+  }
+ },
+ "2090009700309": {
+  "total": 35229.0,
+  "det": {
+   "IIBB Retención Córdoba": 26989.0,
+   "Imp. Débitos y Créditos": 8240.0
+  }
+ },
+ "2090009700310": {
+  "total": 31091.0,
+  "det": {
+   "IIBB Retención CABA": 23243.0,
+   "Imp. Débitos y Créditos": 7848.0
+  }
+ },
+ "2090009700311": {
+  "total": 20555.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 13156.0,
+   "Imp. Débitos y Créditos": 7399.0
+  }
+ },
+ "2090009700312": {
+  "total": 3115.0,
+  "det": {
+   "IIBB Retención Córdoba": 2375.0,
+   "Imp. Débitos y Créditos": 740.0
+  }
+ },
+ "2090009700313": {
+  "total": 38313.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 29099.0,
+   "Imp. Débitos y Créditos": 9214.0
+  }
+ },
+ "2090009700314": {
+  "total": 103678.0,
+  "det": {
+   "IIBB Retención Córdoba": 78324.0,
+   "Imp. Débitos y Créditos": 25354.0
+  }
+ },
+ "2090009700315": {
+  "total": 1083.0,
+  "det": {
+   "IIBB Retención CABA": 838.0,
+   "Imp. Débitos y Créditos": 245.0
+  }
+ },
+ "2090009700316": {
+  "total": 3140.0,
+  "det": {
+   "IIBB Retención Córdoba": 2474.0,
+   "Imp. Débitos y Créditos": 666.0
+  }
+ },
+ "2090009700317": {
+  "total": 9082.0,
+  "det": {
+   "IIBB Retención CABA": 6791.0,
+   "Imp. Débitos y Créditos": 2291.0
+  }
+ },
+ "2090009700318": {
+  "total": 3158.0,
+  "det": {
+   "IIBB Retención CABA": 2079.0,
+   "Imp. Débitos y Créditos": 1079.0
+  }
+ },
+ "2090009700319": {
+  "total": 5407.0,
+  "det": {
+   "IIBB Retención Córdoba": 3756.0,
+   "Imp. Débitos y Créditos": 1651.0
+  }
+ },
+ "2090009700320": {
+  "total": 2335.0,
+  "det": {
+   "IIBB Retención CABA": 1695.0,
+   "Imp. Débitos y Créditos": 640.0
+  }
+ },
+ "2090009700321": {
+  "total": 12345.0,
+  "det": {
+   "IIBB Retención CABA": 8517.0,
+   "Imp. Débitos y Créditos": 3828.0
+  }
+ },
+ "2090009700322": {
+  "total": 50391.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 37737.0,
+   "Imp. Débitos y Créditos": 12654.0
+  }
+ },
+ "2090009700323": {
+  "total": 66210.0,
+  "det": {
+   "IIBB Retención Córdoba": 52202.0,
+   "Imp. Débitos y Créditos": 14008.0
+  }
+ },
+ "2090009700325": {
+  "total": 1269.0,
+  "det": {
+   "IIBB Retención CABA": 986.0,
+   "Imp. Débitos y Créditos": 283.0
+  }
+ },
+ "2090009700326": {
+  "total": 38908.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 29622.0,
+   "Imp. Débitos y Créditos": 9286.0
+  }
+ },
+ "2090009700327": {
+  "total": 2464.0,
+  "det": {
+   "IIBB Retención CABA": 1762.0,
+   "Imp. Débitos y Créditos": 702.0
+  }
+ },
+ "2090009700328": {
+  "total": 3123.0,
+  "det": {
+   "IIBB Retención Córdoba": 2421.0,
+   "Imp. Débitos y Créditos": 702.0
+  }
+ },
+ "2090009700329": {
+  "total": 5813.0,
+  "det": {
+   "IIBB Retención CABA": 4057.0,
+   "Imp. Débitos y Créditos": 1756.0
+  }
+ },
+ "2090009700330": {
+  "total": 6290.0,
+  "det": {
+   "IIBB Retención Córdoba": 4359.0,
+   "Imp. Débitos y Créditos": 1931.0
+  }
+ },
+ "2090009700331": {
+  "total": 7238.0,
+  "det": {
+   "IIBB Retención Córdoba": 5180.0,
+   "Imp. Débitos y Créditos": 2058.0
+  }
+ },
+ "2090009700332": {
+  "total": 4628.0,
+  "det": {
+   "IIBB Retención Córdoba": 3297.0,
+   "Imp. Débitos y Créditos": 1331.0
+  }
+ },
+ "2090009700333": {
+  "total": 2074.0,
+  "det": {
+   "IIBB Retención Córdoba": 1437.0,
+   "Imp. Débitos y Créditos": 637.0
+  }
+ },
+ "2090009700334": {
+  "total": 21532.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 14429.0,
+   "Imp. Débitos y Créditos": 7103.0
+  }
+ },
+ "2090009700335": {
+  "total": 35481.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 27598.0,
+   "Imp. Débitos y Créditos": 7883.0
+  }
+ },
+ "2090009700336": {
+  "total": 24973.0,
+  "det": {
+   "IIBB Retención CABA": 17498.0,
+   "Imp. Débitos y Créditos": 7475.0
+  }
+ },
+ "2090009700338": {
+  "total": 2334.0,
+  "det": {
+   "IIBB Retención CABA": 1613.0,
+   "Imp. Débitos y Créditos": 721.0
+  }
+ },
+ "2090009700339": {
+  "total": 3799.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 2589.0,
+   "Imp. Débitos y Créditos": 1210.0
+  }
+ },
+ "2090009700340": {
+  "total": 1813.0,
+  "det": {
+   "IIBB Retención Buenos Aires": 1338.0,
+   "Imp. Débitos y Créditos": 475.0
+  }
+ },
+ "2090009700341": {
+  "total": 1781.0,
+  "det": {
+   "IIBB Retención CABA": 1145.0,
+   "Imp. Débitos y Créditos": 636.0
+  }
+ }
+}

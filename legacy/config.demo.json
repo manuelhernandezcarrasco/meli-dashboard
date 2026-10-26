@@ -1,0 +1,25 @@
+{
+  "client_id": "COMPLETAR_APP_ID",
+  "client_secret": "COMPLETAR_SECRET_KEY",
+  "redirect_uri": "https://www.google.com",
+  "base_pnl_path": "demo/PnL_MercadoLibre_Septiembre2026_DEMO.xlsx",
+  "ventas_directas_path": "demo/Ventas_Directas_DEMO.xlsx",
+  "output_dir": "salida_demo",
+  "mes": "2026-10",
+  "refresh_minutes": 15,
+  "hora_cierre": "23:55",
+  "stock_critico_dias": 7,
+  "stock_bajo_dias": 15,
+  "reposicion_dias": 30,
+  "impuestos_ml_pct_estimado": "auto",
+  "margen_asumido": {
+    "SONY": 0.08,
+    "PLAY STATION": 0.08,
+    "XBOX": 0.15,
+    "BOSCH": 0.15,
+    "VINOS": 0.2,
+    "ONFAN": 0.2,
+    "OTRAS": 0.3,
+    "SIN MATCH": 0.3
+  }
+}
