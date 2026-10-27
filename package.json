@@ -28,6 +28,7 @@
     "next": "^15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "recharts": "^3.10.1",
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
     "zod": "^3.24.2"
@@ -35,11 +36,14 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
     "@tailwindcss/postcss": "^4.0.15",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^20.14.10",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.28",
+    "jsdom": "26.1.0",
     "postcss": "^8.5.3",
     "prettier": "^3.9.10",
     "prisma": "^6.6.0",

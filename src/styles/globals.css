@@ -3,4 +3,60 @@
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-mut: var(--mut);
+  --color-line: var(--line);
+  --color-navy: var(--navy);
+  --color-blue: var(--blue);
+  --color-blue2: var(--blue2);
+  --color-grey: var(--grey);
+  --color-pos: var(--pos);
+  --color-posbg: var(--posbg);
+  --color-neg: var(--neg);
+  --color-negbg: var(--negbg);
+  --color-warn: var(--warn);
+  --color-warnbg: var(--warnbg);
+  --color-net: var(--net);
+  --color-cost: var(--cost);
 }
+
+:root {
+  --bg: #f5f6f8; --card: #ffffff; --ink: #18212d; --mut: #677385; --line: #e4e7ec;
+  --navy: #17375e; --blue: #1f5fa8; --blue2: #9cc0ea; --grey: #a3abb6;
+  --pos: #1b7a43; --posbg: #e5f4ea; --neg: #b42318; --negbg: #fdecea;
+  --warn: #a15c00; --warnbg: #fff3dd; --net: #2f8f5b; --cost: #d9733b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f141b; --card: #171e28; --ink: #e6ebf2; --mut: #93a0b2; --line: #263040;
+    --navy: #9cc0ea; --blue: #5b9be0; --blue2: #2b4f7c; --grey: #5d6877;
+    --pos: #5fd08f; --posbg: #14301f; --neg: #ff8a7a; --negbg: #3a1b18;
+    --warn: #f0b04a; --warnbg: #33270f; --net: #5fbf8a; --cost: #e8925f;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@keyframes live-pulse { 50% { opacity: 0.25; } }
+.animate-live { animation: live-pulse 1.6s infinite; }
+
+/* data tables, as in the legacy template */
+.tbl { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 13px; }
+.tbl th {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--mut);
+  font-weight: 600; text-align: right; padding: 6px; border-bottom: 1px solid var(--line); white-space: nowrap;
+}
+.tbl td { padding: 6px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.tbl th:first-child, .tbl td:first-child { text-align: left; white-space: normal; }
+.tbl tbody tr:last-child td { border-bottom: 0; }
+.tbl tfoot td { font-weight: 650; border-top: 1px solid var(--line); }
+.tbl .left { text-align: left; white-space: normal; }
