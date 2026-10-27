@@ -55,7 +55,7 @@ describe("shipmentSellerCost / itemsGtin / paymentTaxes", () => {
     expect(r.MLA1).toEqual({ _item: "7790001", "55": "7791111" });
   });
   it("paymentTaxes hits Mercado Pago", async () => {
-    const f = vi.fn(async () => new Response(JSON.stringify({ charges_details: [{ type: "tax", name: "IIBB", accounts: { from: "collector" }, amounts: { original: 10, refunded: 0 } }] })));
+    const f = vi.fn(async (_u: string) => new Response(JSON.stringify({ charges_details: [{ type: "tax", name: "IIBB", accounts: { from: "collector" }, amounts: { original: 10, refunded: 0 } }] })));
     vi.stubGlobal("fetch", f);
     expect(await new MlClient().paymentTaxes("7")).toEqual({ total: 10, det: { IIBB: 10 } });
     expect(String(f.mock.calls[0]![0])).toBe("https://api.mercadopago.com/v1/payments/7");
