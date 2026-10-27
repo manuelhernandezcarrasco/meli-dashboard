@@ -6,7 +6,7 @@ import { Geist } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
-  title: "PnL Diario ML",
+  title: "PnL en vivo · MCG",
   description: "PnL diario en vivo — Mercado Libre",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
