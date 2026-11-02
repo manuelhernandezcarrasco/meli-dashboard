@@ -22,6 +22,8 @@ import { enrich, fetchMonth } from "./enrich";
 import { runSync } from "./run";
 import { createSyncService } from "./service";
 
+const OWNER = "user_a";
+const OTHER = "user_b";
 const NOW = new Date("2026-10-20T15:30:00-03:00");
 
 async function demoSource() {
@@ -40,11 +42,11 @@ afterAll(() => db.$disconnect());
 
 describe("runSync (demo)", () => {
   it("stores a valid snapshot", async () => {
-    const data = await runSync(NOW);
+    const data = await runSync(OWNER, NOW);
     DashboardDataSchema.parse(data);
     expect(data.monthLabel).toBe("Octubre 2026");
     expect(data.rows.length).toBeGreaterThan(100);
-    const snap = await db.snapshot.findUnique({ where: { month: "2026-10" } });
+    const snap = await db.snapshot.findUnique({ where: { ownerId_month: { ownerId: OWNER, month: "2026-10" } } });
     expect(snap?.computedAt.toISOString()).toBe(NOW.toISOString());
     expect(DashboardDataSchema.parse(snap?.payload)).toEqual(data);
   });
@@ -60,14 +62,14 @@ describe("enrich caching", () => {
     const gtin = vi.spyOn(ds, "getGtins");
     const tax = vi.spyOn(ds, "getPaymentTaxes");
 
-    const first = await enrich(ds, orders, later);
+    const first = await enrich(OWNER, ds, orders, later);
     expect(ship).toHaveBeenCalledTimes(1);
     expect(gtin).toHaveBeenCalledTimes(1);
     expect(tax.mock.calls.length).toBeGreaterThan(0);
     expect(Object.keys(first.taxes).length).toBeGreaterThan(0);
 
     ship.mockClear(); gtin.mockClear(); tax.mockClear();
-    const second = await enrich(ds, orders, later);
+    const second = await enrich(OWNER, ds, orders, later);
     expect(ship).not.toHaveBeenCalled();
     expect(gtin).not.toHaveBeenCalled();
     // payments without MP detail (null) are retried; everything with detail is not
@@ -81,9 +83,9 @@ describe("enrich caching", () => {
   it("re-fetches shipments of recent orders", async () => {
     const ds = await demoSource();
     const orders = (await ds.getOrdersMonth(2026, 10)).filter((o) => o.status === "paid");
-    await enrich(ds, orders, NOW);
+    await enrich(OWNER, ds, orders, NOW);
     const ship = vi.spyOn(ds, "getShipmentCosts");
-    await enrich(ds, orders, NOW);
+    await enrich(OWNER, ds, orders, NOW);
     const asked = new Set(ship.mock.calls.flatMap((c) => c[0]));
     expect(asked.size).toBeGreaterThan(0);
     expect(asked.size).toBeLessThan(orders.length); // old ones stay cached
@@ -95,7 +97,7 @@ describe("enrich caching", () => {
     const later = new Date("2026-12-20T12:00:00-03:00");
     const tax = vi.spyOn(ds, "getPaymentTaxes").mockRejectedValue(new Error("boom"));
     const warn: string[] = [];
-    const out = await enrich(ds, orders, later, (m) => warn.push(m));
+    const out = await enrich(OWNER, ds, orders, later, (m) => warn.push(m));
     expect(tax).toHaveBeenCalledTimes(5);
     expect(out.taxes).toEqual({});
     expect(warn.some((m) => m.startsWith("Aviso"))).toBe(true);
@@ -106,36 +108,37 @@ describe("fetchMonth", () => {
   it("never caches the current month; caches a closed one", async () => {
     const ds = await demoSource();
     const spy = vi.spyOn(ds, "getOrdersMonth");
-    await fetchMonth(ds, 2026, 10, false, 20);
-    await fetchMonth(ds, 2026, 10, false, 20);
+    await fetchMonth(OWNER, ds, 2026, 10, false, 20);
+    await fetchMonth(OWNER, ds, 2026, 10, false, 20);
     expect(spy).toHaveBeenCalledTimes(2);
     spy.mockClear();
-    await fetchMonth(ds, 2026, 9, true, 20);
-    await fetchMonth(ds, 2026, 9, true, 21);
+    await fetchMonth(OWNER, ds, 2026, 9, true, 20);
+    await fetchMonth(OWNER, ds, 2026, 9, true, 21);
     expect(spy).toHaveBeenCalledTimes(1);
   });
   it("re-downloads a closed month during days 1–5 of the next one", async () => {
     const ds = await demoSource();
     const spy = vi.spyOn(ds, "getOrdersMonth");
-    await fetchMonth(ds, 2026, 9, true, 3);
-    await fetchMonth(ds, 2026, 9, true, 4);
+    await fetchMonth(OWNER, ds, 2026, 9, true, 3);
+    await fetchMonth(OWNER, ds, 2026, 9, true, 4);
     expect(spy).toHaveBeenCalledTimes(2);
-    await fetchMonth(ds, 2026, 9, true, 6); // still not final -> fetch and mark final
-    await fetchMonth(ds, 2026, 9, true, 7);
+    await fetchMonth(OWNER, ds, 2026, 9, true, 6); // still not final -> fetch and mark final
+    await fetchMonth(OWNER, ds, 2026, 9, true, 7);
     expect(spy).toHaveBeenCalledTimes(3);
   });
 });
 
 describe("sync service", () => {
-  const sample = async (): Promise<DashboardData> => runSync(NOW);
+  const sample = async (): Promise<DashboardData> => runSync(OWNER, NOW);
 
   function make(startMs = NOW.getTime()) {
     const clock = { t: startMs };
     const sync = vi.fn(async (now: Date) => {
-      const d = await runSync(now);
+      const d = await runSync(OWNER, now);
       return d;
     });
     const svc = createSyncService({
+      ownerId: OWNER,
       clock: () => new Date(clock.t),
       sync,
       refreshMinutes: () => 15,
@@ -189,6 +192,7 @@ describe("sync service", () => {
     await sample();
     const clock = { t: NOW.getTime() + 20 * 60_000 };
     const svc = createSyncService({
+      ownerId: OWNER,
       clock: () => new Date(clock.t),
       sync: () => Promise.reject(new Error("ML caído")),
       refreshMinutes: () => 15,
@@ -202,6 +206,7 @@ describe("sync service", () => {
 
   it("no snapshot and sync fails: throws", async () => {
     const svc = createSyncService({
+      ownerId: OWNER,
       clock: () => NOW,
       sync: () => Promise.reject(new Error("sin datos")),
       refreshMinutes: () => 15,
@@ -210,5 +215,23 @@ describe("sync service", () => {
     const quiet = vi.spyOn(console, "error").mockImplementation(() => undefined);
     await expect(svc.getDashboard()).rejects.toThrow("sin datos");
     quiet.mockRestore();
+  });
+});
+
+describe("per-user isolation", () => {
+  it("snapshots and caches of one user are invisible to another", async () => {
+    await runSync(OWNER, NOW);
+    expect(await db.snapshot.count({ where: { ownerId: OTHER } })).toBe(0);
+    expect(await db.apiCache.count({ where: { ownerId: OTHER } })).toBe(0);
+    expect(await db.apiCache.count({ where: { ownerId: OWNER } })).toBeGreaterThan(0);
+
+    const svc = createSyncService({
+      ownerId: OTHER,
+      clock: () => NOW,
+      sync: (now) => runSync(OTHER, now),
+      refreshMinutes: () => 15,
+      source: "demo",
+    });
+    expect((await svc.status()).updatedAt).toBe(""); // no snapshot of its own yet
   });
 });

@@ -2,7 +2,7 @@ import { toNum } from "~/lib/normalize";
 import type { Gtins, PaymentTaxes } from "~/lib/contracts";
 import { gtinFromAttrs } from "./gtin";
 import { mlFetch, type MlFetchOpts } from "./http";
-import { getTokens, tokenAuth } from "./tokens";
+import { getTokens, tokenAuthFor } from "./tokens";
 import { taxesFromPayment } from "./taxes";
 
 const API = "https://api.mercadolibre.com";
@@ -22,14 +22,21 @@ function fmtArg(ms: number): string {
 }
 
 export class MlClient {
-  constructor(private readonly sleep?: MlFetchOpts["sleep"]) {}
+  private readonly auth;
+
+  constructor(
+    private readonly ownerId: string,
+    private readonly sleep?: MlFetchOpts["sleep"],
+  ) {
+    this.auth = tokenAuthFor(ownerId);
+  }
 
   private get(url: string, query?: Record<string, string | number>, headers?: Record<string, string>) {
-    return mlFetch("GET", url, { query, headers, auth: tokenAuth, sleep: this.sleep });
+    return mlFetch("GET", url, { query, headers, auth: this.auth, sleep: this.sleep });
   }
 
   async getSellerId(): Promise<number> {
-    const t = await getTokens();
+    const t = await getTokens(this.ownerId);
     if (t?.userId) return t.userId;
     const me = (await this.get(`${API}/users/me`)) as any;
     return toNum(me?.id);

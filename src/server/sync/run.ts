@@ -23,6 +23,7 @@ export interface RunSyncOptions {
 
 /** Port of `run_sync` (legacy 1215–1334): fetch → enrich → compute → store snapshot. */
 export async function runSync(
+  ownerId: string,
   now: Date = new Date(),
   opts: RunSyncOptions = {},
 ): Promise<DashboardData> {
@@ -40,15 +41,15 @@ export async function runSync(
   const inputs = await workbooks.readInputs(
     env.VENTAS_DIRECTAS_PATH ? resolve(env.VENTAS_DIRECTAS_PATH) : undefined,
   );
-  const ds = opts.dataSource ?? getDataSource(base, now);
+  const ds = opts.dataSource ?? getDataSource(ownerId, base, now);
 
   log(`Descargando órdenes de ${monthLabel(y, m)}…`);
-  const orders = await fetchMonth(ds, y, m, false, t.d);
+  const orders = await fetchMonth(ownerId, ds, y, m, false, t.d);
   log(`${orders.length} órdenes (${orders.filter((o) => o.status === "paid").length} pagas)`);
-  const prevOrders = await fetchMonth(ds, py, pm, true, t.d);
+  const prevOrders = await fetchMonth(ownerId, ds, py, pm, true, t.d);
   log(`${monthLabel(py, pm)}: ${prevOrders.length} órdenes (para comparar a igual día)`);
 
-  const { shipCosts, gtins, taxes } = await enrich(ds, [...orders, ...prevOrders], now, log);
+  const { shipCosts, gtins, taxes } = await enrich(ownerId, ds, [...orders, ...prevOrders], now, log);
 
   const data = computeDashboard({
     orders, prevOrders, shipCosts, gtins, taxes, base, prevCierre, inputs, cfg,
@@ -78,8 +79,8 @@ export async function runSync(
   const month = `${y}-${p2(m)}`;
   const computedAt = now;
   await db.snapshot.upsert({
-    where: { month },
-    create: { month, payload: parsed, computedAt },
+    where: { ownerId_month: { ownerId, month } },
+    create: { ownerId, month, payload: parsed, computedAt },
     update: { payload: parsed, computedAt },
   });
   return parsed;

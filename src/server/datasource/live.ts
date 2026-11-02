@@ -26,7 +26,7 @@ export async function mapLimit<T, R>(
 }
 
 export class LiveDataSource implements DataSource {
-  constructor(private readonly client: MlClient = new MlClient()) {}
+  constructor(private readonly client: MlClient) {}
 
   async getOrdersMonth(y: number, m: number): Promise<Order[]> {
     const sellerId = await this.client.getSellerId();

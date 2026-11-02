@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("./tokens", () => ({
   getTokens: () => Promise.resolve({ userId: 99 }),
-  tokenAuth: { getAccessToken: () => Promise.resolve("tok"), refresh: () => Promise.resolve() },
+  tokenAuthFor: () => ({ getAccessToken: () => Promise.resolve("tok"), refresh: () => Promise.resolve() }),
 }));
 
 import { MlClient } from "./client";
@@ -21,7 +21,7 @@ describe("ordersMonth", () => {
       );
     });
     vi.stubGlobal("fetch", f);
-    const out = await new MlClient().ordersMonth(99, 2026, 12);
+    const out = await new MlClient("u1").ordersMonth(99, 2026, 12);
     expect(out).toHaveLength(120);
     const urls = f.mock.calls.map((c) => new URL(c[0]));
     expect(urls.map((u) => u.searchParams.get("offset"))).toEqual(["0", "50", "100"]);
@@ -37,7 +37,7 @@ describe("shipmentSellerCost / itemsGtin / paymentTaxes", () => {
       .mockResolvedValueOnce(new Response(JSON.stringify({ senders: [{ cost: 10 }, { cost: 5.5 }] })))
       .mockResolvedValueOnce(new Response("{}", { status: 404 }));
     vi.stubGlobal("fetch", f);
-    const c = new MlClient(() => Promise.resolve());
+    const c = new MlClient("u1", () => Promise.resolve());
     expect(await c.shipmentSellerCost("1")).toBe(15.5);
     expect(await c.shipmentSellerCost("2")).toBe(0);
     expect((f.mock.calls[0]![1] as RequestInit).headers).toMatchObject({ "x-format-new": "true" });
@@ -50,14 +50,14 @@ describe("shipmentSellerCost / itemsGtin / paymentTaxes", () => {
     );
     vi.stubGlobal("fetch", f);
     const ids = Array.from({ length: 25 }, (_, i) => `MLA${i}`);
-    const r = await new MlClient().itemsGtin(ids);
+    const r = await new MlClient("u1").itemsGtin(ids);
     expect(f).toHaveBeenCalledTimes(2);
     expect(r.MLA1).toEqual({ _item: "7790001", "55": "7791111" });
   });
   it("paymentTaxes hits Mercado Pago", async () => {
     const f = vi.fn(async (...[,]: [string]) => new Response(JSON.stringify({ charges_details: [{ type: "tax", name: "IIBB", accounts: { from: "collector" }, amounts: { original: 10, refunded: 0 } }] })));
     vi.stubGlobal("fetch", f);
-    expect(await new MlClient().paymentTaxes("7")).toEqual({ total: 10, det: { IIBB: 10 } });
+    expect(await new MlClient("u1").paymentTaxes("7")).toEqual({ total: 10, det: { IIBB: 10 } });
     expect(String(f.mock.calls[0]![0])).toBe("https://api.mercadopago.com/v1/payments/7");
   });
 });
