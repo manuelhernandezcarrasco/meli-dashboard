@@ -13,8 +13,11 @@ export const env = createEnv({
     DATA_SOURCE: z.enum(["demo", "live"]).default("demo"),
     BASE_PNL_PATH: z.string().min(1),
     VENTAS_DIRECTAS_PATH: z.string().optional(),
+    CLERK_SECRET_KEY: z.string().min(1),
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
+  },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
@@ -24,6 +27,8 @@ export const env = createEnv({
     DATA_SOURCE: process.env.DATA_SOURCE,
     BASE_PNL_PATH: process.env.BASE_PNL_PATH,
     VENTAS_DIRECTAS_PATH: process.env.VENTAS_DIRECTAS_PATH,
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,

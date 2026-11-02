@@ -17,6 +17,7 @@ export interface DashboardStatus {
 }
 
 export interface SyncServiceDeps {
+  ownerId: string;
   clock: () => Date;
   sync: (now: Date) => Promise<DashboardData>;
   refreshMinutes: () => number;
@@ -28,8 +29,8 @@ interface Stored {
   computedAt: Date;
 }
 
-async function latestSnapshot(): Promise<Stored | null> {
-  const row = await db.snapshot.findFirst({ orderBy: { computedAt: "desc" } });
+async function latestSnapshot(ownerId: string): Promise<Stored | null> {
+  const row = await db.snapshot.findFirst({ where: { ownerId }, orderBy: { computedAt: "desc" } });
   if (!row) return null;
   return { data: DashboardDataSchema.parse(row.payload), computedAt: row.computedAt };
 }
@@ -67,7 +68,7 @@ export function createSyncService(deps: SyncServiceDeps) {
       : Math.max(0, Math.ceil(COOLDOWN_SECONDS - (deps.clock().getTime() - lastStartedAt) / 1000));
 
   async function getDashboard(): Promise<DashboardData> {
-    const snap = await latestSnapshot();
+    const snap = await latestSnapshot(deps.ownerId);
     if (!snap) return start();
     const ageMs = deps.clock().getTime() - snap.computedAt.getTime();
     if (ageMs > deps.refreshMinutes() * 60_000) {
@@ -85,7 +86,7 @@ export function createSyncService(deps: SyncServiceDeps) {
   }
 
   async function status(): Promise<DashboardStatus> {
-    const snap = await latestSnapshot();
+    const snap = await latestSnapshot(deps.ownerId);
     return {
       updatedAt: snap?.data.updatedAt ?? "",
       nextRefreshAt: snap
@@ -103,15 +104,21 @@ export function createSyncService(deps: SyncServiceDeps) {
 
 export type SyncService = ReturnType<typeof createSyncService>;
 
-const g = globalThis as unknown as { syncService?: SyncService };
+const g = globalThis as unknown as { syncServices?: Map<string, SyncService> };
 
-/** Process-wide singleton (survives Next dev HMR). */
-export function getSyncService(): SyncService {
-  g.syncService ??= createSyncService({
-    clock: () => new Date(),
-    sync: (now) => runSync(now),
-    refreshMinutes: () => loadBusinessConfig().refreshMinutes,
-    source: env.DATA_SOURCE,
-  });
-  return g.syncService;
+/** One service per user, process-wide (survives Next dev HMR). */
+export function getSyncService(ownerId: string): SyncService {
+  g.syncServices ??= new Map();
+  let svc = g.syncServices.get(ownerId);
+  if (!svc) {
+    svc = createSyncService({
+      ownerId,
+      clock: () => new Date(),
+      sync: (now) => runSync(ownerId, now),
+      refreshMinutes: () => loadBusinessConfig().refreshMinutes,
+      source: env.DATA_SOURCE,
+    });
+    g.syncServices.set(ownerId, svc);
+  }
+  return svc;
 }

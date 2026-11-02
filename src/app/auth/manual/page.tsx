@@ -1,13 +1,16 @@
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { extractCode } from "~/server/ml/oauth";
 import { exchangeCode } from "~/server/ml/tokens";
 
 async function submit(formData: FormData) {
   "use server";
+  const { userId } = await auth();
+  if (!userId) redirect("/sign-in");
   const code = extractCode(String(formData.get("code") ?? ""));
   if (!code) redirect("/auth/manual?error=1");
   try {
-    await exchangeCode(code);
+    await exchangeCode(userId, code);
   } catch {
     redirect("/auth/manual?error=1");
   }

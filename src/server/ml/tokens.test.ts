@@ -9,7 +9,7 @@ vi.mock("~/server/db", () => ({
     mlToken: {
       findUnique: vi.fn(() => Promise.resolve(row.v)),
       upsert: vi.fn(({ update }: { update: Record<string, unknown> }) => {
-        row.v = { id: 1, ...update };
+        row.v = { ownerId: "u1", ...update };
         return Promise.resolve();
       }),
     },
@@ -21,7 +21,7 @@ import { ensureToken } from "./tokens";
 beforeEach(() => {
   vi.unstubAllGlobals();
   row.v = {
-    id: 1,
+    ownerId: "u1",
     accessToken: "old-access",
     refreshToken: "old-refresh",
     userId: 123n,
@@ -38,7 +38,7 @@ describe("ensureToken", () => {
       );
     });
     vi.stubGlobal("fetch", f);
-    const tokens = await Promise.all(Array.from({ length: 5 }, () => ensureToken()));
+    const tokens = await Promise.all(Array.from({ length: 5 }, () => ensureToken("u1")));
     expect(f).toHaveBeenCalledTimes(1);
     expect(tokens).toEqual(Array(5).fill("new-access"));
     expect(row.v?.refreshToken).toBe("new-refresh");
@@ -50,7 +50,7 @@ describe("ensureToken", () => {
     row.v!.expiresAt = new Date(Date.now() + 3600_000);
     const f = vi.fn();
     vi.stubGlobal("fetch", f);
-    await expect(ensureToken()).resolves.toBe("old-access");
+    await expect(ensureToken("u1")).resolves.toBe("old-access");
     expect(f).not.toHaveBeenCalled();
   });
 });

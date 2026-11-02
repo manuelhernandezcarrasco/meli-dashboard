@@ -9,9 +9,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// Singleton row (id = 1) with the Mercado Libre OAuth tokens.
+/// Mercado Libre OAuth tokens, one row per signed-in (Clerk) user.
 model MlToken {
-  id           Int      @id @default(1)
+  ownerId      String   @id
   accessToken  String
   refreshToken String
   userId       BigInt
@@ -19,16 +19,22 @@ model MlToken {
   updatedAt    DateTime @updatedAt
 }
 
-/// Cache of API lookups: ship:<id>, gtin:<itemId>, tax:<paymentId>, orders:YYYY-MM
+/// Per-user cache of API lookups: ship:<id>, gtin:<itemId>, tax:<paymentId>, orders:YYYY-MM
 model ApiCache {
-  key       String   @id
+  ownerId   String
+  key       String
   value     Json
   updatedAt DateTime @updatedAt
+
+  @@id([ownerId, key])
 }
 
-/// Last computed DashboardData per month (YYYY-MM).
+/// Last computed DashboardData per user and month (YYYY-MM).
 model Snapshot {
-  month      String   @id
+  ownerId    String
+  month      String
   payload    Json
   computedAt DateTime
+
+  @@id([ownerId, month])
 }

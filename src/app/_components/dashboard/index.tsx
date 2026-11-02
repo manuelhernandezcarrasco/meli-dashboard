@@ -1,5 +1,6 @@
 "use client";
 
+import { UserButton } from "@clerk/nextjs";
 import { TRPCClientError } from "@trpc/client";
 import { useEffect, useState } from "react";
 
@@ -26,6 +27,26 @@ function DashboardSkeleton() {
   );
 }
 
+function ConnectMercadoLibre() {
+  return (
+    <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-4 p-6 text-center">
+      <div className="self-end">
+        <UserButton />
+      </div>
+      <h1 className="m-0 text-[22px] font-semibold tracking-tight">Vinculá tu cuenta de Mercado Libre</h1>
+      <p className="m-0 text-[13px] text-mut">
+        Para ver tu PnL en vivo necesitamos acceso de lectura a tus ventas. Podés revocarlo cuando quieras.
+      </p>
+      <a
+        href="/api/auth/login"
+        className="rounded-lg bg-ink px-4 py-2 text-[13px] font-semibold text-card no-underline"
+      >
+        Vincular Mercado Libre
+      </a>
+    </main>
+  );
+}
+
 function ErrorBanner({ message }: { message: string }) {
   return (
     <div role="alert" className="mb-3 rounded-xl border border-neg bg-negbg px-4 py-2.5 text-[13px] text-neg">
@@ -46,8 +67,10 @@ function cooldownFromError(e: unknown): number | null {
 /** Page container: tRPC queries + refresh button around the presentational dashboard. */
 export function DashboardPage() {
   const utils = api.useUtils();
-  const q = api.dashboard.get.useQuery(undefined, { refetchInterval: 60_000 });
-  const status = api.dashboard.status.useQuery(undefined, { refetchInterval: 60_000 });
+  const conn = api.dashboard.connection.useQuery();
+  const linked = conn.data?.linked === true;
+  const q = api.dashboard.get.useQuery(undefined, { refetchInterval: 60_000, enabled: linked });
+  const status = api.dashboard.status.useQuery(undefined, { refetchInterval: 60_000, enabled: linked });
   const [cooldownUntil, setCooldownUntil] = useState(0);
   const [tick, setTick] = useState(0);
   const [msg, setMsg] = useState<string | null>(null);
@@ -85,6 +108,8 @@ export function DashboardPage() {
   void tick;
   const left = Math.max(0, Math.ceil((cooldownUntil - Date.now()) / 1000));
 
+  if (conn.data && !conn.data.linked) return <ConnectMercadoLibre />;
+
   if (!q.data) {
     return q.isError ? (
       <div className="mx-auto max-w-[1280px] px-4 pt-[22px]">
@@ -101,12 +126,15 @@ export function DashboardPage() {
       demo={status.data?.source === "demo"}
       banner={q.isError ? <ErrorBanner message={q.error.message} /> : null}
       actions={
-        <RefreshButton
-          onClick={() => refresh.mutate()}
-          pending={refresh.isPending}
-          cooldown={left}
-          message={msg}
-        />
+        <>
+          <RefreshButton
+            onClick={() => refresh.mutate()}
+            pending={refresh.isPending}
+            cooldown={left}
+            message={msg}
+          />
+          <UserButton />
+        </>
       }
     />
   );

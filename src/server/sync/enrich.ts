@@ -32,23 +32,23 @@ const chunks = <T>(xs: T[], n: number): T[][] => {
 const ageDays = (iso: string, now: Date) =>
   Math.floor((now.getTime() - new Date(iso).getTime()) / DAY_MS);
 
-async function readCache(keys: string[]): Promise<Map<string, unknown>> {
+async function readCache(ownerId: string, keys: string[]): Promise<Map<string, unknown>> {
   const out = new Map<string, unknown>();
   for (const part of chunks(keys, 5000)) {
-    const rows = await db.apiCache.findMany({ where: { key: { in: part } } });
+    const rows = await db.apiCache.findMany({ where: { ownerId, key: { in: part } } });
     for (const r of rows) out.set(r.key, r.value);
   }
   return out;
 }
 
-async function writeCache(entries: [string, unknown][]): Promise<void> {
+async function writeCache(ownerId: string, entries: [string, unknown][]): Promise<void> {
   for (const part of chunks(entries, CHUNK)) {
     await db.$transaction(
       part.map(([key, value]) => {
         const v = (value === null ? Prisma.JsonNull : value) as Prisma.InputJsonValue;
         return db.apiCache.upsert({
-          where: { key },
-          create: { key, value: v },
+          where: { ownerId_key: { ownerId, key } },
+          create: { ownerId, key, value: v },
           update: { value: v },
         });
       }),
@@ -58,6 +58,7 @@ async function writeCache(entries: [string, unknown][]): Promise<void> {
 
 /** Port of `enrich` (legacy 1167–1212) on top of the `ApiCache` table. */
 export async function enrich(
+  ownerId: string,
   ds: DataSource,
   orders: Order[],
   now: Date,
@@ -68,7 +69,7 @@ export async function enrich(
   const shipKeys = uniq(
     paid.filter((o) => o.shippingId).map((o) => `ship:${o.shippingId}`),
   );
-  const shipCache = await readCache(shipKeys);
+  const shipCache = await readCache(ownerId, shipKeys);
   const needShip = uniq(
     paid
       .filter(
@@ -82,7 +83,7 @@ export async function enrich(
     log(`Consultando costo de envío de ${needShip.length} envíos…`);
     const got = await ds.getShipmentCosts(needShip);
     const entries: [string, unknown][] = Object.entries(got).map(([id, c]) => [`ship:${id}`, c]);
-    await writeCache(entries);
+    await writeCache(ownerId, entries);
     for (const [k, v] of entries) shipCache.set(k, v);
   }
   const shipCosts: ShipCosts = {};
@@ -92,12 +93,12 @@ export async function enrich(
   const itemIds = uniq(
     orders.flatMap((o) => o.items.map((i) => i.itemId.toUpperCase())).filter(Boolean),
   );
-  const gtinCache = await readCache(itemIds.map((i) => `gtin:${i}`));
+  const gtinCache = await readCache(ownerId, itemIds.map((i) => `gtin:${i}`));
   const missing = itemIds.filter((i) => !gtinCache.has(`gtin:${i}`));
   if (missing.length) {
     const got = await ds.getGtins(missing);
     const entries: [string, unknown][] = Object.entries(got).map(([id, g]) => [`gtin:${id}`, g]);
-    await writeCache(entries);
+    await writeCache(ownerId, entries);
     for (const [k, v] of entries) gtinCache.set(k, v);
   }
   const gtins: Gtins = {};
@@ -109,7 +110,7 @@ export async function enrich(
       .filter((p) => p.status === "approved")
       .map((p) => ({ id: String(p.id), fresh: ageDays(o.dateCreated, now) < 2 })),
   );
-  const taxCache = await readCache(uniq(pays.map((p) => `tax:${p.id}`)));
+  const taxCache = await readCache(ownerId, uniq(pays.map((p) => `tax:${p.id}`)));
   const pend = uniq(
     pays
       .filter((p) => p.fresh || (taxCache.get(`tax:${p.id}`) ?? null) === null)
@@ -133,7 +134,7 @@ export async function enrich(
         const entries: [string, unknown][] = batch
           .filter((id) => !taxCache.has(`tax:${id}`))
           .map((id) => [`tax:${id}`, null]);
-        await writeCache(entries);
+        await writeCache(ownerId, entries);
         for (const [k, v] of entries) taxCache.set(k, v);
         if (failures >= MAX_TAX_FAILURES) {
           log("Aviso: demasiados errores en Mercado Pago; dejo de consultar impuestos en esta corrida");
@@ -142,7 +143,7 @@ export async function enrich(
         continue;
       }
       const entries: [string, unknown][] = batch.map((id) => [`tax:${id}`, got[id] ?? null]);
-      await writeCache(entries);
+      await writeCache(ownerId, entries);
       for (const [k, v] of entries) taxCache.set(k, v);
     }
   }
@@ -157,6 +158,7 @@ export async function enrich(
  * month is cached and re-downloaded only during days 1–5 of the following month.
  */
 export async function fetchMonth(
+  ownerId: string,
   ds: DataSource,
   y: number,
   m: number,
@@ -165,10 +167,10 @@ export async function fetchMonth(
 ): Promise<Order[]> {
   if (!closed) return ds.getOrdersMonth(y, m);
   const key = `orders:${y}-${String(m).padStart(2, "0")}`;
-  const hit = await db.apiCache.findUnique({ where: { key } });
+  const hit = await db.apiCache.findUnique({ where: { ownerId_key: { ownerId, key } } });
   const cached = hit?.value as { orders: Order[]; final: boolean } | undefined;
   if (cached?.final) return cached.orders;
   const orders = await ds.getOrdersMonth(y, m);
-  await writeCache([[key, { orders, final: todayDay > 5 }]]);
+  await writeCache(ownerId, [[key, { orders, final: todayDay > 5 }]]);
   return orders;
 }
