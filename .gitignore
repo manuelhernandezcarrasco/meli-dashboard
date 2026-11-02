@@ -32,3 +32,17 @@ venv/
 
 # prisma client
 generated/
+.agents/
+.aider*
+.cline*
+.continue/
+.windsurf/
+.codex/
+.gemini/
+.github/copilot-instructions.md
+.mcp.json
+CLAUDE.local.md
+.env*.local
+.vercel/
+.turbo/
+*.log

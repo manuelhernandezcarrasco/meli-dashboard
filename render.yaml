@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: pnl-diario-ml
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL # Neon connection string (include ?sslmode=require)
+        sync: false
+      - key: ML_CLIENT_ID
+        sync: false
+      - key: ML_CLIENT_SECRET
+        sync: false
+      - key: ML_REDIRECT_URI # https://<service>.onrender.com/api/auth/callback
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY # also used as a Docker build arg
+        sync: false
+      - key: DATA_SOURCE
+        value: demo
+      - key: BASE_PNL_PATH
+        value: data/PnL_MercadoLibre_Septiembre2026.xlsx
