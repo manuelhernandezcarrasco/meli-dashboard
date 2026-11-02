@@ -43,11 +43,30 @@ function cooldownFromError(e: unknown): number | null {
   return null;
 }
 
+function ConnectScreen() {
+  return (
+    <div className="mx-auto flex max-w-[480px] flex-col items-center px-4 pt-24 text-center">
+      <h1 className="text-xl font-semibold">Conectá tu cuenta de Mercado Libre</h1>
+      <p className="mt-2 text-[13px] text-muted">
+        Para ver tus dashboards necesitamos acceso a tu cuenta. Hasta entonces no se muestra ningún dato.
+      </p>
+      <a
+        href="/api/auth/login"
+        className="mt-6 rounded-xl bg-ink px-5 py-2.5 text-[13px] font-medium text-card"
+      >
+        Conectar Mercado Libre
+      </a>
+    </div>
+  );
+}
+
 /** Page container: tRPC queries + refresh button around the presentational dashboard. */
 export function DashboardPage() {
   const utils = api.useUtils();
-  const q = api.dashboard.get.useQuery(undefined, { refetchInterval: 60_000 });
-  const status = api.dashboard.status.useQuery(undefined, { refetchInterval: 60_000 });
+  const conn = api.dashboard.connection.useQuery();
+  const connected = conn.data?.connected === true;
+  const q = api.dashboard.get.useQuery(undefined, { enabled: connected, refetchInterval: 60_000 });
+  const status = api.dashboard.status.useQuery(undefined, { enabled: connected, refetchInterval: 60_000 });
   const [cooldownUntil, setCooldownUntil] = useState(0);
   const [tick, setTick] = useState(0);
   const [msg, setMsg] = useState<string | null>(null);
@@ -84,6 +103,9 @@ export function DashboardPage() {
   }, [active, cooldownUntil]);
   void tick;
   const left = Math.max(0, Math.ceil((cooldownUntil - Date.now()) / 1000));
+
+  if (conn.data && !conn.data.connected) return <ConnectScreen />;
+  if (!conn.data && !conn.isError) return <DashboardSkeleton />;
 
   if (!q.data) {
     return q.isError ? (
