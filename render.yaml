@@ -20,4 +20,6 @@ services:
       - key: DATA_SOURCE
         value: demo
       - key: BASE_PNL_PATH
-        value: data/PnL_MercadoLibre_Septiembre2026.xlsx
+        value: demo/PnL_MercadoLibre_Septiembre2026_DEMO.xlsx
+      - key: VENTAS_DIRECTAS_PATH
+        value: demo/Ventas_Directas_DEMO.xlsx
