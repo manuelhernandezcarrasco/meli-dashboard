@@ -11,7 +11,7 @@ export const env = createEnv({
     ML_CLIENT_SECRET: z.string().min(1),
     ML_REDIRECT_URI: z.string().url(),
     DATA_SOURCE: z.enum(["demo", "live"]).default("demo"),
-    BASE_PNL_PATH: z.string().min(1),
+    BASE_PNL_PATH: z.string().optional(),
     VENTAS_DIRECTAS_PATH: z.string().optional(),
     CLERK_SECRET_KEY: z.string().min(1),
   },
