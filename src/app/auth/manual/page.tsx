@@ -11,7 +11,8 @@ async function submit(formData: FormData) {
   if (!code) redirect("/auth/manual?error=1");
   try {
     await exchangeCode(userId, code);
-  } catch {
+  } catch (e) {
+    console.error("[ml-oauth] manual: no se pudo canjear el código:", e instanceof Error ? e.message : e);
     redirect("/auth/manual?error=1");
   }
   redirect("/");
