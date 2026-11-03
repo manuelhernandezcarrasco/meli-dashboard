@@ -38,3 +38,16 @@ model Snapshot {
 
   @@id([ownerId, month])
 }
+
+/// Parsed contents of the Excel files a user uploaded. kind = "pnl" (closing P&L -> Base + prev
+/// totals) or "inputs" (direct sales / mapping / cost overrides / stock intake). The raw .xlsx is
+/// not kept: it is parsed on upload and only the normalized result is stored.
+model UserWorkbook {
+  ownerId    String
+  kind       String
+  fileName   String
+  payload    Json
+  uploadedAt DateTime @default(now())
+
+  @@id([ownerId, kind])
+}

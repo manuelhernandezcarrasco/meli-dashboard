@@ -15,6 +15,7 @@ import { db } from "~/server/db";
 import { getDataSource } from "~/server/datasource";
 import type { DataSource } from "~/server/datasource/types";
 import { workbooks } from "~/server/workbooks";
+import { loadUploaded } from "~/server/workbooks/store";
 import { enrich, fetchMonth } from "./enrich";
 
 const log = (msg: string) => console.log(`[sync] ${msg}`);
@@ -56,12 +57,15 @@ export async function runSync(
   }
   const [py, pm] = prevYm(y, m);
 
-  // No PnL preload: live syncs start from an empty SKU base and no previous close, so
-  // everything comes from Mercado Libre. Workbooks are only read for the demo source.
-  const { base, prev: prevCierre, inputs } =
-    env.DATA_SOURCE === "demo" && env.BASE_PNL_PATH
-      ? await readDemoWorkbooks(cfg)
-      : { base: {}, prev: ZERO_TOTALS, inputs: EMPTY_INPUTS };
+  // Live syncs start from an empty SKU base and no previous close, plus whatever Excel files the
+  // user uploaded (P&L close -> SKU base and previous totals; inputs -> direct sales, mapping...).
+  // The demo source reads the bundled workbooks instead.
+  const uploaded = await loadUploaded(ownerId);
+  const demo =
+    env.DATA_SOURCE === "demo" && env.BASE_PNL_PATH ? await readDemoWorkbooks(cfg) : null;
+  const base = uploaded.base ?? demo?.base ?? {};
+  const prevCierre = uploaded.prev ?? demo?.prev ?? ZERO_TOTALS;
+  const inputs = uploaded.inputs ?? demo?.inputs ?? EMPTY_INPUTS;
   const ds = opts.dataSource ?? getDataSource(ownerId, base, now);
 
   log(`Descargando órdenes de ${monthLabel(y, m)}…`);
