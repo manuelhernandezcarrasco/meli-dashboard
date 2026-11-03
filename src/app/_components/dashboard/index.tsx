@@ -2,12 +2,13 @@
 
 import { UserButton } from "@clerk/nextjs";
 import { TRPCClientError } from "@trpc/client";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
 import { api } from "~/trpc/react";
 import { Dashboard } from "./Dashboard";
 import { RefreshButton } from "./RefreshButton";
+import { SyncFailed, SyncingScreen } from "./Syncing";
 
 export { Dashboard };
 
@@ -89,6 +90,7 @@ function cooldownFromError(e: unknown): number | null {
 
 /** Page container: tRPC queries + refresh button around the presentational dashboard. */
 export function DashboardPage() {
+  const router = useRouter();
   const utils = api.useUtils();
   const conn = api.dashboard.connection.useQuery();
   const linked = conn.data?.linked === true;
@@ -114,6 +116,12 @@ export function DashboardPage() {
     },
   });
 
+  // Drop the ?linked=1 marker left by the OAuth callback once the first data is in.
+  const hasData = q.data !== undefined;
+  useEffect(() => {
+    if (hasData && new URLSearchParams(window.location.search).has("linked")) router.replace("/");
+  }, [hasData, router]);
+
   const statusCooldown = status.data?.cooldownSeconds ?? 0;
   useEffect(() => {
     if (statusCooldown > 0) setCooldownUntil(Date.now() + statusCooldown * 1000);
@@ -134,13 +142,12 @@ export function DashboardPage() {
   if (conn.data && !conn.data.linked) return <ConnectMercadoLibre />;
 
   if (!q.data) {
-    return q.isError ? (
-      <div className="mx-auto max-w-[1280px] px-4 pt-[22px]">
-        <ErrorBanner message={q.error.message} />
-      </div>
-    ) : (
-      <DashboardSkeleton />
-    );
+    if (q.isError) {
+      return (
+        <SyncFailed message={q.error.message} onRetry={() => void q.refetch()} retrying={q.isFetching} />
+      );
+    }
+    return linked ? <SyncingScreen skeleton={<DashboardSkeleton />} /> : <DashboardSkeleton />;
   }
 
   return (

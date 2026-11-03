@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     console.error("[ml-oauth] no se pudo canjear el código:", e instanceof Error ? e.message : e);
     return failure(req, e instanceof TokenStorageError ? "storage" : "exchange");
   }
-  const res = NextResponse.redirect(new URL("/", req.nextUrl.origin), 302);
+  const res = NextResponse.redirect(new URL("/?linked=1", req.nextUrl.origin), 302);
   res.cookies.delete("ml_oauth_state");
   return res;
 }

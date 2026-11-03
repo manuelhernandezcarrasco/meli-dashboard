@@ -15,7 +15,7 @@ async function submit(formData: FormData) {
     console.error("[ml-oauth] manual: no se pudo canjear el código:", e instanceof Error ? e.message : e);
     redirect("/auth/manual?error=1");
   }
-  redirect("/");
+  redirect("/?linked=1");
 }
 
 export default async function ManualAuthPage({
