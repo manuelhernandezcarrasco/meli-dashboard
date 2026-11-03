@@ -1,7 +1,13 @@
 import path from "node:path";
 import { env } from "~/env";
 import { nowArg, prevYm, monthLabel } from "~/lib/dates";
-import { DashboardDataSchema, type DashboardData } from "~/lib/contracts";
+import {
+  DashboardDataSchema,
+  type BusinessConfig,
+  type DashboardData,
+  type Inputs,
+  type PrevCierre,
+} from "~/lib/contracts";
 import { buildLines, computeDashboard } from "~/server/calc";
 import { computeStock } from "~/server/calc/stock";
 import { loadBusinessConfig } from "~/server/config";
@@ -15,6 +21,19 @@ const log = (msg: string) => console.log(`[sync] ${msg}`);
 const resolve = (p: string) => path.resolve(process.cwd(), p);
 const p2 = (n: number) => String(n).padStart(2, "0");
 const ars = (v: number) => Math.round(v).toLocaleString("en-US");
+
+const ZERO_TOTALS: PrevCierre = {
+  ventaMl: 0, ventaVa: 0, venta: 0, costoMl: 0, cogs: 0, uds: 0, ingNetos: 0, margen: 0,
+};
+const EMPTY_INPUTS: Inputs = { va: [], mapItem: {}, mapSku: {}, override: {}, ingresos: [] };
+
+async function readDemoWorkbooks(cfg: BusinessConfig) {
+  const { base, prev } = await workbooks.readBase(resolve(env.BASE_PNL_PATH!), cfg);
+  const inputs = await workbooks.readInputs(
+    env.VENTAS_DIRECTAS_PATH ? resolve(env.VENTAS_DIRECTAS_PATH) : undefined,
+  );
+  return { base, prev, inputs };
+}
 
 export interface RunSyncOptions {
   /** Overrides the data source (tests); defaults to `getDataSource`. */
@@ -37,10 +56,12 @@ export async function runSync(
   }
   const [py, pm] = prevYm(y, m);
 
-  const { base, prev: prevCierre } = await workbooks.readBase(resolve(env.BASE_PNL_PATH), cfg);
-  const inputs = await workbooks.readInputs(
-    env.VENTAS_DIRECTAS_PATH ? resolve(env.VENTAS_DIRECTAS_PATH) : undefined,
-  );
+  // No PnL preload: live syncs start from an empty SKU base and no previous close, so
+  // everything comes from Mercado Libre. Workbooks are only read for the demo source.
+  const { base, prev: prevCierre, inputs } =
+    env.DATA_SOURCE === "demo" && env.BASE_PNL_PATH
+      ? await readDemoWorkbooks(cfg)
+      : { base: {}, prev: ZERO_TOTALS, inputs: EMPTY_INPUTS };
   const ds = opts.dataSource ?? getDataSource(ownerId, base, now);
 
   log(`Descargando órdenes de ${monthLabel(y, m)}…`);
