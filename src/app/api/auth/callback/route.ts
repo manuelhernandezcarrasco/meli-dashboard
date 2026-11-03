@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   } catch {
     return NextResponse.json({ error: "No se pudo canjear el código" }, { status: 502 });
   }
-  const res = NextResponse.redirect(new URL("/", req.nextUrl.origin), 302);
+  const res = NextResponse.redirect(new URL("/?linked=1", req.nextUrl.origin), 302);
   res.cookies.delete("ml_oauth_state");
   return res;
 }

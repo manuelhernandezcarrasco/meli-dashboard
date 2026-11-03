@@ -14,7 +14,7 @@ async function submit(formData: FormData) {
   } catch {
     redirect("/auth/manual?error=1");
   }
-  redirect("/");
+  redirect("/?linked=1");
 }
 
 export default async function ManualAuthPage({
