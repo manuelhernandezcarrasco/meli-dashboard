@@ -61,7 +61,7 @@ describe("exchangeCode", () => {
 
   it("rejects with a plain error when Mercado Libre refuses the code", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => new Response('{"error":"invalid_grant"}', { status: 400 })));
-    const err = await exchangeCode("u1", "TG-x").catch((e: unknown) => e);
+    const err = await exchangeCode("u1", "TG-x", "verifier").catch((e: unknown) => e);
     expect(err).toBeInstanceOf(Error);
     expect(err).not.toBeInstanceOf(TokenStorageError);
     expect((err as Error).message).toContain("invalid_grant");
@@ -71,6 +71,6 @@ describe("exchangeCode", () => {
     vi.stubGlobal("fetch", vi.fn(async () => ok()));
     const { db } = await import("~/server/db");
     vi.mocked(db.mlToken.upsert).mockRejectedValueOnce(new Error("db down"));
-    await expect(exchangeCode("u1", "TG-x")).rejects.toBeInstanceOf(TokenStorageError);
+    await expect(exchangeCode("u1", "TG-x", "verifier")).rejects.toBeInstanceOf(TokenStorageError);
   });
 });

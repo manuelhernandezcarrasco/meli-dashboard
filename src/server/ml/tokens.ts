@@ -83,11 +83,16 @@ async function requestToken(
 }
 
 /** Exchanges an authorization code for tokens and stores them. */
-export async function exchangeCode(ownerId: string, code: string): Promise<void> {
+export async function exchangeCode(
+  ownerId: string,
+  code: string,
+  codeVerifier: string,
+): Promise<void> {
   await requestToken(ownerId, {
     grant_type: "authorization_code",
     code,
     redirect_uri: env.ML_REDIRECT_URI,
+    code_verifier: codeVerifier,
   });
 }
 
