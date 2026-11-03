@@ -7,6 +7,7 @@ type MlErrorCode = "state" | "exchange" | "storage";
 function failure(req: NextRequest, code: MlErrorCode) {
   const res = NextResponse.redirect(new URL(`/?ml_error=${code}`, req.nextUrl.origin), 302);
   res.cookies.delete("ml_oauth_state");
+  res.cookies.delete("ml_oauth_verifier");
   return res;
 }
 
@@ -16,17 +17,19 @@ export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code");
   const state = req.nextUrl.searchParams.get("state");
   const expected = req.cookies.get("ml_oauth_state")?.value;
-  if (!code || !state || !expected || state !== expected) {
+  const verifier = req.cookies.get("ml_oauth_verifier")?.value;
+  if (!code || !state || !expected || state !== expected || !verifier) {
     console.error("[ml-oauth] estado OAuth inválido o faltante");
     return failure(req, "state");
   }
   try {
-    await exchangeCode(userId, code);
+    await exchangeCode(userId, code, verifier);
   } catch (e) {
     console.error("[ml-oauth] no se pudo canjear el código:", e instanceof Error ? e.message : e);
     return failure(req, e instanceof TokenStorageError ? "storage" : "exchange");
   }
   const res = NextResponse.redirect(new URL("/?linked=1", req.nextUrl.origin), 302);
   res.cookies.delete("ml_oauth_state");
+  res.cookies.delete("ml_oauth_verifier");
   return res;
 }

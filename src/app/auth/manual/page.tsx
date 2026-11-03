@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { extractCode } from "~/server/ml/oauth";
@@ -9,8 +10,10 @@ async function submit(formData: FormData) {
   if (!userId) redirect("/sign-in");
   const code = extractCode(String(formData.get("code") ?? ""));
   if (!code) redirect("/auth/manual?error=1");
+  const verifier = (await cookies()).get("ml_oauth_verifier")?.value;
+  if (!verifier) redirect("/auth/manual?error=1");
   try {
-    await exchangeCode(userId, code);
+    await exchangeCode(userId, code, verifier);
   } catch (e) {
     console.error("[ml-oauth] manual: no se pudo canjear el código:", e instanceof Error ? e.message : e);
     redirect("/auth/manual?error=1");
