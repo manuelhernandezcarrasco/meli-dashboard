@@ -2,8 +2,8 @@
 
 import { UserButton } from "@clerk/nextjs";
 import { TRPCClientError } from "@trpc/client";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 import { api } from "~/trpc/react";
 import { Dashboard } from "./Dashboard";
@@ -29,12 +29,34 @@ function DashboardSkeleton() {
   );
 }
 
+const ML_ERROR_MESSAGES: Record<string, string> = {
+  state: "La autorización expiró o no es válida. Volvé a intentarlo.",
+  exchange: "Mercado Libre rechazó la autorización. Volvé a intentarlo.",
+  storage: "Mercado Libre autorizó el acceso pero no pudimos guardar la conexión. Volvé a intentarlo.",
+};
+
+function MlErrorBanner() {
+  const code = useSearchParams().get("ml_error");
+  if (!code) return null;
+  return (
+    <div role="alert" className="w-full rounded-xl border border-neg bg-negbg px-4 py-2.5 text-left text-[13px] text-neg">
+      <p className="m-0">{ML_ERROR_MESSAGES[code] ?? "No se pudo vincular Mercado Libre. Volvé a intentarlo."}</p>
+      <a href="/api/auth/login" className="font-semibold text-neg underline">
+        Reintentar vinculación
+      </a>
+    </div>
+  );
+}
+
 function ConnectMercadoLibre() {
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-4 p-6 text-center">
       <div className="self-end">
         <UserButton />
       </div>
+      <Suspense fallback={null}>
+        <MlErrorBanner />
+      </Suspense>
       <h1 className="m-0 text-[22px] font-semibold tracking-tight">Vinculá tu cuenta de Mercado Libre</h1>
       <p className="m-0 text-[13px] text-mut">
         Para ver tu PnL en vivo necesitamos acceso de lectura a tus ventas. Podés revocarlo cuando quieras.

@@ -16,7 +16,7 @@ vi.mock("~/server/db", () => ({
   },
 }));
 
-import { ensureToken } from "./tokens";
+import { ensureToken, exchangeCode, TokenStorageError } from "./tokens";
 
 beforeEach(() => {
   vi.unstubAllGlobals();
@@ -52,5 +52,25 @@ describe("ensureToken", () => {
     vi.stubGlobal("fetch", f);
     await expect(ensureToken("u1")).resolves.toBe("old-access");
     expect(f).not.toHaveBeenCalled();
+  });
+});
+
+describe("exchangeCode", () => {
+  const ok = () =>
+    new Response(JSON.stringify({ access_token: "a", refresh_token: "r", user_id: 1, expires_in: 60 }));
+
+  it("rejects with a plain error when Mercado Libre refuses the code", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response('{"error":"invalid_grant"}', { status: 400 })));
+    const err = await exchangeCode("u1", "TG-x").catch((e: unknown) => e);
+    expect(err).toBeInstanceOf(Error);
+    expect(err).not.toBeInstanceOf(TokenStorageError);
+    expect((err as Error).message).toContain("invalid_grant");
+  });
+
+  it("wraps a database failure in TokenStorageError", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => ok()));
+    const { db } = await import("~/server/db");
+    vi.mocked(db.mlToken.upsert).mockRejectedValueOnce(new Error("db down"));
+    await expect(exchangeCode("u1", "TG-x")).rejects.toBeInstanceOf(TokenStorageError);
   });
 });

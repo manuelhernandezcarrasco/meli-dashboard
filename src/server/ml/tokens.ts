@@ -5,6 +5,14 @@ import { mlFetch, type TokenAuth } from "./http";
 const TOKEN_URL = "https://api.mercadolibre.com/oauth/token";
 const REFRESH_MARGIN_MS = 5 * 60_000;
 
+/** The token exchange succeeded but persisting the tokens failed (database problem). */
+export class TokenStorageError extends Error {
+  constructor(cause: unknown) {
+    super("No se pudieron guardar los tokens de Mercado Libre", { cause });
+    this.name = "TokenStorageError";
+  }
+}
+
 export interface StoredTokens {
   accessToken: string;
   refreshToken: string;
@@ -66,7 +74,11 @@ async function requestToken(
     expiresAt: new Date(Date.now() + (tok.expires_in ?? 21600) * 1000),
   };
   // ML refresh tokens are single use: persist the new one before anyone uses the access token.
-  await saveTokens(ownerId, stored);
+  try {
+    await saveTokens(ownerId, stored);
+  } catch (e) {
+    throw new TokenStorageError(e);
+  }
   return stored;
 }
 
