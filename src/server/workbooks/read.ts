@@ -33,12 +33,18 @@ function plain(v: unknown): Cell {
 /** Python-style `str(x or "")`. */
 const str = (v: unknown): string => (v ? String(v) : "");
 
-async function loadRows(file: string): Promise<{
+/** A path on disk (demo/legacy) or the bytes of an uploaded file. */
+export type Source = string | Buffer;
+
+const label = (src: Source) => (typeof src === "string" ? path.basename(src) : "el archivo subido");
+
+async function loadRows(src: Source): Promise<{
   names: string[];
   rows: (name: string) => Cell[][];
 }> {
   const wb = new ExcelJS.Workbook();
-  await wb.xlsx.readFile(file);
+  if (typeof src === "string") await wb.xlsx.readFile(src);
+  else await wb.xlsx.load(src as unknown as ArrayBuffer);
   return {
     names: wb.worksheets.map((w) => w.name),
     rows: (name) => {
@@ -56,10 +62,10 @@ async function loadRows(file: string): Promise<{
 }
 
 export async function readBase(
-  file: string,
+  file: Source,
   cfg: BusinessConfig,
 ): Promise<{ base: Base; prev: PrevCierre }> {
-  if (!file || !fs.existsSync(file)) {
+  if (typeof file === "string" && (!file || !fs.existsSync(file))) {
     throw new Error(`No encuentro el P&L del cierre anterior: ${file}`);
   }
   const wb = await loadRows(file);
@@ -68,7 +74,7 @@ export async function readBase(
   );
   if (sheetName === undefined) {
     throw new Error(
-      `El archivo ${path.basename(file)} no tiene la hoja 'P&L Detalle'`,
+      `El archivo ${label(file)} no tiene la hoja 'P&L Detalle'`,
     );
   }
   const rows = wb.rows(sheetName);
@@ -179,7 +185,7 @@ function toDate(f: unknown): string | null {
   return null;
 }
 
-export async function readInputs(file: string | undefined): Promise<Inputs> {
+export async function readInputs(file: Source | undefined): Promise<Inputs> {
   const out: Inputs = {
     va: [],
     mapItem: {},
@@ -187,7 +193,7 @@ export async function readInputs(file: string | undefined): Promise<Inputs> {
     override: {},
     ingresos: [],
   };
-  if (!file || !fs.existsSync(file)) {
+  if (!file || (typeof file === "string" && !fs.existsSync(file))) {
     console.warn(
       "Aviso: no encontré el archivo de Ventas Directas / Mapeo; sigo sin él",
     );

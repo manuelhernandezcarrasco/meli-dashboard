@@ -9,6 +9,7 @@ import { api } from "~/trpc/react";
 import { Dashboard } from "./Dashboard";
 import { RefreshButton } from "./RefreshButton";
 import { SyncFailed, SyncingScreen } from "./Syncing";
+import { UploadButton } from "./UploadButton";
 
 export { Dashboard };
 
@@ -157,6 +158,11 @@ export function DashboardPage() {
       banner={q.isError ? <ErrorBanner message={q.error.message} /> : null}
       actions={
         <>
+          <UploadButton
+            onUploaded={() =>
+              void Promise.all([utils.dashboard.get.invalidate(), utils.dashboard.status.invalidate()])
+            }
+          />
           <RefreshButton
             onClick={() => refresh.mutate()}
             pending={refresh.isPending}

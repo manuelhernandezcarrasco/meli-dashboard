@@ -24,8 +24,8 @@ export interface DataSource {
 
 export interface Workbooks {
   readBase(
-    path: string,
+    path: string | Buffer,
     cfg: BusinessConfig,
   ): Promise<{ base: Base; prev: PrevCierre }>;
-  readInputs(path: string | undefined): Promise<Inputs>;
+  readInputs(path: string | Buffer | undefined): Promise<Inputs>;
 }
