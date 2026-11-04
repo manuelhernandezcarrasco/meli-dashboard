@@ -8,6 +8,7 @@ import {
   type PrevCierre,
 } from "~/lib/contracts";
 import { loadBusinessConfig } from "~/server/config";
+import { targetMonth } from "~/server/sync/rebuild";
 import { db } from "~/server/db";
 import { readBase, readInputs } from "./read";
 import type { UploadKind } from "./upload";
@@ -20,6 +21,14 @@ export interface UploadSummary {
   uploadedAt: string;
   /** SKUs in the P&L, or direct-sale rows in the inputs file */
   rows: number;
+}
+
+/**
+ * Forces a recompute of the month on screen. Earlier months' snapshots are kept: they are the
+ * list of history that "Recalcular histórico" refreshes.
+ */
+async function dropCurrentSnapshot(ownerId: string): Promise<void> {
+  await db.snapshot.deleteMany({ where: { ownerId, month: targetMonth(new Date()) } });
 }
 
 /**
@@ -49,7 +58,7 @@ export async function saveUpload(
     create: { ownerId, kind, fileName, payload: payload as object },
     update: { fileName, payload: payload as object, uploadedAt: new Date() },
   });
-  await db.snapshot.deleteMany({ where: { ownerId } });
+  await dropCurrentSnapshot(ownerId);
   return { kind, fileName, uploadedAt: row.uploadedAt.toISOString(), rows };
 }
 
@@ -68,7 +77,7 @@ export async function listUploads(ownerId: string): Promise<UploadSummary[]> {
 
 export async function deleteUpload(ownerId: string, kind: UploadKind): Promise<void> {
   await db.userWorkbook.deleteMany({ where: { ownerId, kind } });
-  await db.snapshot.deleteMany({ where: { ownerId } });
+  await dropCurrentSnapshot(ownerId);
 }
 
 /** The user's uploaded data, or undefined for whatever they have not uploaded yet. */

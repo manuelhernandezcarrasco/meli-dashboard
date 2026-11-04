@@ -11,7 +11,7 @@ import {
 import { AccumChart, DailyChart, Waterfall } from "./charts";
 import { Header } from "./Header";
 import { KpiRow } from "./Kpi";
-import { Alerts, CategoryTable, SalesFeed, StockTable, TopProducts } from "./tables";
+import { Alerts, type MatchDecisionInput, CategoryTable, SalesFeed, StockTable, TopProducts } from "./tables";
 
 
 const FILTER_KEY = "pnlf";
@@ -35,11 +35,13 @@ function writeStorage(key: string, value: unknown) {
 }
 
 /** Presentational dashboard: everything it shows comes from `data`. */
-export function Dashboard({ data, demo = false, actions, banner }: {
+export function Dashboard({ data, demo = false, actions, banner, onMatchDecision, matchPending = false }: {
   data: DashboardData;
   demo?: boolean;
   actions?: ReactNode;
   banner?: ReactNode;
+  onMatchDecision?: (d: MatchDecisionInput) => void;
+  matchPending?: boolean;
 }) {
   const [channel, setChannel] = useState<Channel>("all");
   const [cat, setCat] = useState("all");
@@ -135,7 +137,7 @@ export function Dashboard({ data, demo = false, actions, banner }: {
       <div className="mt-3 grid gap-3 min-[1000px]:grid-cols-3">
         <SalesFeed rows={view.feed} />
         <TopProducts rows={view.top} />
-        <Alerts data={data} assumed={d.mes.assumed} />
+        <Alerts data={data} assumed={d.mes.assumed} onMatchDecision={onMatchDecision} matchPending={matchPending} />
       </div>
 
       <StockTable

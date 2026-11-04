@@ -202,3 +202,27 @@ describe("acum", () => {
     expect(acum(expDaily, 2).venta).toBeCloseTo(expDaily[0]!.venta + expDaily[1]!.venta);
   });
 });
+
+describe("buildLines fuzzy title match", () => {
+  it("links an unmapped listing to a similar P&L product and proposes uncertain ones", async () => {
+    const { createMatcher } = await import("~/lib/product-match");
+    const { loadBusinessConfig } = await import("~/server/config");
+    const mk = (ean: string, desc: string, cat: string) => ({
+      ean, desc, modelo: "", cat, cu: 100, stock: 0, mg: 0.15, costoMlPctPrev: null, udsPrev: 0,
+    });
+    const base = { "1": mk("1", "Xbox Control Blue", "XBOX") };
+    const order = (id: string, title: string) => ({
+      id: Number(id), packId: null, status: "paid", dateCreated: "2026-10-05T12:00:00-03:00",
+      shippingId: null, payments: [],
+      items: [{ itemId: `MLA${id}`, title, sellerSku: null, sellerCustomField: null,
+        variationId: null, quantity: 1, unitPrice: 1000, saleFee: 100 }],
+    });
+    const lines = buildLines(
+      [order("1", "Controlador Inalámbrico Joystick Xbox Serie X|s Shock Blue"), order("2", "Control Xbox Inalámbrico")],
+      {}, {}, base, { va: [], mapItem: {}, mapSku: {}, override: {}, ingresos: [] },
+      { ...loadBusinessConfig(), impuestosMlPctEstimado: 0 }, 2026, 10, undefined, createMatcher(base),
+    );
+    expect(lines[0]).toMatchObject({ ean: "1", cat: "XBOX", cu: 100, matchVia: "Similitud de título" });
+    expect(lines[1]).toMatchObject({ ean: "", cat: "SIN MATCH", suggestEan: "1" });
+  });
+});

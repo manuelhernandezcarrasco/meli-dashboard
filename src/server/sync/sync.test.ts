@@ -237,6 +237,17 @@ describe("per-user isolation", () => {
   });
 });
 
+describe("rebuildAll without snapshots of earlier months", () => {
+  it("still recomputes the previous month, so history is never skipped", async () => {
+    await runSync(OWNER, NOW);
+    await db.snapshot.deleteMany({ where: { month: { not: "2026-10" } } });
+    const r = await rebuildAll(OWNER, { now: NOW });
+    expect(r.months.at(-1)).toBe("2026-10");
+    expect(r.months).toContain("2026-09");
+    expect(r.failed).toEqual([]);
+  });
+});
+
 describe("rebuildAll", () => {
   it("recomputes every stored month and keeps the current one as latest", async () => {
     await runSync(OWNER, new Date("2026-09-20T12:00:00-03:00"));
@@ -244,7 +255,7 @@ describe("rebuildAll", () => {
     await db.snapshot.updateMany({ data: { payload: {} } }); // simulate stale snapshots
     const r = await rebuildAll(OWNER, { now: NOW });
     expect(r.failed).toEqual([]);
-    expect(r.months).toEqual(["2026-09", "2026-10"]);
+    expect(r.months).toEqual(["2026-08", "2026-09", "2026-10"]); // + the month Sept was compared with
     const latest = await db.snapshot.findFirst({ where: { ownerId: OWNER }, orderBy: { computedAt: "desc" } });
     expect(latest?.month).toBe("2026-10");
     for (const s of await db.snapshot.findMany()) DashboardDataSchema.parse(s.payload);

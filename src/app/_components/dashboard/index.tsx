@@ -117,12 +117,30 @@ export function DashboardPage() {
     },
   });
 
+  const [rebuilding, setRebuilding] = useState(false);
+  const rebuildQ = api.dashboard.rebuildStatus.useQuery(undefined, {
+    enabled: linked && rebuilding,
+    refetchInterval: 2000,
+  });
   const rebuild = api.dashboard.rebuild.useMutation({
-    onSuccess: async (r) => {
-      setMsg(r.failed.length ? `Recalculado con errores en ${r.failed.map((f) => f.month).join(", ")}` : null);
+    onSuccess: () => setRebuilding(true),
+    onError: () => setMsg("No se pudo recalcular"),
+  });
+  const job = rebuildQ.data;
+  const jobDone = rebuilding && job !== undefined && !job.running && job.finishedAt !== null;
+  useEffect(() => {
+    if (!jobDone || !job) return;
+    setRebuilding(false);
+    setMsg(job.failed.length ? `Recalculado con errores en ${job.failed.map((f) => f.month).join(", ")}` : null);
+    void Promise.all([utils.dashboard.get.invalidate(), utils.dashboard.status.invalidate()]);
+  }, [jobDone, job, utils]);
+  const rebuildBusy = rebuild.isPending || rebuilding;
+
+  const decide = api.dashboard.decideMatch.useMutation({
+    onSuccess: async () => {
       await Promise.all([utils.dashboard.get.invalidate(), utils.dashboard.status.invalidate()]);
     },
-    onError: () => setMsg("No se pudo recalcular"),
+    onError: () => setMsg("No se pudo guardar la respuesta"),
   });
 
   // Drop the ?linked=1 marker left by the OAuth callback once the first data is in.
@@ -162,6 +180,8 @@ export function DashboardPage() {
   return (
     <Dashboard
       data={q.data}
+      onMatchDecision={(d) => decide.mutate(d)}
+      matchPending={decide.isPending}
       demo={status.data?.source === "demo"}
       banner={q.isError ? <ErrorBanner message={q.error.message} /> : null}
       actions={
@@ -174,11 +194,11 @@ export function DashboardPage() {
           <button
             type="button"
             onClick={() => rebuild.mutate({})}
-            disabled={rebuild.isPending}
+            disabled={rebuildBusy}
             title="Recalcula todos los meses guardados con las fórmulas actuales"
             className="cursor-pointer rounded-lg border border-line bg-card px-3 py-1.5 text-[13px] text-ink disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {rebuild.isPending ? "Recalculando…" : "Recalcular histórico"}
+            {rebuildBusy ? `Recalculando${job?.total ? ` ${job.months.length + job.failed.length}/${job.total}` : ""}…` : "Recalcular histórico"}
           </button>
           <RefreshButton
             onClick={() => refresh.mutate()}

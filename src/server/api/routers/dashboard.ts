@@ -5,7 +5,10 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import type { DashboardData } from "~/lib/contracts";
 import { env } from "~/env";
 import { isLinked } from "~/server/ml";
-import { getSyncService, rebuildAll, type RebuildResult, type DashboardStatus } from "~/server/sync";
+import {
+  getSyncService, rebuildStatus, saveDecision, startRebuild,
+  type RebuildProgress, type DashboardStatus,
+} from "~/server/sync";
 
 export type { DashboardStatus };
 
@@ -29,10 +32,22 @@ export const dashboardRouter = createTRPCRouter({
   refresh: linkedProcedure.mutation(
     ({ ctx }): Promise<DashboardData> => getSyncService(ctx.userId).forceRefresh(),
   ),
-  /** Dev tool: recompute every stored month (history included) with the current formulas. */
+  /** Starts recomputing every month (history included) in the background; poll `rebuildStatus`. */
   rebuild: linkedProcedure
-    .input(z.object({ refetch: z.boolean().default(false) }).default({}))
-    .mutation(({ ctx, input }): Promise<RebuildResult> => rebuildAll(ctx.userId, input)),
+    .input(
+      z.object({ refetch: z.boolean().default(false), from: z.string().regex(/^\d{4}-\d{2}$/).optional() }).default({}),
+    )
+    .mutation(({ ctx, input }): RebuildProgress => startRebuild(ctx.userId, input)),
+  rebuildStatus: linkedProcedure.query(({ ctx }): RebuildProgress => rebuildStatus(ctx.userId)),
+  /** Yes/no on "is this listing that P&L product?"; recomputes the month right away. */
+  decideMatch: linkedProcedure
+    .input(z.object({
+      itemId: z.string().min(1), ean: z.string().min(1), decision: z.enum(["confirmed", "rejected"]),
+    }))
+    .mutation(async ({ ctx, input }): Promise<DashboardData> => {
+      await saveDecision(ctx.userId, input.itemId, input.ean, input.decision);
+      return getSyncService(ctx.userId).recompute();
+    }),
   status: linkedProcedure.query(
     ({ ctx }): Promise<DashboardStatus> => getSyncService(ctx.userId).status(),
   ),
