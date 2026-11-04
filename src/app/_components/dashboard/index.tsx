@@ -117,6 +117,14 @@ export function DashboardPage() {
     },
   });
 
+  const rebuild = api.dashboard.rebuild.useMutation({
+    onSuccess: async (r) => {
+      setMsg(r.failed.length ? `Recalculado con errores en ${r.failed.map((f) => f.month).join(", ")}` : null);
+      await Promise.all([utils.dashboard.get.invalidate(), utils.dashboard.status.invalidate()]);
+    },
+    onError: () => setMsg("No se pudo recalcular"),
+  });
+
   // Drop the ?linked=1 marker left by the OAuth callback once the first data is in.
   const hasData = q.data !== undefined;
   useEffect(() => {
@@ -163,6 +171,15 @@ export function DashboardPage() {
               void Promise.all([utils.dashboard.get.invalidate(), utils.dashboard.status.invalidate()])
             }
           />
+          <button
+            type="button"
+            onClick={() => rebuild.mutate({})}
+            disabled={rebuild.isPending}
+            title="Recalcula todos los meses guardados con las fórmulas actuales"
+            className="cursor-pointer rounded-lg border border-line bg-card px-3 py-1.5 text-[13px] text-ink disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {rebuild.isPending ? "Recalculando…" : "Recalcular histórico"}
+          </button>
           <RefreshButton
             onClick={() => refresh.mutate()}
             pending={refresh.isPending}

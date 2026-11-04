@@ -1,10 +1,11 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import type { DashboardData } from "~/lib/contracts";
 import { env } from "~/env";
 import { isLinked } from "~/server/ml";
-import { getSyncService, type DashboardStatus } from "~/server/sync";
+import { getSyncService, rebuildAll, type RebuildResult, type DashboardStatus } from "~/server/sync";
 
 export type { DashboardStatus };
 
@@ -28,6 +29,10 @@ export const dashboardRouter = createTRPCRouter({
   refresh: linkedProcedure.mutation(
     ({ ctx }): Promise<DashboardData> => getSyncService(ctx.userId).forceRefresh(),
   ),
+  /** Dev tool: recompute every stored month (history included) with the current formulas. */
+  rebuild: linkedProcedure
+    .input(z.object({ refetch: z.boolean().default(false) }).default({}))
+    .mutation(({ ctx, input }): Promise<RebuildResult> => rebuildAll(ctx.userId, input)),
   status: linkedProcedure.query(
     ({ ctx }): Promise<DashboardStatus> => getSyncService(ctx.userId).status(),
   ),
