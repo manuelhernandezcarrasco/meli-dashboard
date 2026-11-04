@@ -66,15 +66,25 @@ export class MlClient {
     return out;
   }
 
+  /**
+   * Net shipping cost for the seller (positive = charged, negative = credited).
+   * The /costs body alone is ambiguous (`cost` and `save` are present in both cases); the
+   * indicator is the shipment's `logistic_type`:
+   *  - `self_service` (Flex, the seller delivers): ML does not charge shipping and pays a
+   *    bonus (`senders[].save`) -> returned as a NEGATIVE cost.
+   *  - anything else (drop-off, agencies, fulfillment...): ML deducts `senders[].cost`.
+   */
   async shipmentSellerCost(id: string): Promise<number> {
-    const r = (await this.get(`${API}/shipments/${id}/costs`, undefined, {
-      "x-format-new": "true",
-    })) as any;
+    const [r, ship] = (await Promise.all([
+      this.get(`${API}/shipments/${id}/costs`, undefined, { "x-format-new": "true" }),
+      this.get(`${API}/shipments/${id}`),
+    ])) as any[];
     if (!r) return 0;
-    // Mercado Libre pays the seller a "bonificación por envío" (senders[].save) and, per the
-    // operation detail, no shipping charge is deducted from the payout: the net effect on the
-    // seller is a credit, so it is returned as a NEGATIVE cost.
-    return -((r.senders ?? []) as any[]).reduce((s, x) => s + toNum(x.save), 0);
+    const senders = (r.senders ?? []) as any[];
+    if (ship?.logistic_type === "self_service") {
+      return -senders.reduce((s, x) => s + toNum(x.save), 0);
+    }
+    return senders.reduce((s, x) => s + toNum(x.cost), 0);
   }
 
   async itemsGtin(ids: string[]): Promise<Gtins> {

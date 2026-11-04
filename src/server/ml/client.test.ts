@@ -14,7 +14,7 @@ afterEach(() => vi.unstubAllGlobals());
 
 describe("ordersMonth", () => {
   it("paginates total 120 → offsets 0/50/100 with Argentina month bounds", async () => {
-    const f = vi.fn(async (url: string) => {
+    const f = vi.fn(async (url: string, _init?: RequestInit) => {
       const off = Number(new URL(url).searchParams.get("offset"));
       return new Response(
         JSON.stringify({ results: Array.from({ length: off === 100 ? 20 : 50 }, (_, i) => ({ id: off + i })), paging: { total: 120 } }),
@@ -32,15 +32,23 @@ describe("ordersMonth", () => {
 });
 
 describe("shipmentSellerCost / itemsGtin / paymentTaxes", () => {
-  it("returns the shipping bonus (senders save) as a negative cost, 0 on 404", async () => {
-    const f = vi.fn()
-      .mockResolvedValueOnce(new Response(JSON.stringify({ senders: [{ cost: 9441, save: 1049 }, { cost: 0, save: 0.5 }] })))
-      .mockResolvedValueOnce(new Response("{}", { status: 404 }));
+  it("Flex (self_service) is a credit (-save); other modes are charged (cost)", async () => {
+    const costs = (body: unknown) => new Response(JSON.stringify(body));
+    const f = vi.fn(async (url: string, _init?: RequestInit) => {
+      const u = String(url);
+      if (u.endsWith("/48422268088/costs")) return costs({ senders: [{ cost: 9441, save: 1049 }] });
+      if (u.endsWith("/48422268088")) return costs({ logistic_type: "self_service" });
+      if (u.endsWith("/48428320301/costs")) return costs({ senders: [{ cost: 16580, save: 16580 }] });
+      if (u.endsWith("/48428320301")) return costs({ logistic_type: "xd_drop_off" });
+      return new Response("{}", { status: 404 });
+    });
     vi.stubGlobal("fetch", f);
     const c = new MlClient("u1", () => Promise.resolve());
-    expect(await c.shipmentSellerCost("1")).toBe(-1049.5);
-    expect(await c.shipmentSellerCost("2")).toBe(0);
-    expect((f.mock.calls[0]![1] as RequestInit).headers).toMatchObject({ "x-format-new": "true" });
+    expect(await c.shipmentSellerCost("48422268088")).toBe(-1049);
+    expect(await c.shipmentSellerCost("48428320301")).toBe(16580);
+    expect(await c.shipmentSellerCost("999")).toBe(0);
+    const costsCall = f.mock.calls.find((x) => String(x[0]).endsWith("/48422268088/costs"))!;
+    expect((costsCall[1] as RequestInit).headers).toMatchObject({ "x-format-new": "true" });
   });
   it("chunks items by 20 and reads gtins incl. variations", async () => {
     const f = vi.fn(async () =>
