@@ -1,5 +1,6 @@
 import { toArgParts } from "~/lib/dates";
 import { normEan, toNum } from "~/lib/normalize";
+import type { Matcher } from "~/lib/product-match";
 import type {
   Base,
   BusinessConfig,
@@ -33,6 +34,7 @@ export function buildLines(
   y: number,
   m: number,
   taxes?: TaxMap,
+  fuzzy?: Matcher,
 ): Line[] {
   const mgDefault: Record<string, number> = {};
   for (const [k, v] of Object.entries(cfg.margenAsumido)) mgDefault[k.toUpperCase()] = v;
@@ -124,6 +126,20 @@ export function buildLines(
         ean = (vid && g[vid]) || g._item || "";
         via = ean ? "GTIN publicación" : "";
       }
+      // Last resort: no exact key found a P&L product, so compare the listing title with them.
+      let matchScore: number | undefined;
+      let suggestEan: string | undefined;
+      if (fuzzy && via !== "Mapeo item" && via !== "Mapeo SKU" && !(ean in base) && !(ean in inputs.override)) {
+        const r = fuzzy.match(it.title, iid);
+        if (r?.status === "auto") {
+          ean = r.ean;
+          via = "Similitud de título";
+          matchScore = r.score;
+        } else if (r) {
+          suggestEan = r.ean;
+          matchScore = r.score;
+        }
+      }
       const fee = toNum(it.saleFee) * qty;
       const share = revO ? venta / revO : 0;
       const shipLine = shipO * share;
@@ -153,6 +169,8 @@ export function buildLines(
         costSource: c.source,
         taxSource: hasMp ? "Mercado Pago" : `Estimado ${pct1(impPct)}`,
         taxDetail: [...txDet].map(([k, v]) => `${k} ${fmtThousands(v * share)}`).join("; "),
+        ...(matchScore !== undefined ? { matchScore } : {}),
+        ...(suggestEan ? { suggestEan } : {}),
       });
     }
   }

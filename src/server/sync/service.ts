@@ -4,6 +4,7 @@ import { DashboardDataSchema, type DashboardData } from "~/lib/contracts";
 import { loadBusinessConfig } from "~/server/config";
 import { db } from "~/server/db";
 import { runSync } from "./run";
+import { targetMonth } from "./rebuild";
 
 export const COOLDOWN_SECONDS = 60;
 
@@ -29,8 +30,11 @@ interface Stored {
   computedAt: Date;
 }
 
-async function latestSnapshot(ownerId: string): Promise<Stored | null> {
-  const row = await db.snapshot.findFirst({ where: { ownerId }, orderBy: { computedAt: "desc" } });
+/** The snapshot of the month the dashboard shows (other months are kept only as history). */
+async function latestSnapshot(ownerId: string, now: Date): Promise<Stored | null> {
+  const row = await db.snapshot.findUnique({
+    where: { ownerId_month: { ownerId, month: targetMonth(now) } },
+  });
   if (!row) return null;
   return { data: DashboardDataSchema.parse(row.payload), computedAt: row.computedAt };
 }
@@ -68,7 +72,7 @@ export function createSyncService(deps: SyncServiceDeps) {
       : Math.max(0, Math.ceil(COOLDOWN_SECONDS - (deps.clock().getTime() - lastStartedAt) / 1000));
 
   async function getDashboard(): Promise<DashboardData> {
-    const snap = await latestSnapshot(deps.ownerId);
+    const snap = await latestSnapshot(deps.ownerId, deps.clock());
     if (!snap) return start();
     const ageMs = deps.clock().getTime() - snap.computedAt.getTime();
     if (ageMs > deps.refreshMinutes() * 60_000) {
@@ -86,7 +90,7 @@ export function createSyncService(deps: SyncServiceDeps) {
   }
 
   async function status(): Promise<DashboardStatus> {
-    const snap = await latestSnapshot(deps.ownerId);
+    const snap = await latestSnapshot(deps.ownerId, deps.clock());
     return {
       updatedAt: snap?.data.updatedAt ?? "",
       nextRefreshAt: snap
@@ -99,7 +103,10 @@ export function createSyncService(deps: SyncServiceDeps) {
     };
   }
 
-  return { getDashboard, forceRefresh, status };
+  /** Recompute now, skipping the cooldown (a person just changed what the numbers depend on). */
+  const recompute = (): Promise<DashboardData> => start();
+
+  return { getDashboard, forceRefresh, recompute, status };
 }
 
 export type SyncService = ReturnType<typeof createSyncService>;

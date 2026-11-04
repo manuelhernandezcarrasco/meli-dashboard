@@ -108,6 +108,9 @@ export const LineSchema = z.object({
   costSource: z.string(),
   taxSource: z.string(),
   taxDetail: z.string(),
+  /** Fuzzy title match: confidence of the EAN used (auto) or of the EAN suggested (not used yet). */
+  matchScore: z.number().optional(),
+  suggestEan: z.string().optional(),
 });
 export type Line = z.infer<typeof LineSchema>;
 
@@ -156,6 +159,17 @@ export const StockRowSchema = z.object({
 });
 export type StockRow = z.infer<typeof StockRowSchema>;
 
+export const MatchProposalSchema = z.object({
+  itemId: z.string(),
+  title: z.string(),
+  ean: z.string(),
+  desc: z.string(),
+  score: z.number(),
+  qty: z.number(),
+  venta: z.number(),
+});
+export type MatchProposal = z.infer<typeof MatchProposalSchema>;
+
 export const DashboardDataSchema = z.object({
   rows: z.array(
     z.object({
@@ -189,6 +203,10 @@ export const DashboardDataSchema = z.object({
       }),
     )
     .max(30),
+  /** Listings whose title looks like a P&L product but needs a person's yes/no. */
+  suggestions: z.array(MatchProposalSchema).max(20).default([]),
+  /** Listings linked to a P&L product automatically by title similarity (can be undone). */
+  autoMatches: z.array(MatchProposalSchema).max(20).default([]),
   refreshMinutes: z.number(),
   taxPct: z.number(),
   thresholds: z.object({ crit: z.number(), low: z.number(), repo: z.number() }),

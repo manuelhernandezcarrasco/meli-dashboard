@@ -14,9 +14,11 @@ import { loadBusinessConfig } from "~/server/config";
 import { db } from "~/server/db";
 import { getDataSource } from "~/server/datasource";
 import type { DataSource } from "~/server/datasource/types";
+import { createMatcher } from "~/lib/product-match";
 import { workbooks } from "~/server/workbooks";
 import { loadUploaded } from "~/server/workbooks/store";
 import { enrich, fetchMonth } from "./enrich";
+import { loadDecisions, withConfirmed } from "./matches";
 
 const log = (msg: string) => console.log(`[sync] ${msg}`);
 const resolve = (p: string) => path.resolve(process.cwd(), p);
@@ -70,7 +72,9 @@ export async function runSync(
     env.DATA_SOURCE === "demo" && env.BASE_PNL_PATH ? await readDemoWorkbooks(cfg) : null;
   const base = uploaded.base ?? demo?.base ?? {};
   const prevCierre = uploaded.prev ?? demo?.prev ?? ZERO_TOTALS;
-  const inputs = uploaded.inputs ?? demo?.inputs ?? EMPTY_INPUTS;
+  const decisions = await loadDecisions(ownerId);
+  const inputs = withConfirmed(uploaded.inputs ?? demo?.inputs ?? EMPTY_INPUTS, decisions);
+  const fuzzy = createMatcher(base, decisions.rejected);
   const ds = opts.dataSource ?? getDataSource(ownerId, base, now);
 
   log(`Descargando órdenes de ${monthLabel(y, m)}…`);
@@ -83,18 +87,18 @@ export async function runSync(
 
   const data = computeDashboard({
     orders, prevOrders, shipCosts, gtins, taxes, base, prevCierre, inputs, cfg,
-    y, m, now, stockFn: computeStock,
+    y, m, now, stockFn: computeStock, fuzzy,
   });
 
   // Control lines (legacy 1280–1290); never log order contents.
   const calCfg = { ...cfg, impuestosMlPctEstimado: data.taxPct };
-  const lines = buildLines(orders, shipCosts, gtins, base, inputs, calCfg, y, m, taxes);
+  const lines = buildLines(orders, shipCosts, gtins, base, inputs, calCfg, y, m, taxes, fuzzy);
   const ml = lines.filter((l) => l.channel === "ML");
   if (ml.length) {
     const con = ml.filter((l) => l.taxSource === "Mercado Pago").length;
     log(`Impuestos: ${con}/${ml.length} líneas ML con detalle real de Mercado Pago; el resto, estimado`);
   }
-  const pml = buildLines(prevOrders, shipCosts, gtins, base, inputs, calCfg, py, pm, taxes).filter(
+  const pml = buildLines(prevOrders, shipCosts, gtins, base, inputs, calCfg, py, pm, taxes, fuzzy).filter(
     (l) => l.channel === "ML",
   );
   if (pml.length && prevCierre.costoMl) {

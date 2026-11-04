@@ -1,3 +1,4 @@
+import { targetMonth } from "~/server/sync/rebuild";
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
@@ -39,18 +40,22 @@ describe("uploaded workbook store", () => {
     expect(await loadUploaded(B)).toEqual({});
   });
 
-  it("re-uploading replaces, delete removes and snapshots are dropped", async () => {
-    await db.snapshot.upsert({
-      where: { ownerId_month: { ownerId: A, month: "2026-10" } },
-      create: { ownerId: A, month: "2026-10", payload: {}, computedAt: new Date() },
-      update: {},
-    });
+  it("re-uploading replaces, delete removes and the current snapshot is dropped", async () => {
+    const cur = targetMonth(new Date());
+    for (const month of [cur, "2020-01"]) {
+      await db.snapshot.upsert({
+        where: { ownerId_month: { ownerId: A, month } },
+        create: { ownerId: A, month, payload: {}, computedAt: new Date() },
+        update: {},
+      });
+    }
     await saveUpload(A, "pnl", "uno.xlsx", pnl);
     await saveUpload(A, "pnl", "dos.xlsx", pnl);
     const list = await listUploads(A);
     expect(list).toHaveLength(1);
     expect(list[0]!.fileName).toBe("dos.xlsx");
-    expect(await db.snapshot.count({ where: { ownerId: A } })).toBe(0);
+    // the month on screen is recomputed; older months stay as history for “Recalcular histórico”
+    expect((await db.snapshot.findMany({ where: { ownerId: A } })).map((x) => x.month)).toEqual(["2020-01"]);
 
     await deleteUpload(A, "pnl");
     expect(await loadUploaded(A)).toEqual({});

@@ -3,7 +3,7 @@ import {
   STOCK_STATES, type Agg, type CategoryRow, type Row, type StockRow, type StockState,
   type TopProduct,
 } from "~/lib/dashboard-math";
-import type { DashboardData } from "~/lib/contracts";
+import type { DashboardData, MatchProposal } from "~/lib/contracts";
 import { Badge, Card } from "./ui";
 
 export function CategoryTable({ rows, total }: { rows: CategoryRow[]; total: Agg }) {
@@ -84,17 +84,75 @@ export function TopProducts({ rows }: { rows: TopProduct[] }) {
   );
 }
 
-export function Alerts({ data, assumed }: { data: DashboardData; assumed: number }) {
-  const missing = missingCosts(data.rows);
-  const unmatched = data.unmatched;
-  const prev = data.comp.prevLabel.split(" ")[0] ?? "";
-  const ok = !missing.length && !unmatched.length && !assumed;
+export interface MatchDecisionInput {
+  itemId: string;
+  ean: string;
+  decision: "confirmed" | "rejected";
+}
+
+function MatchSection({ title, hint, items, yes, no, pending, onDecide, className = "" }: {
+  title: string; hint: string; items: MatchProposal[]; yes: string; no: string; pending: boolean;
+  onDecide?: (d: MatchDecisionInput) => void; className?: string;
+}) {
+  if (!items.length) return null;
+  const btn = "cursor-pointer rounded-md border border-line bg-card px-2 py-0.5 text-xs text-ink disabled:opacity-60";
   return (
-    <Card title="Alertas de datos" small={ok ? undefined : `${missing.length + unmatched.length} por revisar`}>
+    <section className={className}>
+      <h4 className="m-0 text-[13px] font-semibold text-warn">{title}</h4>
+      <p className="m-0 mt-0.5 mb-2 text-xs text-mut">{hint}</p>
+      <table className="tbl">
+        <tbody>
+          {items.map((p) => (
+            <tr key={p.itemId}>
+              <td className="left">
+                {p.title}
+                <div className="text-[11px] text-mut">
+                  ¿es <b>{p.desc}</b>? · {Math.round(p.score * 100)}% · {fmtInt(p.qty)} uds · {short(p.venta)}
+                </div>
+              </td>
+              {onDecide && (
+                <td className="whitespace-nowrap">
+                  <button type="button" disabled={pending} className={btn}
+                    onClick={() => onDecide({ itemId: p.itemId, ean: p.ean, decision: "confirmed" })}>{yes}</button>{" "}
+                  <button type="button" disabled={pending} className={btn}
+                    onClick={() => onDecide({ itemId: p.itemId, ean: p.ean, decision: "rejected" })}>{no}</button>
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  );
+}
+
+export function Alerts({ data, assumed, onMatchDecision, matchPending = false }: {
+  data: DashboardData; assumed: number; onMatchDecision?: (d: MatchDecisionInput) => void; matchPending?: boolean;
+}) {
+  const missing = missingCosts(data.rows);
+  const suggested = new Set(data.suggestions.map((x) => x.itemId));
+  const unmatched = data.unmatched.filter((u) => !suggested.has(u.itemId));
+  const prev = data.comp.prevLabel.split(" ")[0] ?? "";
+  const ok = !missing.length && !unmatched.length && !assumed && !data.suggestions.length && !data.autoMatches.length;
+  return (
+    <Card title="Alertas de datos" small={ok ? undefined : `${missing.length + unmatched.length + data.suggestions.length} por revisar`}>
       {ok ? (
         <p className="m-0 text-[13px] text-pos">✓ Todo en orden: todos los productos tienen costo real.</p>
       ) : (
         <div className="max-h-[330px] overflow-auto">
+          <MatchSection
+            title={`${data.suggestions.length} publicaciones que parecen un producto del Excel`}
+            hint="No estoy seguro: confirmá si son el mismo producto para usar su costo real."
+            items={data.suggestions} yes="Sí, es" no="No" pending={matchPending} onDecide={onMatchDecision}
+            className="mb-4"
+          />
+          <MatchSection
+            title={`${data.autoMatches.length} vinculadas automáticamente por nombre`}
+            hint="Se usó el costo del producto parecido. Si alguna está mal, deshacela."
+            items={data.autoMatches} yes="OK" no="Deshacer" pending={matchPending}
+            onDecide={onMatchDecision}
+            className="mb-4"
+          />
           {missing.length > 0 && (
             <section>
               <h4 className="m-0 text-[13px] font-semibold text-warn">

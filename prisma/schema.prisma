@@ -51,3 +51,16 @@ model UserWorkbook {
 
   @@id([ownerId, kind])
 }
+
+/// A person's answer to "is this ML listing that P&L product?". decision = "confirmed" (use that
+/// EAN for the listing, like a "Mapeo ML" row) or "rejected" (never suggest/auto-match that EAN
+/// for the listing again). Survives Excel re-uploads, unlike the mapping sheet.
+model MatchDecision {
+  ownerId   String
+  itemId    String
+  ean       String
+  decision  String
+  decidedAt DateTime @default(now())
+
+  @@id([ownerId, itemId, ean])
+}
