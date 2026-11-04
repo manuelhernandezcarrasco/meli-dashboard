@@ -1,5 +1,5 @@
 import {
-  alerts as buildAlerts, fmtDec1, fmtInt, fmtShortDate, marginAmount, marginRatio, pct, short,
+  fmtDec1, fmtInt, fmtShortDate, marginAmount, marginRatio, missingCosts, pct, short,
   STOCK_STATES, type Agg, type CategoryRow, type Row, type StockRow, type StockState,
   type TopProduct,
 } from "~/lib/dashboard-math";
@@ -85,14 +85,67 @@ export function TopProducts({ rows }: { rows: TopProduct[] }) {
 }
 
 export function Alerts({ data, assumed }: { data: DashboardData; assumed: number }) {
-  const items = buildAlerts(data, { assumed });
+  const missing = missingCosts(data.rows);
+  const unmatched = data.unmatched;
+  const prev = data.comp.prevLabel.split(" ")[0] ?? "";
+  const ok = !missing.length && !unmatched.length && !assumed;
   return (
-    <Card title="Alertas de datos">
-      <ul className="m-0 pl-[18px]">
-        {items.map((a) => (
-          <li key={a} className="my-[3px] text-warn">{a}</li>
-        ))}
-      </ul>
+    <Card title="Alertas de datos" small={ok ? undefined : `${missing.length + unmatched.length} por revisar`}>
+      {ok ? (
+        <p className="m-0 text-[13px] text-pos">✓ Todo en orden: todos los productos tienen costo real.</p>
+      ) : (
+        <div className="max-h-[330px] overflow-auto">
+          {missing.length > 0 && (
+            <section>
+              <h4 className="m-0 text-[13px] font-semibold text-warn">
+                {missing.length} {missing.length === 1 ? "producto sin costo real" : "productos sin costo real"}
+              </h4>
+              <p className="m-0 mt-0.5 mb-2 text-xs text-mut">
+                Se usó un margen asumido porque no hay costo unitario en el cierre de {prev}. Cargá el costo
+                de estos productos para que el margen sea exacto.
+              </p>
+              <table className="tbl">
+                <thead><tr><th>Producto</th><th>Uds</th><th>Venta</th></tr></thead>
+                <tbody>
+                  {missing.map((p) => (
+                    <tr key={p.key}>
+                      <td>
+                        {p.desc}
+                        <div className="text-[11px] text-mut">{p.ean ? `EAN ${p.ean}` : "sin EAN"} · {p.cat}</div>
+                      </td>
+                      <td>{fmtInt(p.qty)}</td><td>{short(p.venta)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          )}
+          {unmatched.length > 0 && (
+            <section className={missing.length ? "mt-4" : ""}>
+              <h4 className="m-0 text-[13px] font-semibold text-warn">
+                {unmatched.length} {unmatched.length === 1 ? "publicación" : "publicaciones"} de ML sin EAN
+              </h4>
+              <p className="m-0 mt-0.5 mb-2 text-xs text-mut">
+                Completá la hoja “Mapeo ML” con el EAN de cada una para poder asignarle costo.
+              </p>
+              <table className="tbl">
+                <thead><tr><th>Publicación</th><th>Uds</th><th>Venta</th></tr></thead>
+                <tbody>
+                  {unmatched.map((u) => (
+                    <tr key={u.itemId}>
+                      <td>
+                        {u.title}
+                        <div className="text-[11px] text-mut">{u.itemId}{u.sku ? ` · SKU ${u.sku}` : ""}</div>
+                      </td>
+                      <td>{fmtInt(u.qty)}</td><td>{short(u.venta)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          )}
+        </div>
+      )}
     </Card>
   );
 }

@@ -359,6 +359,31 @@ export function alerts(data: DashboardData, mes: Pick<Agg, "assumed">): string[]
   return out;
 }
 
+export interface MissingCostProduct {
+  key: string;
+  desc: string;
+  ean: string;
+  cat: string;
+  lines: number;
+  qty: number;
+  venta: number;
+}
+
+/** Products with at least one line whose cost is assumed (no real CU), biggest sales first. */
+export function missingCosts(rows: readonly Pick<Row, "ean" | "desc" | "cat" | "qty" | "sale" | "assumed">[]): MissingCostProduct[] {
+  const map = new Map<string, MissingCostProduct>();
+  for (const r of rows) {
+    if (!r.assumed) continue;
+    const key = r.ean || r.desc;
+    const cur = map.get(key) ?? { key, desc: r.desc, ean: r.ean, cat: r.cat, lines: 0, qty: 0, venta: 0 };
+    cur.lines += 1;
+    cur.qty += r.qty;
+    cur.venta += r.sale;
+    map.set(key, cur);
+  }
+  return [...map.values()].sort((a, b) => b.venta - a.venta);
+}
+
 // ---------- stock ----------
 export function stockCounts(stock: readonly StockRow[], cat: string): Record<StockState, number> {
   const cnt: Record<StockState, number> = {
