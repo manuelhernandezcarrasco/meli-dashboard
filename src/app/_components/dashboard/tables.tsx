@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, type ReactNode } from "react";
+
 import {
   fmtDec1, fmtInt, fmtShortDate, marginAmount, marginRatio, missingCosts, pct, short,
   STOCK_STATES, type Agg, type CategoryRow, type Row, type StockRow, type StockState,
@@ -5,15 +9,25 @@ import {
 } from "~/lib/dashboard-math";
 import type { DashboardData, MatchProposal } from "~/lib/contracts";
 import { ScrollPane } from "./ScrollPane";
+import { SortTh, useSort } from "./sort";
 import { Badge, Card } from "./ui";
 
-export function CategoryTable({ rows, total }: { rows: CategoryRow[]; total: Agg }) {
+export function CategoryTable({ rows: all, total }: { rows: CategoryRow[]; total: Agg }) {
+  const { rows, sort, toggle } = useSort(all, {
+    cat: (r) => r.cat, venta: (r) => r.t.venta, net: (r) => r.t.net, mb: (r) => r.t.mb, mg: (r) => r.t.mg,
+  });
   return (
     <Card title="Por categoría" small="mes acumulado">
       <ScrollPane className="max-h-[330px]">
         <table className="tbl">
           <thead>
-            <tr><th>Categoría</th><th>Venta</th><th>Ing. Netos</th><th>Mg. Bruto</th><th>Mg.%</th></tr>
+            <tr>
+              <SortTh col="cat" sort={sort} onSort={toggle}>Categoría</SortTh>
+              <SortTh col="venta" sort={sort} onSort={toggle}>Venta</SortTh>
+              <SortTh col="net" sort={sort} onSort={toggle}>Ing. Netos</SortTh>
+              <SortTh col="mb" sort={sort} onSort={toggle}>Mg. Bruto</SortTh>
+              <SortTh col="mg" sort={sort} onSort={toggle}>Mg.%</SortTh>
+            </tr>
           </thead>
           <tbody>
             {rows.map(({ cat, t, share }) => (
@@ -40,12 +54,22 @@ export function CategoryTable({ rows, total }: { rows: CategoryRow[]; total: Agg
   );
 }
 
-export function SalesFeed({ rows }: { rows: Row[] }) {
+export function SalesFeed({ rows: all }: { rows: Row[] }) {
+  const { rows, sort, toggle } = useSort(all, {
+    date: (r) => `${r.date} ${r.time}`, sale: (r) => r.sale, mb: marginAmount, mg: marginRatio,
+  });
   return (
     <Card title="Últimas ventas">
       <ScrollPane className="max-h-[330px]">
         <table className="tbl">
-          <thead><tr><th>Cuándo / producto</th><th>Venta</th><th className="ctr">Mg. bruto</th><th className="ctr">Mg.%</th></tr></thead>
+          <thead>
+            <tr>
+              <SortTh col="date" sort={sort} onSort={toggle}>Cuándo / producto</SortTh>
+              <SortTh col="sale" sort={sort} onSort={toggle}>Venta</SortTh>
+              <SortTh col="mb" sort={sort} onSort={toggle} className="ctr">Mg. bruto</SortTh>
+              <SortTh col="mg" sort={sort} onSort={toggle} className="ctr">Mg.%</SortTh>
+            </tr>
+          </thead>
           <tbody>
             {rows.map((r, i) => (
               <tr key={`${r.order}-${r.ean}-${i}`}>
@@ -67,12 +91,22 @@ export function SalesFeed({ rows }: { rows: Row[] }) {
   );
 }
 
-export function TopProducts({ rows }: { rows: TopProduct[] }) {
+export function TopProducts({ rows: all }: { rows: TopProduct[] }) {
+  const { rows, sort, toggle } = useSort(all, {
+    desc: (r) => r.desc, qty: (r) => r.t.qty, venta: (r) => r.t.venta, mg: (r) => r.t.mg,
+  });
   return (
     <Card title="Top productos del mes">
       <ScrollPane className="max-h-[330px]">
         <table className="tbl">
-          <thead><tr><th>Producto</th><th>Uds</th><th>Venta</th><th>Mg.%</th></tr></thead>
+          <thead>
+            <tr>
+              <SortTh col="desc" sort={sort} onSort={toggle}>Producto</SortTh>
+              <SortTh col="qty" sort={sort} onSort={toggle}>Uds</SortTh>
+              <SortTh col="venta" sort={sort} onSort={toggle}>Venta</SortTh>
+              <SortTh col="mg" sort={sort} onSort={toggle}>Mg.%</SortTh>
+            </tr>
+          </thead>
           <tbody>
             {rows.map((x) => (
               <tr key={x.desc}>
@@ -92,6 +126,36 @@ export interface MatchDecisionInput {
   decision: "confirmed" | "rejected";
 }
 
+function AlertSection({ title, hint, children, className = "" }: {
+  title: ReactNode; hint: string; children: ReactNode; className?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <section className={className}>
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full cursor-pointer items-center justify-between gap-2 border-0 bg-transparent p-0 text-left"
+      >
+        <h4 className="m-0 text-[13px] font-semibold text-warn">{title}</h4>
+        <svg
+          width="12" height="12" viewBox="0 0 12 12" aria-hidden
+          className={`shrink-0 text-mut transition-transform ${open ? "rotate-180" : ""}`}
+        >
+          <path d="M2 4 L6 8 L10 4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {open && (
+        <>
+          <p className="m-0 mt-0.5 mb-2 text-xs text-mut">{hint}</p>
+          {children}
+        </>
+      )}
+    </section>
+  );
+}
+
 function MatchSection({ title, hint, items, yes, no, pending, onDecide, className = "" }: {
   title: string; hint: string; items: MatchProposal[]; yes: string; no: string; pending: boolean;
   onDecide?: (d: MatchDecisionInput) => void; className?: string;
@@ -99,9 +163,7 @@ function MatchSection({ title, hint, items, yes, no, pending, onDecide, classNam
   if (!items.length) return null;
   const btn = "cursor-pointer rounded-md border border-line bg-card px-2 py-0.5 text-xs text-ink disabled:opacity-60";
   return (
-    <section className={className}>
-      <h4 className="m-0 text-[13px] font-semibold text-warn">{title}</h4>
-      <p className="m-0 mt-0.5 mb-2 text-xs text-mut">{hint}</p>
+    <AlertSection title={title} hint={hint} className={className}>
       <table className="tbl">
         <tbody>
           {items.map((p) => (
@@ -124,7 +186,7 @@ function MatchSection({ title, hint, items, yes, no, pending, onDecide, classNam
           ))}
         </tbody>
       </table>
-    </section>
+    </AlertSection>
   );
 }
 
@@ -156,14 +218,10 @@ export function Alerts({ data, assumed, onMatchDecision, matchPending = false }:
             className="mb-4"
           />
           {missing.length > 0 && (
-            <section>
-              <h4 className="m-0 text-[13px] font-semibold text-warn">
-                {missing.length} {missing.length === 1 ? "producto sin costo real" : "productos sin costo real"}
-              </h4>
-              <p className="m-0 mt-0.5 mb-2 text-xs text-mut">
-                Se usó un margen asumido porque no hay costo unitario en el cierre de {prev}. Cargá el costo
-                de estos productos para que el margen sea exacto.
-              </p>
+            <AlertSection
+              title={`${missing.length} ${missing.length === 1 ? "producto sin costo real" : "productos sin costo real"}`}
+              hint={`Se usó un margen asumido porque no hay costo unitario en el cierre de ${prev}. Cargá el costo de estos productos para que el margen sea exacto.`}
+            >
               <table className="tbl">
                 <thead><tr><th>Producto</th><th>Uds</th><th>Venta</th></tr></thead>
                 <tbody>
@@ -178,16 +236,14 @@ export function Alerts({ data, assumed, onMatchDecision, matchPending = false }:
                   ))}
                 </tbody>
               </table>
-            </section>
+            </AlertSection>
           )}
           {unmatched.length > 0 && (
-            <section className={missing.length ? "mt-4" : ""}>
-              <h4 className="m-0 text-[13px] font-semibold text-warn">
-                {unmatched.length} {unmatched.length === 1 ? "publicación" : "publicaciones"} de ML sin EAN
-              </h4>
-              <p className="m-0 mt-0.5 mb-2 text-xs text-mut">
-                Completá la hoja “Mapeo ML” con el EAN de cada una para poder asignarle costo.
-              </p>
+            <AlertSection
+              title={`${unmatched.length} ${unmatched.length === 1 ? "publicación" : "publicaciones"} de ML sin EAN`}
+              hint="Completá la hoja “Mapeo ML” con el EAN de cada una para poder asignarle costo."
+              className={missing.length ? "mt-4" : ""}
+            >
               <table className="tbl">
                 <thead><tr><th>Publicación</th><th>Uds</th><th>Venta</th></tr></thead>
                 <tbody>
@@ -202,7 +258,7 @@ export function Alerts({ data, assumed, onMatchDecision, matchPending = false }:
                   ))}
                 </tbody>
               </table>
-            </section>
+            </AlertSection>
           )}
         </ScrollPane>
       )}
@@ -212,7 +268,7 @@ export function Alerts({ data, assumed, onMatchDecision, matchPending = false }:
 
 const STATE_DOT = ["bg-neg", "bg-neg", "bg-cost", "bg-warn", "bg-pos"] as const;
 
-export function StockTable({ data, rows, counts, selected, onToggle, prevMonth }: {
+export function StockTable({ data, rows: all, counts, selected, onToggle, prevMonth }: {
   data: DashboardData;
   rows: StockRow[];
   counts: Record<StockState, number>;
@@ -221,6 +277,12 @@ export function StockTable({ data, rows, counts, selected, onToggle, prevMonth }
   prevMonth: string;
 }) {
   const U = data.thresholds;
+  const { rows, sort, toggle } = useSort(all, {
+    state: (x) => STOCK_STATES.indexOf(x.state), desc: (x) => x.desc, initial: (x) => x.initial,
+    inflow: (x) => x.inflow, sold: (x) => x.sold, remaining: (x) => x.remaining, rate: (x) => x.rate,
+    coverage: (x) => (x.remaining <= 0 ? 0 : x.coverage),
+    breakDate: (x) => (x.remaining <= 0 ? "" : x.breakDate), reorder: (x) => x.reorder,
+  });
   return (
     <Card
       className="mt-3"
@@ -255,9 +317,16 @@ export function StockTable({ data, rows, counts, selected, onToggle, prevMonth }
         <table className="tbl">
           <thead>
             <tr>
-              <th>Estado</th><th className="left">Producto</th><th>Stock ini</th><th>Ingresos</th>
-              <th>Vendidas</th><th>Restante</th><th>Uds/día</th><th>Cobertura</th>
-              <th>Quiebre est.</th><th>Reponer</th>
+              <SortTh col="state" sort={sort} onSort={toggle} className="left">Estado</SortTh>
+              <SortTh col="desc" sort={sort} onSort={toggle} className="left">Producto</SortTh>
+              <SortTh col="initial" sort={sort} onSort={toggle}>Stock ini</SortTh>
+              <SortTh col="inflow" sort={sort} onSort={toggle}>Ingresos</SortTh>
+              <SortTh col="sold" sort={sort} onSort={toggle}>Vendidas</SortTh>
+              <SortTh col="remaining" sort={sort} onSort={toggle}>Restante</SortTh>
+              <SortTh col="rate" sort={sort} onSort={toggle}>Uds/día</SortTh>
+              <SortTh col="coverage" sort={sort} onSort={toggle}>Cobertura</SortTh>
+              <SortTh col="breakDate" sort={sort} onSort={toggle}>Quiebre est.</SortTh>
+              <SortTh col="reorder" sort={sort} onSort={toggle}>Reponer</SortTh>
             </tr>
           </thead>
           <tbody>

@@ -186,7 +186,7 @@ function buildCards(t: Agg, p: Cmp | null, sub1: string): KpiCard[] {
             breakdown: [
               { label: "Comisión por venta", pct: t.fee / t.venta, amount: ars(t.fee) },
               { label: "Costo por ofrecer cuotas", pct: t.cuotas / t.venta, amount: ars(t.cuotas) },
-              { label: "Envío a cargo del vendedor", pct: t.ship / t.venta, amount: ars(t.ship) },
+              { label: "Costo de envío", pct: t.ship / t.venta, amount: ars(t.ship) },
               { label: "Impuestos y retenciones", pct: t.tax / t.venta, amount: ars(t.tax) },
             ],
           }
