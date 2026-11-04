@@ -24,21 +24,24 @@ export function SectionLabel({ children }: { children: ReactNode }) {
   );
 }
 
-export function Badge({ value, inverse = false, plain = false }: {
+export function Badge({ value, inverse = false, plain = false, margin = false }: {
   value: number | null;
   inverse?: boolean;
   /** hide the leading "+" (feed margins) */
   plain?: boolean;
+  /** margin pill: red below 0%, orange 0–15%, green above 15% */
+  margin?: boolean;
 }) {
   if (value == null || !Number.isFinite(value)) {
     return <span className="inline-block rounded-full px-1.5 text-xs leading-[19px] font-semibold text-mut">–</span>;
   }
   const good = inverse ? value <= 0 : value >= 0;
+  const tone = margin
+    ? value < 0 ? "bg-negbg text-neg" : value <= 0.15 ? "bg-warnbg text-warn" : "bg-posbg text-pos"
+    : good ? "bg-posbg text-pos" : "bg-negbg text-neg";
   return (
     <span
-      className={`inline-block rounded-full px-1.5 text-xs leading-[19px] font-semibold ${
-        good ? "bg-posbg text-pos" : "bg-negbg text-neg"
-      }`}
+      className={`inline-block rounded-full px-1.5 text-xs leading-[19px] font-semibold ${tone}`}
     >
       {plain ? fmtDelta(value).replace("+", "") : fmtDelta(value)}
     </span>

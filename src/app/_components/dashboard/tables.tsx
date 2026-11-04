@@ -57,7 +57,7 @@ export function SalesFeed({ rows }: { rows: Row[] }) {
                 </td>
                 <td>{short(r.sale)}</td>
                 <td className="ctr">{short(marginAmount(r))}</td>
-                <td className="ctr"><Badge value={marginRatio(r)} plain /></td>
+                <td className="ctr"><Badge value={marginRatio(r)} plain margin /></td>
               </tr>
             ))}
           </tbody>
