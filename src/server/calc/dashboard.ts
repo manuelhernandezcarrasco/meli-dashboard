@@ -103,6 +103,7 @@ export function computeDashboard(i: ComputeDashboardInput): DashboardData {
       sale: round2(l.venta),
       costML: round2(l.costoMl),
       feeML: round2(l.cargoVenta),
+      cuotasML: round2(l.cuotas),
       shipML: round2(l.envio),
       taxML: round2(l.impEst),
       cogs: round2(l.qty * l.cu),

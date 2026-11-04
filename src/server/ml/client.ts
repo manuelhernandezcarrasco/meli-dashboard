@@ -71,7 +71,10 @@ export class MlClient {
       "x-format-new": "true",
     })) as any;
     if (!r) return 0;
-    return ((r.senders ?? []) as any[]).reduce((s, x) => s + toNum(x.cost), 0);
+    // Mercado Libre pays the seller a "bonificación por envío" (senders[].save) and, per the
+    // operation detail, no shipping charge is deducted from the payout: the net effect on the
+    // seller is a credit, so it is returned as a NEGATIVE cost.
+    return -((r.senders ?? []) as any[]).reduce((s, x) => s + toNum(x.save), 0);
   }
 
   async itemsGtin(ids: string[]): Promise<Gtins> {

@@ -26,6 +26,8 @@ export type Order = z.infer<typeof OrderSchema>;
 export const PaymentTaxesSchema = z.object({
   total: z.number(),
   det: z.record(z.number()),
+  /** "Costo por ofrecer cuotas" (financing fee) charged on the payment; part of sale_fee. */
+  financing: z.number().optional(),
 });
 export type PaymentTaxes = z.infer<typeof PaymentTaxesSchema>;
 
@@ -101,6 +103,8 @@ export const LineSchema = z.object({
   pu: z.number(),
   venta: z.number(),
   cargoVenta: z.number(),
+  /** Costo por ofrecer cuotas; included in costoMl, excluded from cargoVenta. */
+  cuotas: z.number().default(0),
   envio: z.number(),
   impEst: z.number(),
   costoMl: z.number(),
@@ -185,6 +189,7 @@ export const DashboardDataSchema = z.object({
       costML: z.number(),
       /** costML split; optional so snapshots saved before the split still parse. */
       feeML: z.number().optional(),
+      cuotasML: z.number().optional(),
       shipML: z.number().optional(),
       taxML: z.number().optional(),
       cogs: z.number(),

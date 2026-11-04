@@ -133,6 +133,15 @@ describe("buildLines", () => {
     expect(est!.taxSource).toBe("Estimado 3.0%");
     expect(est!.impEst).toBeCloseTo(30);
   });
+  it("splits financing (cuotas) out of sale_fee but keeps it in costoMl", () => {
+    const withPay = order({ payments: [{ id: 5, status: "approved" }] });
+    const it0 = withPay.items[0]!;
+    withPay.items[0] = { ...it0, saleFee: 23956.9 / it0.quantity };
+    const [l] = run([withPay], { E1: baseSku("E1") }, emptyInputs, { "5": { total: 0, det: {}, financing: 14742.71 } });
+    expect(l!.cuotas).toBeCloseTo(14742.71);
+    expect(l!.cargoVenta).toBeCloseTo(9214.19);
+    expect(l!.costoMl).toBeCloseTo(23956.9);
+  });
   it("override beats base", () => {
     const [l] = run([order()], { E1: baseSku("E1") }, { ...emptyInputs, override: { E1: { cu: 55, desc: "x", cat: null } } });
     expect(l!.cu).toBe(55);
