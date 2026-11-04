@@ -203,15 +203,28 @@ export function computeDashboard(data: DashboardData, channel: Channel, cat: str
   const mes = agg(upToDay(rows, corte));
 
   const live = sameMonth && C.prevToday != null && corte === C.cutDay;
-  const pdRaw = live ? C.prevToday : (C.prevDaily[corte - 1] ?? null);
-  const pHoy = full && pdRaw ? toCmp(pdRaw) : null;
   const pMes = full ? (live ? toCmp(C.prevAccumAtCut) : prevAccum(data, corte)) : null;
 
   const proj = (mes.venta / corte) * C.nDays;
   const projectionDelta = full && C.prevCierre.venta ? vr(proj, C.prevCierre.venta) : null;
-  const vsHoy = live
-    ? `vs día ${corte} de ${pl} hasta las ${C.cutTime ?? ""}`
-    : `vs día ${corte} de ${pl}`;
+
+  // "Hoy" compares against yesterday (same time of day while the day is in progress).
+  // Day 1 has no yesterday in the loaded month, so it falls back to the previous month's last day.
+  const cutTime = live ? C.cutTime : null;
+  let pHoy: Cmp | null = null;
+  let vsHoy: string;
+  if (corte > 1) {
+    const ydayIso = `${data.y}-${String(data.m).padStart(2, "0")}-${String(corte - 1).padStart(2, "0")}`;
+    const yRows = rows.filter(
+      (r) => r.date === ydayIso && (!cutTime || (r.time || "00:00") <= cutTime),
+    );
+    pHoy = toCmp(agg(yRows));
+    vsHoy = cutTime ? `vs ayer hasta las ${cutTime}` : "vs ayer";
+  } else {
+    const last = C.prevDaily[C.prevDaily.length - 1];
+    pHoy = full && last ? toCmp(last) : null;
+    vsHoy = "vs ayer";
+  }
 
   return {
     corte, sameMonth, full, hoy, mes,
