@@ -67,7 +67,7 @@ export async function enrich(
   // --- shipment costs: cached per id; re-fetched while the order is < 3 days old
   const paid = orders.filter((o) => o.status === "paid");
   const shipKeys = uniq(
-    paid.filter((o) => o.shippingId).map((o) => `ship2:${o.shippingId}`),
+    paid.filter((o) => o.shippingId).map((o) => `ship3:${o.shippingId}`),
   );
   const shipCache = await readCache(ownerId, shipKeys);
   const needShip = uniq(
@@ -75,14 +75,14 @@ export async function enrich(
       .filter(
         (o) =>
           o.shippingId &&
-          (!shipCache.has(`ship2:${o.shippingId}`) || ageDays(o.dateCreated, now) < 3),
+          (!shipCache.has(`ship3:${o.shippingId}`) || ageDays(o.dateCreated, now) < 3),
       )
       .map((o) => String(o.shippingId)),
   );
   if (needShip.length) {
     log(`Consultando costo de envío de ${needShip.length} envíos…`);
     const got = await ds.getShipmentCosts(needShip);
-    const entries: [string, unknown][] = Object.entries(got).map(([id, c]) => [`ship2:${id}`, c]);
+    const entries: [string, unknown][] = Object.entries(got).map(([id, c]) => [`ship3:${id}`, c]);
     await writeCache(ownerId, entries);
     for (const [k, v] of entries) shipCache.set(k, v);
   }
