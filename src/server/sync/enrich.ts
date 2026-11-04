@@ -67,7 +67,7 @@ export async function enrich(
   // --- shipment costs: cached per id; re-fetched while the order is < 3 days old
   const paid = orders.filter((o) => o.status === "paid");
   const shipKeys = uniq(
-    paid.filter((o) => o.shippingId).map((o) => `ship:${o.shippingId}`),
+    paid.filter((o) => o.shippingId).map((o) => `ship2:${o.shippingId}`),
   );
   const shipCache = await readCache(ownerId, shipKeys);
   const needShip = uniq(
@@ -75,19 +75,19 @@ export async function enrich(
       .filter(
         (o) =>
           o.shippingId &&
-          (!shipCache.has(`ship:${o.shippingId}`) || ageDays(o.dateCreated, now) < 3),
+          (!shipCache.has(`ship2:${o.shippingId}`) || ageDays(o.dateCreated, now) < 3),
       )
       .map((o) => String(o.shippingId)),
   );
   if (needShip.length) {
     log(`Consultando costo de envío de ${needShip.length} envíos…`);
     const got = await ds.getShipmentCosts(needShip);
-    const entries: [string, unknown][] = Object.entries(got).map(([id, c]) => [`ship:${id}`, c]);
+    const entries: [string, unknown][] = Object.entries(got).map(([id, c]) => [`ship2:${id}`, c]);
     await writeCache(ownerId, entries);
     for (const [k, v] of entries) shipCache.set(k, v);
   }
   const shipCosts: ShipCosts = {};
-  for (const [k, v] of shipCache) shipCosts[k.slice(5)] = v as number;
+  for (const [k, v] of shipCache) shipCosts[k.slice(6)] = v as number;
 
   // --- GTINs: cached per item id (all orders, like Python)
   const itemIds = uniq(
@@ -113,7 +113,11 @@ export async function enrich(
   const taxCache = await readCache(ownerId, uniq(pays.map((p) => `tax:${p.id}`)));
   const pend = uniq(
     pays
-      .filter((p) => p.fresh || (taxCache.get(`tax:${p.id}`) ?? null) === null)
+      .filter((p) => {
+        const c = taxCache.get(`tax:${p.id}`) as PaymentTaxes | null | undefined;
+        // entries cached before the financing split lack `financing`: refetch once
+        return p.fresh || (c ?? null) === null || c?.financing === undefined;
+      })
       .map((p) => p.id),
   );
   if (pend.length) {

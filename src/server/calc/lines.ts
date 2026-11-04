@@ -93,12 +93,14 @@ export function buildLines(
     // real Mercado Pago taxes when present, otherwise the estimated %
     let txO = 0;
     let hasMp = false;
+    let finO = 0;
     const txDet = new Map<string, number>();
     for (const pay of o.payments) {
       const t = taxes?.[String(pay.id)];
       if (t && pay.status === "approved") {
         hasMp = true;
         txO += t.total;
+        finO += t.financing ?? 0;
         for (const [k, v] of Object.entries(t.det)) txDet.set(k, (txDet.get(k) ?? 0) + v);
       }
     }
@@ -140,8 +142,11 @@ export function buildLines(
           matchScore = r.score;
         }
       }
-      const fee = toNum(it.saleFee) * qty;
       const share = revO ? venta / revO : 0;
+      // sale_fee bundles "cargo por vender" + "costo por ofrecer cuotas"; split them
+      const saleFee = toNum(it.saleFee) * qty;
+      const cuotas = Math.min(finO * share, saleFee);
+      const fee = saleFee - cuotas;
       const shipLine = shipO * share;
       const impLine = hasMp ? txO * share : venta * impPct;
       const c = costFor(ean, it.title, pu);
@@ -162,9 +167,10 @@ export function buildLines(
         pu,
         venta,
         cargoVenta: fee,
+        cuotas,
         envio: shipLine,
         impEst: impLine,
-        costoMl: fee + shipLine + impLine,
+        costoMl: fee + cuotas + shipLine + impLine,
         cu: c.cu,
         costSource: c.source,
         taxSource: hasMp ? "Mercado Pago" : `Estimado ${pct1(impPct)}`,
@@ -195,6 +201,7 @@ export function buildLines(
       pu: v.pu,
       venta: v.qty * v.pu,
       cargoVenta: 0,
+      cuotas: 0,
       envio: 0,
       impEst: 0,
       costoMl: 0,

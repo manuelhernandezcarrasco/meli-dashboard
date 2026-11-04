@@ -49,6 +49,8 @@ export interface Agg {
   costoMl: number;
   /** costoMl split: sale fee (comisión), seller-paid shipping, taxes/withholdings */
   fee: number;
+  /** financing cost ("costo por ofrecer cuotas"), part of costoMl */
+  cuotas: number;
   ship: number;
   tax: number;
   cogs: number;
@@ -66,6 +68,7 @@ export function agg(rows: readonly Row[]): Agg {
   let venta = 0;
   let costoMl = 0;
   let fee = 0;
+  let cuotas = 0;
   let ship = 0;
   let tax = 0;
   let cogs = 0;
@@ -76,6 +79,7 @@ export function agg(rows: readonly Row[]): Agg {
     venta += r.sale;
     costoMl += r.costML;
     fee += r.feeML ?? 0;
+    cuotas += r.cuotasML ?? 0;
     ship += r.shipML ?? 0;
     tax += r.taxML ?? 0;
     cogs += r.cogs;
@@ -86,7 +90,7 @@ export function agg(rows: readonly Row[]): Agg {
   const net = venta - costoMl;
   const mb = net - cogs;
   return {
-    venta, costoMl, fee, ship, tax, cogs, qty, orders: orders.size, assumed, net, mb,
+    venta, costoMl, fee, cuotas, ship, tax, cogs, qty, orders: orders.size, assumed, net, mb,
     mg: net ? mb / net : null,
   };
 }
@@ -177,10 +181,11 @@ function buildCards(t: Agg, p: Cmp | null, sub1: string): KpiCard[] {
     {
       label: "Costo ML", value: ars(t.costoMl), delta: d(t.costoMl, p?.costoMl), inverse: true,
       sub: t.venta ? pct(t.costoMl / t.venta) + " s/venta" : "",
-      ...(t.venta && t.fee + t.ship + t.tax > 0
+      ...(t.venta && t.fee + t.cuotas + t.ship + t.tax > 0
         ? {
             breakdown: [
               { label: "Comisión por venta", pct: t.fee / t.venta, amount: ars(t.fee) },
+              { label: "Costo por ofrecer cuotas", pct: t.cuotas / t.venta, amount: ars(t.cuotas) },
               { label: "Envío a cargo del vendedor", pct: t.ship / t.venta, amount: ars(t.ship) },
               { label: "Impuestos y retenciones", pct: t.tax / t.venta, amount: ars(t.tax) },
             ],

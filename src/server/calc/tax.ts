@@ -4,7 +4,7 @@ import type { Base, Line, MatchProposal, PrevCierre } from "~/lib/contracts";
 export function calibrateTaxPct(prevLines: Line[], prevCierre: PrevCierre): number {
   const ml = prevLines.filter((l) => l.channel === "ML");
   const v0 = ml.reduce((s, l) => s + l.venta, 0);
-  const c0 = ml.reduce((s, l) => s + l.cargoVenta + l.envio, 0);
+  const c0 = ml.reduce((s, l) => s + l.cargoVenta + l.cuotas + l.envio, 0);
   if (!v0 || !prevCierre.costoMl) return 0;
   const pct = Math.max(0, Math.min(0.15, (prevCierre.costoMl - c0) / v0));
   return Math.round(pct * 10000) / 10000;

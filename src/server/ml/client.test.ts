@@ -32,13 +32,13 @@ describe("ordersMonth", () => {
 });
 
 describe("shipmentSellerCost / itemsGtin / paymentTaxes", () => {
-  it("sums senders costs, 0 on 404", async () => {
+  it("returns the shipping bonus (senders save) as a negative cost, 0 on 404", async () => {
     const f = vi.fn()
-      .mockResolvedValueOnce(new Response(JSON.stringify({ senders: [{ cost: 10 }, { cost: 5.5 }] })))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ senders: [{ cost: 9441, save: 1049 }, { cost: 0, save: 0.5 }] })))
       .mockResolvedValueOnce(new Response("{}", { status: 404 }));
     vi.stubGlobal("fetch", f);
     const c = new MlClient("u1", () => Promise.resolve());
-    expect(await c.shipmentSellerCost("1")).toBe(15.5);
+    expect(await c.shipmentSellerCost("1")).toBe(-1049.5);
     expect(await c.shipmentSellerCost("2")).toBe(0);
     expect((f.mock.calls[0]![1] as RequestInit).headers).toMatchObject({ "x-format-new": "true" });
   });
@@ -57,7 +57,7 @@ describe("shipmentSellerCost / itemsGtin / paymentTaxes", () => {
   it("paymentTaxes hits Mercado Pago", async () => {
     const f = vi.fn(async (...[,]: [string]) => new Response(JSON.stringify({ charges_details: [{ type: "tax", name: "IIBB", accounts: { from: "collector" }, amounts: { original: 10, refunded: 0 } }] })));
     vi.stubGlobal("fetch", f);
-    expect(await new MlClient("u1").paymentTaxes("7")).toEqual({ total: 10, det: { IIBB: 10 } });
+    expect(await new MlClient("u1").paymentTaxes("7")).toEqual({ financing: 0, total: 10, det: { IIBB: 10 } });
     expect(String(f.mock.calls[0]![0])).toBe("https://api.mercadopago.com/v1/payments/7");
   });
 });
@@ -74,10 +74,30 @@ describe("taxesFromPayment", () => {
         { type: "fee", name: "ml_sale_fee", accounts: { from: "collector", to: "ml" }, amounts: { original: 1, refunded: 0 } },
       ],
     });
-    expect(r).toEqual({ total: 140.56, det: { "IIBB Retención CABA": 100, "Imp. Débitos y Créditos": 40.56 } });
+    expect(r).toEqual({ financing: 0, total: 140.56, det: { "IIBB Retención CABA": 100, "Imp. Débitos y Créditos": 40.56 } });
+  });
+  it("reads the financing fee (costo por ofrecer cuotas) from fee_details", () => {
+    const r = taxesFromPayment({
+      charges_details: [],
+      fee_details: [
+        { type: "mercadopago_fee", amount: 9214.19 },
+        { type: "financing_fee", amount: 14742.71 },
+      ],
+    });
+    expect(r?.financing).toBe(14742.71);
+  });
+  it("reads financing_add_on_fee from charges_details (real MP payload)", () => {
+    const fee = (name: string, original: number) => ({
+      type: "fee", name, accounts: { from: "collector", to: "ml" }, amounts: { original, refunded: 0 },
+    });
+    const r = taxesFromPayment({
+      fee_details: [],
+      charges_details: [fee("meli_percentage_fee", 9214.19), fee("financing_add_on_fee", 14742.71), tax("IIBB", 7.09)],
+    });
+    expect(r).toEqual({ financing: 14742.71, total: 7.09, det: { IIBB: 7.09 } });
   });
   it("skips taxes not billed to the seller", () => {
-    expect(taxesFromPayment({ charges_details: [tax("X", 5, 0, "payer")] })).toEqual({ total: 0, det: {} });
+    expect(taxesFromPayment({ charges_details: [tax("X", 5, 0, "payer")] })).toEqual({ financing: 0, total: 0, det: {} });
   });
   it("missing charges_details → null", () => {
     expect(taxesFromPayment({})).toBeNull();
