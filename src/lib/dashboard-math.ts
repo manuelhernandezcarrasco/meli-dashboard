@@ -47,6 +47,10 @@ export const fmtDelta = (v: number) =>
 export interface Agg {
   venta: number;
   costoMl: number;
+  /** costoMl split: sale fee (comisión), seller-paid shipping, taxes/withholdings */
+  fee: number;
+  ship: number;
+  tax: number;
   cogs: number;
   qty: number;
   orders: number; // distinct ML orders
@@ -61,6 +65,9 @@ const dayOf = (date: string) => Number(date.slice(8, 10));
 export function agg(rows: readonly Row[]): Agg {
   let venta = 0;
   let costoMl = 0;
+  let fee = 0;
+  let ship = 0;
+  let tax = 0;
   let cogs = 0;
   let qty = 0;
   let assumed = 0;
@@ -68,6 +75,9 @@ export function agg(rows: readonly Row[]): Agg {
   for (const r of rows) {
     venta += r.sale;
     costoMl += r.costML;
+    fee += r.feeML ?? 0;
+    ship += r.shipML ?? 0;
+    tax += r.taxML ?? 0;
     cogs += r.cogs;
     qty += r.qty;
     if (r.channel === "ML") orders.add(r.order);
@@ -76,7 +86,7 @@ export function agg(rows: readonly Row[]): Agg {
   const net = venta - costoMl;
   const mb = net - cogs;
   return {
-    venta, costoMl, cogs, qty, orders: orders.size, assumed, net, mb,
+    venta, costoMl, fee, ship, tax, cogs, qty, orders: orders.size, assumed, net, mb,
     mg: net ? mb / net : null,
   };
 }
@@ -150,6 +160,8 @@ export interface KpiCard {
   /** optional badge inside the sub line (projection vs previous close) */
   subDelta?: number | null;
   subSuffix?: string;
+  /** optional expandable detail (e.g. Costo ML split as % of sales) */
+  breakdown?: { label: string; pct: number | null; amount: string }[];
 }
 
 export interface KpiBlock {
@@ -165,6 +177,15 @@ function buildCards(t: Agg, p: Cmp | null, sub1: string): KpiCard[] {
     {
       label: "Costo ML", value: ars(t.costoMl), delta: d(t.costoMl, p?.costoMl), inverse: true,
       sub: t.venta ? pct(t.costoMl / t.venta) + " s/venta" : "",
+      ...(t.venta && t.fee + t.ship + t.tax > 0
+        ? {
+            breakdown: [
+              { label: "Comisión por venta", pct: t.fee / t.venta, amount: ars(t.fee) },
+              { label: "Envío a cargo del vendedor", pct: t.ship / t.venta, amount: ars(t.ship) },
+              { label: "Impuestos y retenciones", pct: t.tax / t.venta, amount: ars(t.tax) },
+            ],
+          }
+        : {}),
     },
     { label: "Ingresos Netos", value: ars(t.net), delta: d(t.net, p?.net), inverse: false, sub: "" },
     {

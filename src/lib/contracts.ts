@@ -183,6 +183,10 @@ export const DashboardDataSchema = z.object({
       qty: z.number(),
       sale: z.number(),
       costML: z.number(),
+      /** costML split; optional so snapshots saved before the split still parse. */
+      feeML: z.number().optional(),
+      shipML: z.number().optional(),
+      taxML: z.number().optional(),
       cogs: z.number(),
       assumed: z.boolean(),
     }),
