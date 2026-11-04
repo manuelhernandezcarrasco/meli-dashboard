@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { DashboardDataSchema } from "~/lib/contracts";
 import sample from "~/lib/sample-dashboard.json";
 import {
-  accumSeries, agg, alerts, categories, categoryTable, computeDashboard, cutoffDay,
+  accumSeries, agg, alerts, missingCosts, categories, categoryTable, computeDashboard, cutoffDay,
   filterRows, pct, short, ars, stockCounts, stockRows, topProducts, upToDay, waterfall,
   STOCK_STATES, type StockState,
 } from "./dashboard-math";
@@ -117,5 +117,17 @@ describe("dashboard math", () => {
     expect(a[0]).toContain("3 líneas con costo asumido");
     expect(a.some((x) => x.includes("sin EAN"))).toBe(true);
     expect(alerts({ ...data, unmatched: [] }, { assumed: 0 })).toEqual([]);
+  });
+
+  it("missingCosts groups assumed lines per product, biggest sale first", () => {
+    const base = { cat: "c", qty: 1 };
+    const r = missingCosts([
+      { ...base, ean: "1", desc: "A", sale: 10, assumed: true },
+      { ...base, ean: "1", desc: "A", sale: 5, assumed: true },
+      { ...base, ean: "2", desc: "B", sale: 50, assumed: true },
+      { ...base, ean: "3", desc: "C", sale: 99, assumed: false },
+    ]);
+    expect(r.map((x) => x.ean)).toEqual(["2", "1"]);
+    expect(r[1]).toMatchObject({ lines: 2, qty: 2, venta: 15 });
   });
 });
