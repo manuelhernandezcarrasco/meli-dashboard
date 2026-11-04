@@ -61,17 +61,17 @@ body {
 .tbl tfoot td { font-weight: 650; border-top: 1px solid var(--line); }
 .tbl .left { text-align: left; white-space: normal; }
 
-/* scrollable table panes: scrollbar on the left, flat thumb (no hover track), sticky headers */
-.scroll-y { overflow: auto; direction: rtl; }
-.scroll-y > * { direction: ltr; }
+/* scrollable table panes: scrollbar on the right, flat thumb (no hover track), sticky headers */
+.scroll-y { overflow: auto; }
 .scroll-y::-webkit-scrollbar { width: 8px; height: 8px; background: transparent; }
 .scroll-y::-webkit-scrollbar-track { background: transparent; }
 .scroll-y::-webkit-scrollbar-corner { background: transparent; }
-.scroll-y::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
-.scroll-y::-webkit-scrollbar-thumb:hover,
-.scroll-y::-webkit-scrollbar-thumb:active { background: var(--line); }
+.scroll-y::-webkit-scrollbar-thumb { background: transparent; border-radius: 4px; }
+.scroll-y[data-scrolling]::-webkit-scrollbar-thumb,
+.scroll-y[data-scrolling]::-webkit-scrollbar-thumb:hover { background: var(--line); }
 @supports not selector(::-webkit-scrollbar) {
-  .scroll-y { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  .scroll-y { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  .scroll-y[data-scrolling] { scrollbar-color: var(--line) transparent; }
 }
 .scroll-y .tbl th {
   position: sticky; top: 0; z-index: 1; background: var(--card);
