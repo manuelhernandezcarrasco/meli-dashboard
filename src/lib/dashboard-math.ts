@@ -53,7 +53,7 @@ export interface Agg {
   assumed: number; // lines with assumed cost
   net: number; // venta - costoMl
   mb: number; // net - cogs
-  mg: number | null; // mb / venta
+  mg: number | null; // mb / net (net income is what we control; ML costs are not ours)
 }
 
 const dayOf = (date: string) => Number(date.slice(8, 10));
@@ -77,7 +77,7 @@ export function agg(rows: readonly Row[]): Agg {
   const mb = net - cogs;
   return {
     venta, costoMl, cogs, qty, orders: orders.size, assumed, net, mb,
-    mg: venta ? mb / venta : null,
+    mg: net ? mb / net : null,
   };
 }
 
@@ -173,7 +173,7 @@ function buildCards(t: Agg, p: Cmp | null, sub1: string): KpiCard[] {
     },
     {
       label: "Margen Bruto", value: ars(t.mb), delta: d(t.mb, p?.mb), inverse: false,
-      sub: "Mg. " + pct(t.mg) + (p && p.venta ? ` · ant. ${pct(p.mb / p.venta)}` : ""),
+      sub: "Mg. " + pct(t.mg) + (p && p.net ? ` · ant. ${pct(p.mb / p.net)}` : ""),
       highlight: true,
     },
   ];
@@ -243,7 +243,7 @@ export function dayLabel(y: number, m: number, d: number): string {
 export interface DailyPoint {
   day: number;
   venta: number;
-  /** Mg.% bruto (0..100), null when no sales or after the cutoff */
+  /** Mg.% bruto s/ingresos netos (0..100), null when no net income or after the cutoff */
   mgPct: number | null;
 }
 
@@ -251,7 +251,7 @@ export function dailySeries(data: DashboardData, rows: readonly Row[], corte: nu
   return Array.from({ length: data.comp.nDays }, (_, i) => {
     const day = i + 1;
     const t = agg(rows.filter((r) => dayOf(r.date) === day));
-    return { day, venta: t.venta, mgPct: day <= corte && t.venta ? (t.mb / t.venta) * 100 : null };
+    return { day, venta: t.venta, mgPct: day <= corte && t.net ? (t.mb / t.net) * 100 : null };
   });
 }
 
@@ -319,7 +319,14 @@ export function salesFeed(rows: readonly Row[], limit = 40): Row[] {
     .slice(0, limit);
 }
 
-export const marginRatio = (r: Row) => (r.sale ? (r.sale - r.costML - r.cogs) / r.sale : null);
+/** Gross margin of one sale: (net income from ML - COGS), in pesos. */
+export const marginAmount = (r: Row) => r.sale - r.costML - r.cogs;
+
+/** Gross margin over net income: (net income - COGS) / net income. */
+export const marginRatio = (r: Row) => {
+  const net = r.sale - r.costML;
+  return net ? marginAmount(r) / net : null;
+};
 
 export interface TopProduct { desc: string; t: Agg }
 

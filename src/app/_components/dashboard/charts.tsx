@@ -27,7 +27,7 @@ const tick = (v: number) => short(v);
 
 export function DailyChart({ points, corte }: { points: DailyPoint[]; corte: number }) {
   return (
-    <Card title="Venta diaria y margen bruto" small="barras = venta total · línea = Mg.% bruto">
+    <Card title="Venta diaria y margen bruto" small="barras = venta total · línea = Mg.% bruto s/ing. netos">
       <div className="h-[260px]">
         <ResponsiveContainer width="100%" height="100%" minWidth={0}>
           <ComposedChart data={points} margin={{ top: 4, right: 0, bottom: 0, left: 0 }}>
