@@ -1,5 +1,5 @@
 import {
-  fmtDec1, fmtInt, fmtShortDate, marginRatio, missingCosts, pct, short,
+  fmtDec1, fmtInt, fmtShortDate, marginAmount, marginRatio, missingCosts, pct, short,
   STOCK_STATES, type Agg, type CategoryRow, type Row, type StockRow, type StockState,
   type TopProduct,
 } from "~/lib/dashboard-math";
@@ -55,7 +55,7 @@ export function SalesFeed({ rows }: { rows: Row[] }) {
                   <span className="text-mut">{r.qty > 1 ? `${fmtInt(r.qty)}× ` : ""}{r.desc}</span>
                 </td>
                 <td>{short(r.sale)}</td>
-                <td><Badge value={marginRatio(r)} plain /></td>
+                <td>{short(marginAmount(r))} <Badge value={marginRatio(r)} plain /></td>
               </tr>
             ))}
           </tbody>
