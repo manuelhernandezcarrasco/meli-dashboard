@@ -4,12 +4,13 @@ import {
   type TopProduct,
 } from "~/lib/dashboard-math";
 import type { DashboardData, MatchProposal } from "~/lib/contracts";
+import { ScrollPane } from "./ScrollPane";
 import { Badge, Card } from "./ui";
 
 export function CategoryTable({ rows, total }: { rows: CategoryRow[]; total: Agg }) {
   return (
     <Card title="Por categoría" small="mes acumulado">
-      <div className="scroll-y max-h-[330px]">
+      <ScrollPane className="max-h-[330px]">
         <table className="tbl">
           <thead>
             <tr><th>Categoría</th><th>Venta</th><th>Ing. Netos</th><th>Mg. Bruto</th><th>Mg.%</th></tr>
@@ -34,7 +35,7 @@ export function CategoryTable({ rows, total }: { rows: CategoryRow[]; total: Agg
             </tr>
           </tfoot>
         </table>
-      </div>
+      </ScrollPane>
     </Card>
   );
 }
@@ -42,7 +43,7 @@ export function CategoryTable({ rows, total }: { rows: CategoryRow[]; total: Agg
 export function SalesFeed({ rows }: { rows: Row[] }) {
   return (
     <Card title="Últimas ventas">
-      <div className="scroll-y max-h-[330px]">
+      <ScrollPane className="max-h-[330px]">
         <table className="tbl">
           <thead><tr><th>Cuándo / producto</th><th>Venta</th><th className="ctr">Mg. bruto</th><th className="ctr">Mg.%</th></tr></thead>
           <tbody>
@@ -56,12 +57,12 @@ export function SalesFeed({ rows }: { rows: Row[] }) {
                 </td>
                 <td>{short(r.sale)}</td>
                 <td className="ctr">{short(marginAmount(r))}</td>
-                <td className="ctr"><Badge value={marginRatio(r)} plain /></td>
+                <td className="ctr"><Badge value={marginRatio(r)} plain margin /></td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollPane>
     </Card>
   );
 }
@@ -69,7 +70,7 @@ export function SalesFeed({ rows }: { rows: Row[] }) {
 export function TopProducts({ rows }: { rows: TopProduct[] }) {
   return (
     <Card title="Top productos del mes">
-      <div className="scroll-y max-h-[330px]">
+      <ScrollPane className="max-h-[330px]">
         <table className="tbl">
           <thead><tr><th>Producto</th><th>Uds</th><th>Venta</th><th>Mg.%</th></tr></thead>
           <tbody>
@@ -80,7 +81,7 @@ export function TopProducts({ rows }: { rows: TopProduct[] }) {
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollPane>
     </Card>
   );
 }
@@ -140,7 +141,7 @@ export function Alerts({ data, assumed, onMatchDecision, matchPending = false }:
       {ok ? (
         <p className="m-0 text-[13px] text-pos">✓ Todo en orden: todos los productos tienen costo real.</p>
       ) : (
-        <div className="scroll-y max-h-[330px]">
+        <ScrollPane className="max-h-[330px]">
           <MatchSection
             title={`${data.suggestions.length} publicaciones que parecen un producto del Excel`}
             hint="No estoy seguro: confirmá si son el mismo producto para usar su costo real."
@@ -203,7 +204,7 @@ export function Alerts({ data, assumed, onMatchDecision, matchPending = false }:
               </table>
             </section>
           )}
-        </div>
+        </ScrollPane>
       )}
     </Card>
   );
@@ -250,7 +251,7 @@ export function StockTable({ data, rows, counts, selected, onToggle, prevMonth }
         </span>
       }
     >
-      <div className="scroll-y max-h-[460px]">
+      <ScrollPane className="max-h-[460px]">
         <table className="tbl">
           <thead>
             <tr>
@@ -298,7 +299,7 @@ export function StockTable({ data, rows, counts, selected, onToggle, prevMonth }
             )}
           </tbody>
         </table>
-      </div>
+      </ScrollPane>
     </Card>
   );
 }
