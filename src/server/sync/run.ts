@@ -39,6 +39,10 @@ async function readDemoWorkbooks(cfg: BusinessConfig) {
 export interface RunSyncOptions {
   /** Overrides the data source (tests); defaults to `getDataSource`. */
   dataSource?: DataSource;
+  /** Recompute this month ("YYYY-MM") instead of the current / configured one. */
+  month?: string;
+  /** Stored as the snapshot's `computedAt` (defaults to `now`). */
+  computedAt?: Date;
 }
 
 /** Port of `run_sync` (legacy 1215–1334): fetch → enrich → compute → store snapshot. */
@@ -50,9 +54,10 @@ export async function runSync(
   const cfg = loadBusinessConfig();
   const t = nowArg(now);
   let [y, m] = [t.y, t.m];
-  if (cfg.mes) {
-    const [yy, mm] = cfg.mes.split("-").map(Number);
-    if (!yy || !mm) throw new Error(`mes inválido en business.json: ${cfg.mes}`);
+  const forced = opts.month ?? cfg.mes;
+  if (forced) {
+    const [yy, mm] = forced.split("-").map(Number);
+    if (!yy || !mm) throw new Error(`mes inválido: ${forced}`);
     [y, m] = [yy, mm];
   }
   const [py, pm] = prevYm(y, m);
@@ -102,7 +107,7 @@ export async function runSync(
 
   const parsed = DashboardDataSchema.parse(data);
   const month = `${y}-${p2(m)}`;
-  const computedAt = now;
+  const computedAt = opts.computedAt ?? now;
   await db.snapshot.upsert({
     where: { ownerId_month: { ownerId, month } },
     create: { ownerId, month, payload: parsed, computedAt },

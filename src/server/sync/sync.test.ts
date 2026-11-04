@@ -19,6 +19,7 @@ import { db } from "~/server/db";
 import { DemoDataSource } from "~/server/datasource/demo";
 import { workbooks } from "~/server/workbooks";
 import { enrich, fetchMonth } from "./enrich";
+import { rebuildAll } from "./rebuild";
 import { runSync } from "./run";
 import { createSyncService } from "./service";
 
@@ -233,5 +234,19 @@ describe("per-user isolation", () => {
       source: "demo",
     });
     expect((await svc.status()).updatedAt).toBe(""); // no snapshot of its own yet
+  });
+});
+
+describe("rebuildAll", () => {
+  it("recomputes every stored month and keeps the current one as latest", async () => {
+    await runSync(OWNER, new Date("2026-09-20T12:00:00-03:00"));
+    await runSync(OWNER, NOW);
+    await db.snapshot.updateMany({ data: { payload: {} } }); // simulate stale snapshots
+    const r = await rebuildAll(OWNER, { now: NOW });
+    expect(r.failed).toEqual([]);
+    expect(r.months).toEqual(["2026-09", "2026-10"]);
+    const latest = await db.snapshot.findFirst({ where: { ownerId: OWNER }, orderBy: { computedAt: "desc" } });
+    expect(latest?.month).toBe("2026-10");
+    for (const s of await db.snapshot.findMany()) DashboardDataSchema.parse(s.payload);
   });
 });
