@@ -182,7 +182,7 @@ export class DemoDataSource implements DataSource {
       const name = JURIS[Math.floor(rnd() * JURIS.length)]!;
       const iibb = Math.round(v * (0.02 + rnd() * 0.025));
       const deb = Math.round(v * 0.012);
-      out[id] = { total: iibb + deb, det: { [name]: iibb, "Imp. Débitos y Créditos": deb } };
+      out[id] = { total: iibb + deb, det: { [name]: iibb, "Imp. Débitos y Créditos": deb }, financing: 0 };
     }
     return out;
   }
