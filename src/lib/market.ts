@@ -1,33 +1,41 @@
-// STUB (T10): verbatim copy of docs/tickets/MARKET-CONTRACTS.md types. T8 owns this file; dedupe on merge.
 export type MarketPoint = {
-  itemId: string;
+  itemId: string; // MLA…
   sellerId: number;
   sellerNickname: string;
   title: string;
-  price: number;
-  soldQuantity: number;
+  price: number; // ARS
+  soldQuantity: number; // exact if soldExact, else lower bound of ML bucket ("+100" -> 100)
   soldExact: boolean;
   permalink: string;
-  isOurs: boolean;
+  isOurs: boolean; // sellerId === our ML user id
 };
 
 export type RegressionMode = "log" | "linear";
-export type Regression = { mode: RegressionMode; slope: number; intercept: number; r2: number; n: number };
+export type Regression = {
+  mode: RegressionMode;
+  slope: number;
+  intercept: number;
+  r2: number;
+  n: number;
+};
 
 export type MarketResearch = {
   catalogProductId: string;
   catalogTitle: string;
-  points: MarketPoint[];
-  excluded: { point: MarketPoint; reason: "price_outlier" | "sales_outlier" | "cap" }[];
-  regression: { log: Regression | null; linear: Regression | null };
-  fetchedAt: string;
+  points: MarketPoint[]; // outliers already removed, capped (see T8)
+  excluded: {
+    point: MarketPoint;
+    reason: "price_outlier" | "sales_outlier" | "cap";
+  }[];
+  regression: { log: Regression | null; linear: Regression | null }; // null when n < 3
+  fetchedAt: string; // ISO, when ML data was pulled
 };
 
 export type MarketState =
-  | { status: "none" }
-  | { status: "running"; data: MarketResearch | null; startedAt: string }
+  | { status: "none" } // never researched
+  | { status: "running"; data: MarketResearch | null; startedAt: string } // data = previous result, if any
   | { status: "ready"; data: MarketResearch }
   | { status: "failed"; data: MarketResearch | null; error: string };
 
-export const MARKET_TTL_MS = 15 * 60_000;
-export const MARKET_MAX_SELLERS = 500;
+export const MARKET_TTL_MS = 15 * 60_000; // staleness + client re-poll interval
+export const MARKET_MAX_SELLERS = 500; // cap applied in T8
