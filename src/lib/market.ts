@@ -4,7 +4,7 @@ export type MarketPoint = {
   sellerNickname: string;
   title: string;
   price: number; // ARS
-  soldQuantity: number; // exact if soldExact, else lower bound of ML bucket ("+100" -> 100)
+  soldQuantity: number | null; // null = unknown (other sellers' items are closed to us); else exact if soldExact, else lower bound of ML bucket
   soldExact: boolean;
   permalink: string;
   isOurs: boolean; // sellerId === our ML user id
