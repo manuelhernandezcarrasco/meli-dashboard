@@ -109,6 +109,25 @@ export class MlClient {
     return res;
   }
 
+  /** itemId -> `catalog_product_id` (null when the listing is not linked to the ML catalog). */
+  async itemsCatalogId(ids: string[]): Promise<Record<string, string | null>> {
+    const res: Record<string, string | null> = {};
+    for (let i = 0; i < ids.length; i += 20) {
+      const chunk = ids.slice(i, i + 20);
+      const r = ((await this.get(`${API}/items`, {
+        ids: chunk.join(","),
+        attributes: "id,catalog_product_id",
+      })) ?? []) as any[];
+      for (const it of r) {
+        const body = it.body ?? {};
+        if (!body.id) continue;
+        const c = body.catalog_product_id;
+        res[String(body.id).toUpperCase()] = typeof c === "string" && c ? c : null;
+      }
+    }
+    return res;
+  }
+
   async paymentTaxes(id: string): Promise<PaymentTaxes | null> {
     const r = (await this.get(`${MP_API}/v1/payments/${id}`)) as any;
     return r ? taxesFromPayment(r) : null;

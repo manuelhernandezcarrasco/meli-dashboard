@@ -2,7 +2,7 @@ import type { DashboardData } from "~/lib/contracts";
 
 export const MAX_SEARCH_RESULTS = 10;
 
-export type OwnProduct = { itemId: string; title: string };
+export type OwnProduct = { itemId: string; title: string; /** Excel description of the matched product */ desc?: string };
 export type OwnProductHit = OwnProduct & { catalogProductId: string | null };
 
 /** Resolves an item's `catalog_product_id` (implemented by T9's `getCatalogProductId`). */
@@ -60,7 +60,7 @@ export async function searchOwnProducts(
   const q = normalizeText(query);
   if (!q) return [];
   const matches = deps.products
-    .filter((p) => normalizeText(p.title).includes(q))
+    .filter((p) => normalizeText(p.title).includes(q) || (p.desc ? normalizeText(p.desc).includes(q) : false))
     .slice(0, MAX_SEARCH_RESULTS);
   return Promise.all(
     matches.map(async (p) => ({ ...p, catalogProductId: await cachedCatalogId(deps, p.itemId) })),

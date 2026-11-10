@@ -81,6 +81,22 @@ describe("enrich caching", () => {
     expect(second.gtins).toEqual(first.gtins);
   });
 
+  it("caches catalog ids per item and retries items without one", async () => {
+    const ds = await demoSource();
+    const orders = (await ds.getOrdersMonth(2026, 10)).filter((o) => o.status === "paid");
+    const ids = [...new Set(orders.flatMap((o) => o.items.map((i) => i.itemId.toUpperCase())))];
+    const cat = vi.spyOn(ds, "getCatalogIds").mockResolvedValue({ [ids[0]!]: "MLA999" });
+    const first = await enrich(OWNER, ds, orders, NOW);
+    expect(first.catalogIds[ids[0]!]).toBe("MLA999");
+    expect(cat).toHaveBeenCalledTimes(1);
+    cat.mockClear();
+    const second = await enrich(OWNER, ds, orders, NOW);
+    expect(second.catalogIds[ids[0]!]).toBe("MLA999");
+    expect(cat.mock.calls[0]![0]).not.toContain(ids[0]!); // found ones are not asked again
+    cat.mockRejectedValue(new Error("boom"));
+    await expect(enrich(OWNER, ds, orders, NOW)).resolves.toBeDefined(); // never breaks the sync
+  });
+
   it("re-fetches shipments of recent orders", async () => {
     const ds = await demoSource();
     const orders = (await ds.getOrdersMonth(2026, 10)).filter((o) => o.status === "paid");

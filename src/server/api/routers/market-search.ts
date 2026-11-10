@@ -6,7 +6,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { db } from "~/server/db";
 import {
   cachedCatalogId, collectOwnProducts, searchOwnProducts,
-  type CatalogCache, type CatalogIdLookup, type OwnProductHit,
+  type CatalogCache, type CatalogIdLookup, type OwnProduct, type OwnProductHit,
 } from "~/server/market/ownProducts";
 
 const apiCacheStore: CatalogCache = {
@@ -22,6 +22,22 @@ const apiCacheStore: CatalogCache = {
   },
 };
 
+/** Listings the sync saved as `catalog:<itemId>` (title + Excel product + catalog id). */
+async function storedProducts(ownerId: string): Promise<OwnProduct[]> {
+  const rows = await db.apiCache.findMany({ where: { ownerId, key: { startsWith: "catalog:" } } });
+  const out: OwnProduct[] = [];
+  for (const r of rows) {
+    const v = r.value as { title?: unknown; desc?: unknown } | null;
+    if (!v || typeof v.title !== "string") continue;
+    out.push({
+      itemId: r.key.slice("catalog:".length),
+      title: v.title,
+      ...(typeof v.desc === "string" && v.desc ? { desc: v.desc } : {}),
+    });
+  }
+  return out;
+}
+
 /** Placeholder until T9 merges; T12 passes `getCatalogProductId` here. */
 const unavailableLookup: CatalogIdLookup = () =>
   Promise.reject(new TRPCError({ code: "NOT_IMPLEMENTED", message: "Catalog lookup not wired yet" }));
@@ -35,7 +51,12 @@ export function createMarketSearchRouter(lookup: CatalogIdLookup = unavailableLo
           where: { ownerId: ctx.userId },
           orderBy: { computedAt: "desc" },
         });
-        const products = snap ? collectOwnProducts(DashboardDataSchema.parse(snap.payload)) : [];
+        // Products saved by the sync (every sold listing, with its Excel name) first, then the
+        // snapshot's lists for anything older than the first sync that stored them.
+        const stored = await storedProducts(ctx.userId);
+        const seen = new Set(stored.map((p) => p.itemId));
+        const fromSnap = snap ? collectOwnProducts(DashboardDataSchema.parse(snap.payload)) : [];
+        const products = [...stored, ...fromSnap.filter((p) => !seen.has(p.itemId))];
         return searchOwnProducts({ ownerId: ctx.userId, lookup, cache, products }, input.query);
       }),
     catalogIdForItem: protectedProcedure
