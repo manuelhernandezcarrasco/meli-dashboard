@@ -17,7 +17,10 @@ export function MarketTooltip({ active, payload }: {
   active?: boolean;
   payload?: readonly { payload?: unknown }[];
 }) {
-  const point = payload?.[0]?.payload as MarketPoint | undefined;
-  if (!active || !point || !("itemId" in point)) return null;
+  // The fit line shares the tooltip, so payload[0] is not always a seller's point.
+  const point = payload
+    ?.map((p) => p.payload as Partial<MarketPoint> | undefined)
+    .find((p): p is MarketPoint => !!p && typeof p.itemId === "string");
+  if (!active || !point) return null;
   return <MarketTooltipBody point={point} />;
 }

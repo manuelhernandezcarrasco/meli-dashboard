@@ -6,7 +6,7 @@ vi.mock("./tokens", () => ({
 vi.mock("~/server/db", () => ({ db: {} }));
 
 import { ReadOnlyViolationError, mlFetch } from "./http";
-import { MlMarketClient, type NicknameCache } from "./market";
+import { MlMarketClient, sameProductTitle, type NicknameCache } from "./market";
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -131,5 +131,46 @@ describe("MlMarketClient", () => {
 
   it("non-GET still throws ReadOnlyViolationError", async () => {
     await expect(mlFetch("POST", "https://api.mercadolibre.com/items/MLA1")).rejects.toBeInstanceOf(ReadOnlyViolationError);
+  });
+});
+
+describe("competitor discovery by title", () => {
+  it("matches the same model and rejects accessories/other models", () => {
+    const t = "Auriculares Bluetooth Inalambricos In Ear Sony Wi-c100 Color Negro";
+    expect(sameProductTitle(t, "Sony Wi-c100 Auriculares Inalámbricos In Ear Bluetooth Negro")).toBe(true);
+    expect(sameProductTitle(t, "Funda Para Auriculares Sony Wh-1000xm4")).toBe(false);
+    expect(sameProductTitle(t, "Auriculares Bluetooth Inalambricos In Ear Sony Wi-c200 Negro")).toBe(false);
+  });
+
+  it("adds search-only sellers to the catalog offers without duplicating", async () => {
+    const base = fakeMl(2);
+    vi.stubGlobal("fetch", vi.fn(async (url: string) => {
+      const u = new URL(url);
+      if (u.pathname === "/sites/MLA/search") {
+        return json({
+          paging: { total: 3 },
+          results: [
+            { id: "MLA0", title: "Catalog Thing", price: 10, sold_quantity: 1, permalink: "x", seller: { id: 1000, nickname: "dup" }, catalog_product_id: "CAT1" },
+            { id: "MLA999", title: "Catalog Thing nuevo", price: 90, sold_quantity: 40, permalink: "https://x/999", seller: { id: 55, nickname: "rival" } },
+            { id: "MLA998", title: "Otra cosa distinta", price: 5, sold_quantity: 1, permalink: "y", seller: { id: 56, nickname: "no" } },
+          ],
+        });
+      }
+      return base(url);
+    }));
+    const { points } = await new MlMarketClient("u", noSleep, memCache().cache).fetchMarketPoints("CAT1", 55);
+    const ids = points.map((p) => p.itemId).sort();
+    expect(ids).toContain("MLA999");
+    expect(ids.filter((i) => i === "MLA0")).toHaveLength(1);
+    expect(ids).not.toContain("MLA998");
+    expect(points.find((p) => p.itemId === "MLA999")).toMatchObject({ sellerNickname: "rival", soldQuantity: 40, isOurs: true });
+  });
+
+  it("falls back to catalog offers when search is forbidden", async () => {
+    const base = fakeMl(2);
+    vi.stubGlobal("fetch", vi.fn(async (url: string) =>
+      new URL(url).pathname === "/sites/MLA/search" ? new Response("no", { status: 403 }) : base(url)));
+    const { points } = await new MlMarketClient("u", noSleep, memCache().cache).fetchMarketPoints("CAT1", 1);
+    expect(points.length).toBeGreaterThan(0);
   });
 });

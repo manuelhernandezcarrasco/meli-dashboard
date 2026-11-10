@@ -74,7 +74,7 @@ export function MarketChart({ data, size }: {
         tickFormatter={(v: number) => short(v)} allowDataOverflow />
       <YAxis type="number" dataKey="soldQuantity" name="Vendidos" scale={scale} domain={log ? ["auto", "auto"] : [0, "auto"]} {...AXIS}
         tickFormatter={(v: number) => fmtInt(v)} width={48} allowDataOverflow />
-      <Tooltip content={<MarketTooltip />} cursor={{ strokeDasharray: "3 3" }} isAnimationActive={false} />
+      <Tooltip content={<MarketTooltip />} shared={false} cursor={{ strokeDasharray: "3 3" }} isAnimationActive={false} />
       <Scatter name="Otros vendedores" data={plot(others)} fill="var(--grey)" isAnimationActive={false}
         shape={<Dot fill="var(--grey)" r={4} />} onClick={openPermalink} />
       <Scatter name="Nuestras publicaciones" data={plot(ours)} fill="var(--cost)" isAnimationActive={false}
