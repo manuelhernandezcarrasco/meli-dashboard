@@ -64,3 +64,14 @@ model MatchDecision {
 
   @@id([ownerId, itemId, ean])
 }
+
+/// Last market-research result (scatter of every seller's offer) for one catalog product.
+/// payload = MarketResearch JSON (src/lib/market.ts). Refreshed only when `market.touch` is called.
+model MarketResearch {
+  ownerId          String
+  catalogProductId String
+  payload          Json
+  fetchedAt        DateTime
+
+  @@id([ownerId, catalogProductId])
+}
