@@ -168,6 +168,11 @@ export class DemoDataSource implements DataSource {
     return out;
   }
 
+  /** The demo has no Mercado Libre catalog. */
+  async getCatalogIds(itemIds: string[]): Promise<Record<string, string | null>> {
+    return Object.fromEntries(itemIds.map((id) => [id, null]));
+  }
+
   async getPaymentTaxes(
     paymentIds: string[],
   ): Promise<Record<string, PaymentTaxes | null>> {

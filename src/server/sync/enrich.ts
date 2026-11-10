@@ -18,6 +18,8 @@ export interface Enriched {
   shipCosts: ShipCosts;
   gtins: Gtins;
   taxes: TaxMap;
+  /** itemId -> catalog_product_id (null: the listing has no catalog product). */
+  catalogIds: Record<string, string | null>;
 }
 
 type Log = (msg: string) => void;
@@ -41,7 +43,7 @@ async function readCache(ownerId: string, keys: string[]): Promise<Map<string, u
   return out;
 }
 
-async function writeCache(ownerId: string, entries: [string, unknown][]): Promise<void> {
+export async function writeCache(ownerId: string, entries: [string, unknown][]): Promise<void> {
   for (const part of chunks(entries, CHUNK)) {
     await db.$transaction(
       part.map(([key, value]) => {
@@ -104,6 +106,35 @@ export async function enrich(
   const gtins: Gtins = {};
   for (const [k, v] of gtinCache) gtins[k.slice(5)] = v as Record<string, string>;
 
+  // --- catalog ids: cached per item as `catalog:<itemId>` (same entry the market search reads).
+  // Items without a catalog id are asked again (a listing can get linked later); a failure here
+  // must never break the sync.
+  const catKeys = itemIds.map((i) => `catalog:${i}`);
+  const catCache = await readCache(ownerId, catKeys);
+  const catalogIds: Record<string, string | null> = {};
+  const needCat: string[] = [];
+  for (const i of itemIds) {
+    const v = catCache.get(`catalog:${i}`) as { catalogProductId?: unknown } | undefined;
+    const id = typeof v?.catalogProductId === "string" ? v.catalogProductId : null;
+    catalogIds[i] = id;
+    if (!id) needCat.push(i);
+  }
+  if (needCat.length) {
+    try {
+      const got = await ds.getCatalogIds(needCat);
+      const entries: [string, unknown][] = [];
+      for (const i of needCat) {
+        if (!(i in got)) continue; // not returned (e.g. ML error): try again next time
+        const prev = catCache.get(`catalog:${i}`) as object | undefined;
+        catalogIds[i] = got[i] ?? null;
+        entries.push([`catalog:${i}`, { ...prev, catalogProductId: catalogIds[i] }]);
+      }
+      await writeCache(ownerId, entries);
+    } catch (e) {
+      log(`Aviso: no pude leer los catálogos de ML (${String((e as Error).message).slice(0, 120)})`);
+    }
+  }
+
   // --- payment taxes: cached per payment; re-fetched if null or order < 2 days old
   const pays = paid.flatMap((o) =>
     o.payments
@@ -154,7 +185,7 @@ export async function enrich(
   const taxes: TaxMap = {};
   for (const [k, v] of taxCache) if (v !== null && v !== undefined) taxes[k.slice(4)] = v as PaymentTaxes;
 
-  return { shipCosts, gtins, taxes };
+  return { shipCosts, gtins, taxes, catalogIds };
 }
 
 /**

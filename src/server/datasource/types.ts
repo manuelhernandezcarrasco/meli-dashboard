@@ -16,6 +16,8 @@ export interface DataSource {
   getShipmentCosts(shippingIds: string[]): Promise<ShipCosts>;
   /** itemId -> gtins. */
   getGtins(itemIds: string[]): Promise<Gtins>;
+  /** itemId -> Mercado Libre `catalog_product_id` (null when the listing has none). */
+  getCatalogIds(itemIds: string[]): Promise<Record<string, string | null>>;
   /** paymentId -> taxes or null (no detail). */
   getPaymentTaxes(
     paymentIds: string[],

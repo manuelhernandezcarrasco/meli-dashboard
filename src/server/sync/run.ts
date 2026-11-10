@@ -18,6 +18,7 @@ import { createMatcher } from "~/lib/product-match";
 import { workbooks } from "~/server/workbooks";
 import { loadUploaded } from "~/server/workbooks/store";
 import { enrich, fetchMonth } from "./enrich";
+import { saveCatalogProducts } from "./catalog";
 import { loadDecisions, withConfirmed } from "./matches";
 
 const log = (msg: string) => console.log(`[sync] ${msg}`);
@@ -83,7 +84,7 @@ export async function runSync(
   const prevOrders = await fetchMonth(ownerId, ds, py, pm, true, t.d);
   log(`${monthLabel(py, pm)}: ${prevOrders.length} órdenes (para comparar a igual día)`);
 
-  const { shipCosts, gtins, taxes } = await enrich(ownerId, ds, [...orders, ...prevOrders], now, log);
+  const { shipCosts, gtins, taxes, catalogIds } = await enrich(ownerId, ds, [...orders, ...prevOrders], now, log);
 
   const data = computeDashboard({
     orders, prevOrders, shipCosts, gtins, taxes, base, prevCierre, inputs, cfg,
@@ -94,6 +95,13 @@ export async function runSync(
   const calCfg = { ...cfg, impuestosMlPctEstimado: data.taxPct };
   const lines = buildLines(orders, shipCosts, gtins, base, inputs, calCfg, y, m, taxes, fuzzy);
   const ml = lines.filter((l) => l.channel === "ML");
+  try {
+    const n = await saveCatalogProducts(ownerId, lines, catalogIds);
+    const withCat = Object.values(catalogIds).filter(Boolean).length;
+    log(`Catálogo: ${withCat}/${Object.keys(catalogIds).length} publicaciones con catalog_product_id (${n} productos guardados)`);
+  } catch (e) {
+    log(`Aviso: no pude guardar los productos de catálogo (${String((e as Error).message).slice(0, 120)})`);
+  }
   if (ml.length) {
     const con = ml.filter((l) => l.taxSource === "Mercado Pago").length;
     log(`Impuestos: ${con}/${ml.length} líneas ML con detalle real de Mercado Pago; el resto, estimado`);

@@ -48,6 +48,13 @@ export class LiveDataSource implements DataSource {
     return Object.assign({}, ...parts) as Gtins;
   }
 
+  async getCatalogIds(itemIds: string[]): Promise<Record<string, string | null>> {
+    const chunks: string[][] = [];
+    for (let i = 0; i < itemIds.length; i += 20) chunks.push(itemIds.slice(i, i + 20));
+    const parts = await mapLimit(chunks, CONCURRENCY, (c) => this.client.itemsCatalogId(c));
+    return Object.assign({}, ...parts) as Record<string, string | null>;
+  }
+
   async getPaymentTaxes(
     paymentIds: string[],
   ): Promise<Record<string, PaymentTaxes | null>> {
