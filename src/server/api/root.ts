@@ -1,4 +1,5 @@
 import { dashboardRouter } from "~/server/api/routers/dashboard";
+import { marketRouter } from "~/server/api/routers/market";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -8,6 +9,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   dashboard: dashboardRouter,
+  market: marketRouter,
 });
 
 // export type definition of API
