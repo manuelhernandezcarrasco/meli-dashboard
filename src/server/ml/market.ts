@@ -20,49 +20,20 @@ export type MarketPoint = {
   sellerNickname: string;
   title: string;
   price: number;
-  soldQuantity: number;
+  soldQuantity: number | null;
   soldExact: boolean;
   permalink: string;
   isOurs: boolean;
 };
 
-export interface SearchHit {
-  itemId: string;
-  sellerId: number;
-  sellerNickname: string | null;
-  title: string;
-  price: number;
-  soldQuantity: number;
-  permalink: string;
-  sameCatalog: boolean;
-}
-
 export interface Offer {
   itemId: string;
   sellerId: number | null;
+  price: number;
 }
 
-const SEARCH_SITE = "MLA";
-const SEARCH_PAGE = 50;
-const SEARCH_MAX = 400;
-
-const fold = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-const tokensOf = (s: string) => fold(s).split(/[^a-z0-9]+/).filter((t) => t.length > 1);
-
-/**
- * Does a public listing title describe the same product as the catalog title? Every token that
- * mixes letters and digits (model codes such as "wi-c100") must appear, and at least 60% of all
- * tokens must. Keeps cases/accessories and other models out of a "same product" comparison.
- */
-export function sameProductTitle(catalogTitle: string, listingTitle: string): boolean {
-  const want = [...new Set(tokensOf(catalogTitle))];
-  if (want.length === 0) return false;
-  const have = new Set(tokensOf(listingTitle));
-  const hasModel = (t: string) => /[a-z]/.test(t) && /\d/.test(t);
-  // "wi-c100" is split into "wi" + "c100"; the digit-bearing piece is the model code.
-  if (!want.filter(hasModel).every((t) => have.has(t))) return false;
-  return want.filter((t) => have.has(t)).length / want.length >= 0.6;
-}
+/** Public permalink for an item id; ML redirects `MLA-<digits>` to the canonical listing page. */
+export const itemPermalink = (itemId: string) => `https://articulo.mercadolibre.com.ar/${itemId.replace(/^([A-Z]{3})(\d+)$/, "$1-$2")}`;
 
 /** Nickname cache; default is the per-owner `ApiCache` table under `seller:<id>`. */
 export interface NicknameCache {
@@ -152,48 +123,13 @@ export class MlMarketClient {
       for (const o of res) {
         const itemId = o?.item_id ?? o?.id;
         if (typeof itemId !== "string") continue;
-        out.push({ itemId, sellerId: o.seller_id != null ? toNum(o.seller_id) : null });
+        out.push({ itemId, sellerId: o.seller_id != null ? toNum(o.seller_id) : null, price: toNum(o.price) });
       }
       const total = toNum(r?.paging?.total);
       offset += PAGE;
       if (res.length === 0 || offset >= total) break;
     }
     return out.slice(0, MAX_OFFERS);
-  }
-
-  /**
-   * Public listings found by title (any seller, catalog or not). Failures (e.g. the search
-   * endpoint being closed to this app) yield [] so the catalog offers still work.
-   */
-  async searchListings(query: string, catalogProductId: string): Promise<SearchHit[]> {
-    const out: SearchHit[] = [];
-    try {
-      for (let offset = 0; offset < SEARCH_MAX; offset += SEARCH_PAGE) {
-        const r = (await this.get(`${API}/sites/${SEARCH_SITE}/search`, {
-          q: query,
-          limit: SEARCH_PAGE,
-          offset,
-        })) as any;
-        const res: any[] = r?.results ?? [];
-        for (const o of res) {
-          if (typeof o?.id !== "string" || o?.seller?.id == null) continue;
-          out.push({
-            itemId: o.id,
-            sellerId: toNum(o.seller.id),
-            sellerNickname: typeof o.seller.nickname === "string" ? o.seller.nickname : null,
-            title: String(o.title ?? ""),
-            price: toNum(o.price),
-            soldQuantity: toNum(o.sold_quantity),
-            permalink: String(o.permalink ?? ""),
-            sameCatalog: o.catalog_product_id === catalogProductId,
-          });
-        }
-        if (res.length < SEARCH_PAGE || offset + SEARCH_PAGE >= toNum(r?.paging?.total)) break;
-      }
-    } catch {
-      /* search unavailable: fall back to catalog offers only */
-    }
-    return out;
   }
 
   private async catalogTitle(catalogProductId: string): Promise<string> {
@@ -230,13 +166,13 @@ export class MlMarketClient {
       this.catalogTitle(catalogProductId),
       this.listCatalogOffers(catalogProductId),
     ]);
-    const searched = (await this.searchListings(catalogTitle, catalogProductId)).filter(
-      (h) => h.price > 0 && (h.sameCatalog || sameProductTitle(catalogTitle, h.title)),
-    );
-    const known = new Set(searched.map((h) => h.itemId));
-    const ids = [...new Set(offers.map((o) => o.itemId))].filter((i) => !known.has(i));
+    const fresh = [...new Map(offers.map((o) => [o.itemId, o])).values()];
+    // Other sellers' items answer 403 to the multiget, so they are built from the offer itself
+    // (price + seller + a permalink). Only our own items are fetched for title / sales.
+    const mine = fresh.filter((o) => o.sellerId === ourSellerId);
+    const theirs = fresh.filter((o) => o.sellerId !== ourSellerId && o.price > 0);
     const bodies = (
-      await mapLimit(chunks(ids, MULTIGET), CONCURRENCY, async (part) => {
+      await mapLimit(chunks(mine.map((o) => o.itemId), MULTIGET), CONCURRENCY, async (part) => {
         const r = (await this.get(`${API}/items`, {
           ids: part.join(","),
           attributes: "id,title,price,sold_quantity,permalink,status,seller_id",
@@ -246,10 +182,7 @@ export class MlMarketClient {
     ).flat();
 
     const live = bodies.filter((b) => b.status === "active" && toNum(b.price) > 0);
-    const sellerIds = [
-      ...new Set([...live.map((b) => toNum(b.seller_id)), ...searched.filter((h) => !h.sellerNickname).map((h) => h.sellerId)]),
-    ];
-    const nicks = await this.resolveNicknames(sellerIds);
+    const nicks = await this.resolveNicknames([...new Set(live.map((b) => toNum(b.seller_id)))]);
 
     const fromCatalog = live.map((b): MarketPoint => {
       const sellerId = toNum(b.seller_id);
@@ -259,26 +192,24 @@ export class MlMarketClient {
         sellerNickname: nicks.get(sellerId) ?? String(sellerId),
         title: String(b.title ?? ""),
         price: toNum(b.price),
-        // TODO(spike): confirm whether sold_quantity is exact for other sellers' items
-        // (see T9-findings.md); until then it is reported as exact.
         soldQuantity: toNum(b.sold_quantity),
         soldExact: true,
         permalink: String(b.permalink ?? ""),
-        isOurs: sellerId === ourSellerId,
+        isOurs: true,
       };
     });
-    const fromSearch = searched.map((h): MarketPoint => ({
-      itemId: h.itemId,
-      sellerId: h.sellerId,
-      sellerNickname: h.sellerNickname ?? nicks.get(h.sellerId) ?? String(h.sellerId),
-      title: h.title,
-      price: h.price,
-      soldQuantity: h.soldQuantity,
-      soldExact: true,
-      permalink: h.permalink,
-      isOurs: h.sellerId === ourSellerId,
+    const fromOffers = theirs.map((o): MarketPoint => ({
+      itemId: o.itemId,
+      sellerId: o.sellerId ?? 0,
+      sellerNickname: String(o.sellerId ?? ""),
+      title: catalogTitle,
+      price: o.price,
+      soldQuantity: null,
+      soldExact: false,
+      permalink: itemPermalink(o.itemId),
+      isOurs: false,
     }));
-    const points = [...fromCatalog, ...fromSearch];
+    const points = [...fromCatalog, ...fromOffers];
     return { catalogTitle, points };
   }
 }

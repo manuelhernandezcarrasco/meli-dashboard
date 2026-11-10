@@ -55,17 +55,20 @@ export function ols(
   return { mode, slope, intercept, r2, n };
 }
 
+const hasSales = (p: MarketPoint): p is MarketPoint & { soldQuantity: number } => p.soldQuantity != null;
+
 export function fitLinear(points: MarketPoint[]): Regression | null {
+  const usable = points.filter(hasSales);
   return ols(
-    points.map((p) => p.soldQuantity),
-    points.map((p) => p.price),
+    usable.map((p) => p.soldQuantity),
+    usable.map((p) => p.price),
     "linear",
   );
 }
 
 /** ln(price) vs ln(sold); points with sold < 1 or price <= 0 are not fitted. */
 export function fitLog(points: MarketPoint[]): Regression | null {
-  const usable = points.filter((p) => p.soldQuantity >= 1 && p.price > 0);
+  const usable = points.filter(hasSales).filter((p) => p.soldQuantity >= 1 && p.price > 0);
   return ols(
     usable.map((p) => Math.log(p.soldQuantity)),
     usable.map((p) => Math.log(p.price)),
@@ -87,7 +90,7 @@ export function buildResearch(input: {
     const ours = kept.filter((p) => p.isOurs);
     const others = kept
       .filter((p) => !p.isOurs)
-      .sort((a, b) => b.soldQuantity - a.soldQuantity || a.price - b.price);
+      .sort((a, b) => (b.soldQuantity ?? 0) - (a.soldQuantity ?? 0) || a.price - b.price);
     const room = Math.max(0, MARKET_MAX_SELLERS - ours.length);
     const keepOthers = new Set(others.slice(0, room));
     for (const p of others.slice(room)) excluded.push({ point: p, reason: "cap" });
@@ -97,13 +100,14 @@ export function buildResearch(input: {
   // 2. Tukey fences, independently on price and sold (skipped when n < 8).
   if (kept.length >= MIN_POINTS_FOR_FENCES) {
     const pf = tukeyFences(kept.map((p) => p.price));
-    const sf = tukeyFences(kept.map((p) => p.soldQuantity));
+    const known = kept.filter(hasSales).map((p) => p.soldQuantity);
+    const sf = known.length >= MIN_POINTS_FOR_FENCES ? tukeyFences(known) : null;
     const next: MarketPoint[] = [];
     for (const p of kept) {
       if (p.isOurs) next.push(p);
       else if (p.price < pf.lo || p.price > pf.hi)
         excluded.push({ point: p, reason: "price_outlier" });
-      else if (p.soldQuantity < sf.lo || p.soldQuantity > sf.hi)
+      else if (sf && p.soldQuantity != null && (p.soldQuantity < sf.lo || p.soldQuantity > sf.hi))
         excluded.push({ point: p, reason: "sales_outlier" });
       else next.push(p);
     }

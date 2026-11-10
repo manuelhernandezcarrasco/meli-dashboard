@@ -75,6 +75,10 @@ describe("<MarketTooltip />", () => {
     render(<MarketTooltip active payload={[{ payload: { ...base, soldQuantity: 100, soldExact: false } }]} />);
     expect(screen.getByText(/Vendidos: \+100$/)).toBeTruthy();
   });
+  it("shows s/d when sales are unknown", () => {
+    render(<MarketTooltip active payload={[{ payload: { ...base, soldQuantity: null, soldExact: false } }]} />);
+    expect(screen.getByText(/Vendidos: s\/d$/)).toBeTruthy();
+  });
   it("renders nothing when inactive", () => {
     const { container } = render(<MarketTooltip active={false} payload={[{ payload: base }]} />);
     expect(container.innerHTML).toBe("");

@@ -7,7 +7,7 @@ export function MarketTooltipBody({ point }: { point: MarketPoint }) {
       <div className="font-bold">{point.sellerNickname}</div>
       <div className="mt-0.5 text-mut">{point.title}</div>
       <div className="mt-1">Precio: {ars(point.price)}</div>
-      <div>Vendidos: {point.soldExact ? "" : "+"}{fmtInt(point.soldQuantity)}</div>
+      <div>Vendidos: {point.soldQuantity == null ? "s/d" : `${point.soldExact ? "" : "+"}${fmtInt(point.soldQuantity)}`}</div>
     </div>
   );
 }

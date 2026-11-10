@@ -36,9 +36,12 @@ export function MarketChart({ data, size }: {
   /** fixed pixel size (tests / jsdom, where ResponsiveContainer measures 0) */
   size?: { width: number; height: number };
 }) {
-  const modes = (["log", "linear"] as const).filter((m) => data.regression[m] != null);
+  // Other sellers' sales are unknown (their items are closed to us): they sit on the baseline,
+  // which a log axis can't draw, so the scale is forced linear while any are present.
+  const hasUnknownSales = data.points.some((p) => p.soldQuantity == null);
+  const modes = (["log", "linear"] as const).filter((m) => data.regression[m] != null && !(hasUnknownSales && m === "log"));
   const [picked, setPicked] = useState<RegressionMode>("log");
-  const mode: RegressionMode = modes.includes(picked) ? picked : (modes[0] ?? "log");
+  const mode: RegressionMode = hasUnknownSales ? "linear" : modes.includes(picked) ? picked : (modes[0] ?? "log");
   const reg = data.regression[mode];
   const log = mode === "log";
 
@@ -50,7 +53,8 @@ export function MarketChart({ data, size }: {
   const line = useMemo(() => {
     if (!reg || data.points.length === 0) return [];
     // T8's fit is price = f(sold): sample over units sold, plot (price, sold).
-    const sold = data.points.map((p) => p.soldQuantity);
+    const sold = data.points.flatMap((p) => (p.soldQuantity == null ? [] : [p.soldQuantity]));
+    if (sold.length === 0) return [];
     return predictLine(reg, Math.min(...sold), Math.max(...sold), 40);
   }, [reg, data.points]);
 
@@ -65,7 +69,8 @@ export function MarketChart({ data, size }: {
   const scale = log ? "log" : "linear";
   const domain: [string | number, string | number] = log ? ["auto", "auto"] : [0, "auto"];
   // log axes can't draw sold = 0
-  const plot = <T extends { soldQuantity: number }>(rows: T[]) => (log ? rows.filter((p) => p.soldQuantity > 0) : rows);
+  const plot = <T extends { soldQuantity: number | null }>(rows: T[]) =>
+    (log ? rows.filter((p) => (p.soldQuantity ?? 0) > 0) : rows.map((p) => ({ ...p, soldQuantity: p.soldQuantity ?? 0 })));
 
   const chart = (
     <ComposedChart {...(size ?? {})} margin={{ top: 8, right: 12, bottom: 4, left: 0 }}>
@@ -99,6 +104,7 @@ export function MarketChart({ data, size }: {
             </button>
           ))}
         </div>
+        {hasUnknownSales && <span>Ventas de otros vendedores no disponibles: se muestran sobre el eje.</span>}
         {reg && <span data-testid="fit-stats">R² {r2Fmt.format(reg.r2)} · n = {fmtInt(reg.n)}</span>}
         <span className="ml-auto flex items-center gap-3">
           <Legend color="var(--grey)" label="Otros" />

@@ -124,3 +124,15 @@ describe("buildResearch", () => {
     expect(r.regression).toEqual({ log: null, linear: null });
   });
 });
+
+describe("points with unknown sales", () => {
+  const unknown = (price: number) => ({ ...pt(price, 0), soldQuantity: null });
+  it("are kept, fenced on price only, and left out of the fits", () => {
+    const pts = [...[100, 101, 102, 103, 104, 105, 106, 107].map(unknown), unknown(9000), pt(100, 5, { isOurs: true })];
+    const r = buildResearch({ catalogProductId: "C", catalogTitle: "T", points: pts, fetchedAt: "now" });
+    expect(r.excluded.map((e) => [e.point.price, e.reason])).toEqual([[9000, "price_outlier"]]);
+    expect(r.points).toHaveLength(9);
+    expect(r.regression.linear).toBeNull();
+    expect(r.regression.log).toBeNull();
+  });
+});
