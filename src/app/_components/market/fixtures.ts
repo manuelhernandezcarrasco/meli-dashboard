@@ -41,8 +41,8 @@ export const fixtureResearch: MarketResearch = {
     { point: mk(202), reason: "cap" },
   ],
   regression: {
-    log: { mode: "log", slope: -0.75, intercept: 14.5, r2: 0.62, n: 60 },
-    linear: { mode: "linear", slope: -0.004, intercept: 420, r2: 0.31, n: 60 },
+    log: { mode: "log", slope: -0.15, intercept: 11.5, r2: 0.62, n: 60 },
+    linear: { mode: "linear", slope: -20, intercept: 80000, r2: 0.31, n: 60 },
   },
   fetchedAt: "2026-11-10T12:00:00.000Z",
 };

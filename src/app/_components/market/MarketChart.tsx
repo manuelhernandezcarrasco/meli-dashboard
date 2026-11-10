@@ -49,8 +49,9 @@ export function MarketChart({ data, size }: {
 
   const line = useMemo(() => {
     if (!reg || data.points.length === 0) return [];
-    const prices = data.points.map((p) => p.price);
-    return predictLine(reg, Math.min(...prices), Math.max(...prices), 40);
+    // T8's fit is price = f(sold): sample over units sold, plot (price, sold).
+    const sold = data.points.map((p) => p.soldQuantity);
+    return predictLine(reg, Math.min(...sold), Math.max(...sold), 40);
   }, [reg, data.points]);
 
   if (data.points.length === 0) {
@@ -79,7 +80,7 @@ export function MarketChart({ data, size }: {
       <Scatter name="Nuestras publicaciones" data={plot(ours)} fill="var(--cost)" isAnimationActive={false}
         shape={<Dot fill="var(--cost)" r={7} />} onClick={openPermalink} />
       {reg && (
-        <Line data={line.filter((l) => l.sold > 0)} dataKey="sold" xAxisId={0} yAxisId={0} type="monotone"
+        <Line data={line.filter((l) => l.sold > 0 && l.price > 0)} dataKey="sold" xAxisId={0} yAxisId={0} type="monotone"
           stroke="var(--blue)" strokeWidth={2} dot={false} activeDot={false} legendType="none"
           isAnimationActive={false} name="Ajuste" />
       )}
