@@ -61,3 +61,17 @@ Merge (by the user, one at a time): `git checkout main && git merge --no-ff t1-m
 
 ## Tooling facts
 Node 20.19, pnpm 9, Docker 27 + Compose v2 are installed. Python 3 is installed; legacy script needs `openpyxl` (use a venv in the agent scratch dir, never commit it).
+
+
+## Market research feature (T8–T13)
+
+Contracts: `MARKET-CONTRACTS.md`. All six tickets can start at the same time; each codes against the contract and its own fakes. Merge order only matters for the final wiring.
+
+| Ticket | Scope | Merge before |
+|---|---|---|
+| T8 | stats core (outliers, regression) | T12, T10 final swap |
+| T9 | ML catalog client + feasibility spike | T12 |
+| T10 | scatter chart component | T13 final check |
+| T11 | stock-table links + own-product search | T12 (router composition) |
+| T12 | service, persistence, 15-min refresh job, tRPC | T13 final check |
+| T13 | page + client refresh loop | – |
