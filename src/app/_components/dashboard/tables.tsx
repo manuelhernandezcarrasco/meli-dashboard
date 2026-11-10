@@ -8,6 +8,7 @@ import {
   type TopProduct,
 } from "~/lib/dashboard-math";
 import type { DashboardData, MatchProposal } from "~/lib/contracts";
+import { InvestigateButton, MarketSearchBox, type MarketSearch } from "./MarketSearchBox";
 import { ScrollPane } from "./ScrollPane";
 import { SortTh, useSort } from "./sort";
 import { Badge, Card } from "./ui";
@@ -268,13 +269,15 @@ export function Alerts({ data, assumed, onMatchDecision, matchPending = false }:
 
 const STATE_DOT = ["bg-neg", "bg-neg", "bg-cost", "bg-warn", "bg-pos"] as const;
 
-export function StockTable({ data, rows: all, counts, selected, onToggle, prevMonth }: {
+export function StockTable({ data, rows: all, counts, selected, onToggle, prevMonth, marketSearch }: {
   data: DashboardData;
   rows: StockRow[];
   counts: Record<StockState, number>;
   selected: ReadonlySet<StockState>;
   onToggle: (s: StockState) => void;
   prevMonth: string;
+  /** Looks up our own products by title; without it the market-research entry points are hidden. */
+  marketSearch?: MarketSearch;
 }) {
   const U = data.thresholds;
   const { rows, sort, toggle } = useSort(all, {
@@ -310,6 +313,7 @@ export function StockTable({ data, rows: all, counts, selected, onToggle, prevMo
               </button>
             ))}
           </span>
+          {marketSearch ? <MarketSearchBox search={marketSearch} /> : null}
         </span>
       }
     >
@@ -327,6 +331,7 @@ export function StockTable({ data, rows: all, counts, selected, onToggle, prevMo
               <SortTh col="coverage" sort={sort} onSort={toggle}>Cobertura</SortTh>
               <SortTh col="breakDate" sort={sort} onSort={toggle}>Quiebre est.</SortTh>
               <SortTh col="reorder" sort={sort} onSort={toggle}>Reponer</SortTh>
+              <th />
             </tr>
           </thead>
           <tbody>
@@ -360,11 +365,14 @@ export function StockTable({ data, rows: all, counts, selected, onToggle, prevMo
                         : fmtShortDate(x.breakDate)}
                     </td>
                     <td>{x.reorder ? fmtInt(x.reorder) : "–"}</td>
+                    <td className="whitespace-nowrap text-xs">
+                      {marketSearch ? <InvestigateButton search={marketSearch} desc={x.desc} /> : null}
+                    </td>
                   </tr>
                 );
               })
             ) : (
-              <tr><td colSpan={10} className="text-mut">Sin productos en los estados seleccionados.</td></tr>
+              <tr><td colSpan={11} className="text-mut">Sin productos en los estados seleccionados.</td></tr>
             )}
           </tbody>
         </table>

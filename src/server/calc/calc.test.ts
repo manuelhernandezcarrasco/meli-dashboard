@@ -113,7 +113,7 @@ describe("fixtures", () => {
 });
 
 describe("buildLines", () => {
-  const run = (o: Order[], b = base, inp = emptyInputs, tx?: Record<string, { total: number; det: Record<string, number> }>, sc = {}) =>
+  const run = (o: Order[], b = base, inp = emptyInputs, tx?: Record<string, { total: number; det: Record<string, number>; financing?: number }>, sc = {}) =>
     buildLines(o, sc, gt, b, inp, { ...cfg, impuestosMlPctEstimado: 0.03 }, 2026, 10, tx);
 
   it("splits a shared shipment by revenue and ignores cancelled orders", () => {

@@ -3,7 +3,7 @@
 import { UserButton } from "@clerk/nextjs";
 import { TRPCClientError } from "@trpc/client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 import { api } from "~/trpc/react";
 import { Dashboard } from "./Dashboard";
@@ -93,6 +93,10 @@ function cooldownFromError(e: unknown): number | null {
 export function DashboardPage() {
   const router = useRouter();
   const utils = api.useUtils();
+  const marketSearch = useCallback(
+    (query: string) => utils.market.searchOwnProducts.fetch({ query }),
+    [utils],
+  );
   const conn = api.dashboard.connection.useQuery();
   const linked = conn.data?.linked === true;
   const q = api.dashboard.get.useQuery(undefined, { refetchInterval: 60_000, enabled: linked });
@@ -180,6 +184,7 @@ export function DashboardPage() {
   return (
     <Dashboard
       data={q.data}
+      marketSearch={marketSearch}
       onMatchDecision={(d) => decide.mutate(d)}
       matchPending={decide.isPending}
       demo={status.data?.source === "demo"}

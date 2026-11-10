@@ -11,6 +11,7 @@ import {
 import { AccumChart, DailyChart, Waterfall } from "./charts";
 import { Header } from "./Header";
 import { KpiRow } from "./Kpi";
+import type { MarketSearch } from "./MarketSearchBox";
 import { Alerts, type MatchDecisionInput, CategoryTable, SalesFeed, StockTable, TopProducts } from "./tables";
 
 
@@ -35,13 +36,14 @@ function writeStorage(key: string, value: unknown) {
 }
 
 /** Presentational dashboard: everything it shows comes from `data`. */
-export function Dashboard({ data, demo = false, actions, banner, onMatchDecision, matchPending = false }: {
+export function Dashboard({ data, demo = false, actions, banner, onMatchDecision, matchPending = false, marketSearch }: {
   data: DashboardData;
   demo?: boolean;
   actions?: ReactNode;
   banner?: ReactNode;
   onMatchDecision?: (d: MatchDecisionInput) => void;
   matchPending?: boolean;
+  marketSearch?: MarketSearch;
 }) {
   const [channel, setChannel] = useState<Channel>("all");
   const [cat, setCat] = useState("all");
@@ -147,6 +149,7 @@ export function Dashboard({ data, demo = false, actions, banner, onMatchDecision
         selected={states}
         onToggle={toggleState}
         prevMonth={prevMonth}
+        marketSearch={marketSearch}
       />
 
       <footer className="mt-[22px] text-xs leading-relaxed text-mut">{footnote(data)}</footer>
