@@ -1,9 +1,11 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
+import { createMarketSearchRouter } from "~/server/api/routers/market-search";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { getMarketService, type MarketState } from "~/server/market/service";
 import { isLinked } from "~/server/ml";
+import { MlMarketClient } from "~/server/ml/market";
 
 const linkedProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   if (!(await isLinked(ctx.userId))) {
@@ -14,11 +16,12 @@ const linkedProcedure = protectedProcedure.use(async ({ ctx, next }) => {
 
 const input = z.object({ catalogProductId: z.string().min(1) });
 
-/**
- * TODO(T11 merge): compose `marketSearchRouter` (searchOwnProducts, catalogIdForItem) with
- * `mergeRouters` / spreading its procedures here.
- */
+const searchRouter = createMarketSearchRouter((ownerId, itemId) =>
+  new MlMarketClient(ownerId).getCatalogProductId(itemId),
+);
+
 export const marketRouter = createTRPCRouter({
+  ...searchRouter._def.procedures,
   /** Stored state only; never triggers ML calls. */
   get: linkedProcedure
     .input(input)

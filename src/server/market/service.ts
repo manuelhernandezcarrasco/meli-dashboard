@@ -1,47 +1,19 @@
 import { TRPCError } from "@trpc/server";
 
 import { db } from "~/server/db";
+import { buildResearch } from "~/server/market/stats";
 import { MlClient } from "~/server/ml";
+import { MlMarketClient } from "~/server/ml/market";
 
-/*
- * SEAM: these types/constants are copied verbatim from docs/tickets/MARKET-CONTRACTS.md.
- * Once T8 merges, delete this block and `export type {...}`/import from "~/lib/market" instead.
- */
-export type MarketPoint = {
-  itemId: string;
-  sellerId: number;
-  sellerNickname: string;
-  title: string;
-  price: number;
-  soldQuantity: number;
-  soldExact: boolean;
-  permalink: string;
-  isOurs: boolean;
-};
-export type RegressionMode = "log" | "linear";
-export type Regression = { mode: RegressionMode; slope: number; intercept: number; r2: number; n: number };
-export type MarketResearch = {
-  catalogProductId: string;
-  catalogTitle: string;
-  points: MarketPoint[];
-  excluded: { point: MarketPoint; reason: "price_outlier" | "sales_outlier" | "cap" }[];
-  regression: { log: Regression | null; linear: Regression | null };
-  fetchedAt: string;
-};
-export type MarketState =
-  | { status: "none" }
-  | { status: "running"; data: MarketResearch | null; startedAt: string }
-  | { status: "ready"; data: MarketResearch }
-  | { status: "failed"; data: MarketResearch | null; error: string };
-export const MARKET_TTL_MS = 15 * 60_000;
+import { MARKET_TTL_MS, type MarketPoint, type MarketResearch, type MarketState } from "~/lib/market";
+
+export type { MarketPoint, MarketResearch, MarketState };
+export { MARKET_TTL_MS };
 
 /** Seconds a failed job blocks a retry through `touch`. */
 export const MARKET_RETRY_COOLDOWN_S = 30;
 
-/*
- * SEAM: injected dependencies. Real implementations come from T9 (fetchPoints) and T8
- * (buildResearch); their exact signatures are adapted in `defaultDeps` below once merged.
- */
+/** Injected dependencies: T9 (fetchPoints), T8 (buildResearch), store, clock. */
 export interface MarketDeps {
   /** T9: every seller's offer for the catalog product, as raw points. */
   fetchPoints(catalogProductId: string, ourSellerId: number): Promise<{ catalogTitle: string; points: MarketPoint[] }>;
@@ -151,17 +123,12 @@ export function prismaMarketStore(ownerId: string): MarketDeps["store"] {
   };
 }
 
-/**
- * SEAM: wire T9 `fetchPoints` and T8 `buildResearch` here once merged. Until then the job fails
- * with a clear message instead of calling ML.
- */
 export function getMarketService(ownerId: string): MarketService {
   const client = new MlClient(ownerId);
+  const market = new MlMarketClient(ownerId);
   return createMarketService(ownerId, {
-    fetchPoints: () => Promise.reject(new Error("fetchPoints (T9) is not wired yet")),
-    buildResearch: () => {
-      throw new Error("buildResearch (T8) is not wired yet");
-    },
+    fetchPoints: (id, sellerId) => market.fetchMarketPoints(id, sellerId),
+    buildResearch,
     ourSellerId: () => client.getSellerId(),
     store: prismaMarketStore(ownerId),
     now: () => new Date(),
