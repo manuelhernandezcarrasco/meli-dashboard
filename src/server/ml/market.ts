@@ -26,9 +26,42 @@ export type MarketPoint = {
   isOurs: boolean;
 };
 
+export interface SearchHit {
+  itemId: string;
+  sellerId: number;
+  sellerNickname: string | null;
+  title: string;
+  price: number;
+  soldQuantity: number;
+  permalink: string;
+  sameCatalog: boolean;
+}
+
 export interface Offer {
   itemId: string;
   sellerId: number | null;
+}
+
+const SEARCH_SITE = "MLA";
+const SEARCH_PAGE = 50;
+const SEARCH_MAX = 400;
+
+const fold = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const tokensOf = (s: string) => fold(s).split(/[^a-z0-9]+/).filter((t) => t.length > 1);
+
+/**
+ * Does a public listing title describe the same product as the catalog title? Every token that
+ * mixes letters and digits (model codes such as "wi-c100") must appear, and at least 60% of all
+ * tokens must. Keeps cases/accessories and other models out of a "same product" comparison.
+ */
+export function sameProductTitle(catalogTitle: string, listingTitle: string): boolean {
+  const want = [...new Set(tokensOf(catalogTitle))];
+  if (want.length === 0) return false;
+  const have = new Set(tokensOf(listingTitle));
+  const hasModel = (t: string) => /[a-z]/.test(t) && /\d/.test(t);
+  // "wi-c100" is split into "wi" + "c100"; the digit-bearing piece is the model code.
+  if (!want.filter(hasModel).every((t) => have.has(t))) return false;
+  return want.filter((t) => have.has(t)).length / want.length >= 0.6;
 }
 
 /** Nickname cache; default is the per-owner `ApiCache` table under `seller:<id>`. */
@@ -128,6 +161,41 @@ export class MlMarketClient {
     return out.slice(0, MAX_OFFERS);
   }
 
+  /**
+   * Public listings found by title (any seller, catalog or not). Failures (e.g. the search
+   * endpoint being closed to this app) yield [] so the catalog offers still work.
+   */
+  async searchListings(query: string, catalogProductId: string): Promise<SearchHit[]> {
+    const out: SearchHit[] = [];
+    try {
+      for (let offset = 0; offset < SEARCH_MAX; offset += SEARCH_PAGE) {
+        const r = (await this.get(`${API}/sites/${SEARCH_SITE}/search`, {
+          q: query,
+          limit: SEARCH_PAGE,
+          offset,
+        })) as any;
+        const res: any[] = r?.results ?? [];
+        for (const o of res) {
+          if (typeof o?.id !== "string" || o?.seller?.id == null) continue;
+          out.push({
+            itemId: o.id,
+            sellerId: toNum(o.seller.id),
+            sellerNickname: typeof o.seller.nickname === "string" ? o.seller.nickname : null,
+            title: String(o.title ?? ""),
+            price: toNum(o.price),
+            soldQuantity: toNum(o.sold_quantity),
+            permalink: String(o.permalink ?? ""),
+            sameCatalog: o.catalog_product_id === catalogProductId,
+          });
+        }
+        if (res.length < SEARCH_PAGE || offset + SEARCH_PAGE >= toNum(r?.paging?.total)) break;
+      }
+    } catch {
+      /* search unavailable: fall back to catalog offers only */
+    }
+    return out;
+  }
+
   private async catalogTitle(catalogProductId: string): Promise<string> {
     const r = (await this.get(`${API}/products/${encodeURIComponent(catalogProductId)}`)) as any;
     return typeof r?.name === "string" ? r.name : catalogProductId;
@@ -162,7 +230,11 @@ export class MlMarketClient {
       this.catalogTitle(catalogProductId),
       this.listCatalogOffers(catalogProductId),
     ]);
-    const ids = [...new Set(offers.map((o) => o.itemId))];
+    const searched = (await this.searchListings(catalogTitle, catalogProductId)).filter(
+      (h) => h.price > 0 && (h.sameCatalog || sameProductTitle(catalogTitle, h.title)),
+    );
+    const known = new Set(searched.map((h) => h.itemId));
+    const ids = [...new Set(offers.map((o) => o.itemId))].filter((i) => !known.has(i));
     const bodies = (
       await mapLimit(chunks(ids, MULTIGET), CONCURRENCY, async (part) => {
         const r = (await this.get(`${API}/items`, {
@@ -174,10 +246,12 @@ export class MlMarketClient {
     ).flat();
 
     const live = bodies.filter((b) => b.status === "active" && toNum(b.price) > 0);
-    const sellerIds = [...new Set(live.map((b) => toNum(b.seller_id)))];
+    const sellerIds = [
+      ...new Set([...live.map((b) => toNum(b.seller_id)), ...searched.filter((h) => !h.sellerNickname).map((h) => h.sellerId)]),
+    ];
     const nicks = await this.resolveNicknames(sellerIds);
 
-    const points = live.map((b): MarketPoint => {
+    const fromCatalog = live.map((b): MarketPoint => {
       const sellerId = toNum(b.seller_id);
       return {
         itemId: String(b.id),
@@ -193,6 +267,18 @@ export class MlMarketClient {
         isOurs: sellerId === ourSellerId,
       };
     });
+    const fromSearch = searched.map((h): MarketPoint => ({
+      itemId: h.itemId,
+      sellerId: h.sellerId,
+      sellerNickname: h.sellerNickname ?? nicks.get(h.sellerId) ?? String(h.sellerId),
+      title: h.title,
+      price: h.price,
+      soldQuantity: h.soldQuantity,
+      soldExact: true,
+      permalink: h.permalink,
+      isOurs: h.sellerId === ourSellerId,
+    }));
+    const points = [...fromCatalog, ...fromSearch];
     return { catalogTitle, points };
   }
 }
