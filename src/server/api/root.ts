@@ -1,4 +1,5 @@
 import { dashboardRouter } from "~/server/api/routers/dashboard";
+import { marketSearchRouter } from "~/server/api/routers/market-search";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -8,6 +9,8 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   dashboard: dashboardRouter,
+  // T12 replaces this with the full `market` router (which merges marketSearchRouter).
+  market: marketSearchRouter,
 });
 
 // export type definition of API
