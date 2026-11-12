@@ -7,7 +7,7 @@ vi.mock("~/env", () => ({ env: { NODE_ENV: "test" } }));
 
 import { db } from "~/server/db";
 import { StockError } from "./contracts";
-import { appendMovement, costAt, getProductBalance, listMovements, recomputeOnHand } from "./ledger";
+import { appendMovement, costAt, getProductBalance, listMovements, recomputeOnHand, setManualCost } from "./ledger";
 
 const A = "ledger_user_a";
 const B = "ledger_user_b";
@@ -196,4 +196,33 @@ describe("reads", () => {
     const last = (await listMovements(A, p, { limit: 1 }))[0];
     expect(last?.onHandAfter.toString()).toBe(bal?.onHand.toString());
   }, 60_000);
+});
+
+describe("setManualCost", () => {
+  it("sets the cost with a manual cost entry and never touches onHand", async () => {
+    const p = await newProduct();
+    await move(p, "initial_count", 5, { unitCost: "100", occurredAt: at(1) });
+    const r = await setManualCost({ accountId: A, productId: p, unitCost: "150.5", occurredAt: at(2), note: "precio nuevo" });
+    expect(r.changed).toBe(true);
+    const bal = await getProductBalance(A, p);
+    expect(bal?.onHand.toString()).toBe("5");
+    expect(bal?.unitCost.toString()).toBe("150.5");
+    const entries = await db.productCostEntry.findMany({ where: { accountId: A, productId: p }, orderBy: { id: "asc" } });
+    expect(entries.map((e) => e.reason)).toEqual(["initial", "manual"]);
+    expect(entries[1]?.note).toBe("precio nuevo");
+    expect(entries[1]?.onHandAtChange.toString()).toBe("5");
+    expect((await costAt(A, p, at(3)))?.toString()).toBe("150.5");
+    expect((await recomputeOnHand(A, p)).toString()).toBe("5");
+  });
+
+  it("is a no-op when the cost does not change, works with no cost yet, rejects negatives and unknown products", async () => {
+    const p = await newProduct();
+    expect((await setManualCost({ accountId: A, productId: p, unitCost: 80, occurredAt: at(1) })).changed).toBe(true);
+    expect((await setManualCost({ accountId: A, productId: p, unitCost: 80, occurredAt: at(2) })).changed).toBe(false);
+    expect(await db.productCostEntry.count({ where: { accountId: A, productId: p } })).toBe(1);
+    await expect(setManualCost({ accountId: A, productId: p, unitCost: -1, occurredAt: at(3) })).rejects.toBeInstanceOf(StockError);
+    await expect(setManualCost({ accountId: A, productId: 999999999, unitCost: 1, occurredAt: at(3) })).rejects.toMatchObject({ code: "PRODUCT_NOT_FOUND" });
+    const other = await newProduct(B);
+    await expect(setManualCost({ accountId: A, productId: other, unitCost: 1, occurredAt: at(3) })).rejects.toMatchObject({ code: "PRODUCT_NOT_FOUND" });
+  });
 });

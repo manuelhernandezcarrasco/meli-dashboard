@@ -95,7 +95,7 @@ export async function getInvoice(accountId: string, id: number, client: Db = db)
 }
 
 export interface InvoiceSummary {
-  id: number; supplierName: string; number: string; issueDate: string; total: Decimal; status: InvoiceStatus;
+  id: number; supplierName: string; number: string; issueDate: string; total: Decimal; status: InvoiceStatus; appliedAt: Date | null;
   lineCount: number; unresolvedLines: number;
 }
 
@@ -105,7 +105,7 @@ export async function listInvoices(accountId: string): Promise<InvoiceSummary[]>
   });
   return rows.map((r) => ({
     id: Number(r.id), supplierName: r.supplierName, number: r.number, issueDate: r.issueDate.toISOString().slice(0, 10),
-    total: r.total, status: r.status, lineCount: r.lines.length, unresolvedLines: r.lines.filter((l) => l.resolution === "unresolved").length,
+    total: r.total, status: r.status, appliedAt: r.appliedAt, lineCount: r.lines.length, unresolvedLines: r.lines.filter((l) => l.resolution === "unresolved").length,
   }));
 }
 

@@ -168,3 +168,25 @@ describe("stockProducts router", () => {
     expect(await caller(B).unlinkedListings()).toEqual([]);
   });
 });
+
+describe("stockProducts.setCost", () => {
+  it("writes a manual cost entry through the ledger cost path and leaves onHand alone", async () => {
+    const { productId } = await mk("Con costo");
+    await db.inventoryProduct.update({ where: { accountId_id: { accountId: A, id: productId } }, data: { onHand: 4 } });
+    const r = await caller().setCost({ productId, unitCost: 1234.5, note: "carga manual" });
+    expect(r).toMatchObject({ unitCost: 1234.5, changed: true, salesApplied: 0 });
+    const p = await db.inventoryProduct.findUniqueOrThrow({ where: { accountId_id: { accountId: A, id: productId } } });
+    expect(Number(p.unitCost)).toBe(1234.5);
+    expect(Number(p.onHand)).toBe(4);
+    const entries = await db.productCostEntry.findMany({ where: { accountId: A, productId } });
+    expect(entries).toHaveLength(1);
+    expect(entries[0]).toMatchObject({ reason: "manual", note: "carga manual" });
+    expect((await caller().setCost({ productId, unitCost: 1234.5 })).changed).toBe(false);
+  });
+
+  it("rejects negative costs and other accounts' products", async () => {
+    const { productId } = await mk("Mío");
+    await expect(caller().setCost({ productId, unitCost: -1 })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    await expect(caller().setCost({ productId: 99999999, unitCost: 1 })).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+});

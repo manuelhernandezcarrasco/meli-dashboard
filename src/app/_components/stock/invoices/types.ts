@@ -6,7 +6,11 @@ import type { InvoiceListRow, InvoiceReview, InvoiceReviewLine, ProductFill } fr
  * here and the screen degrades gracefully when S9 does not send them.
  */
 export interface ReviewLine extends InvoiceReviewLine {
+  /** S9 deletes skipped lines, so this is never sent; kept for the optimistic UI/tests. */
   skipped?: boolean;
+  /** S9: the matched product's state now (null while unresolved). */
+  current?: { onHand: number; unitCost: number } | null;
+  /** Legacy flat form of `current`; `current` wins. */
   stockNow?: number | null;
   costNow?: number | null;
   suggestions?: { productId: number; name: string; willFill?: Partial<ProductFill> }[];

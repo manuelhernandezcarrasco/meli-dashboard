@@ -59,7 +59,7 @@ const base: Review = {
   feeFactor: 1.27, feeFactorOverridden: false, warnings: [], canConfirm: true,
   lines: [
     { lineNo: 1, supplierCode: "A1", ean: "4548736000000", description: "Cámara", quantity: 2, unitPrice: 100, discount: 0, lineSubtotal: 200,
-      landedUnitCost: 127, resolution: "auto_ean", productId: 1, productName: "Cámara ZV", willFill: {}, stockNow: 2, costNow: 100 },
+      landedUnitCost: 127, resolution: "auto_ean", productId: 1, productName: "Cámara ZV", willFill: {}, current: { onHand: 2, unitCost: 100 } },
     { lineNo: 2, supplierCode: "B2", ean: null, description: "Cable raro", quantity: 3, unitPrice: 10, discount: 0, lineSubtotal: 30,
       landedUnitCost: 12.7, resolution: "unresolved", productId: null, productName: null, willFill: {} },
   ],

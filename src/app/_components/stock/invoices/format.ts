@@ -15,8 +15,8 @@ export function fmtMoneyShort(n: number): string {
 export const isUnresolved = (l: ReviewLine) => l.resolution === "unresolved" && !l.skipped;
 export const isActive = (l: ReviewLine) => !l.skipped;
 
-/** Landed unit cost for a given factor (S9: unitPrice × feeFactor). */
-export const landed = (l: ReviewLine, factor: number) => l.unitPrice * factor;
+/** Landed unit cost for a given factor (S9 `landedCost`: lineSubtotal / quantity × feeFactor, so the discount is included). */
+export const landed = (l: ReviewLine, factor: number) => (l.lineSubtotal / l.quantity) * factor;
 
 /** Moving weighted average after receiving `qty` at `unit`; zero/negative stock restarts the average. */
 export function projectCost(stock: number, cost: number, qty: number, unit: number): number {
@@ -33,13 +33,15 @@ export interface Projection {
 }
 export function project(l: ReviewLine, factor: number): Projection {
   const unit = landed(l, factor);
-  const known = l.productId != null && l.stockNow != null && l.costNow != null && !l.skipped;
+  const stockNow = l.current?.onHand ?? l.stockNow ?? null;
+  const costNow = l.current?.unitCost ?? l.costNow ?? null;
+  const known = l.productId != null && stockNow != null && costNow != null && !l.skipped;
   return {
     landedUnit: unit,
-    stockNow: l.stockNow ?? null,
-    costNow: l.costNow ?? null,
-    stockAfter: known ? (l.stockNow as number) + l.quantity : null,
-    costAfter: known ? projectCost(l.stockNow as number, l.costNow as number, l.quantity, unit) : null,
+    stockNow,
+    costNow,
+    stockAfter: known ? stockNow + l.quantity : null,
+    costAfter: known ? projectCost(stockNow, costNow, l.quantity, unit) : null,
   };
 }
 
