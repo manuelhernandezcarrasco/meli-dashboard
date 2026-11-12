@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { mlFetch, ReadOnlyViolationError, type TokenAuth } from "./http";
+import { MlWriteError, mlFetch, mlPutStock, ReadOnlyViolationError, type TokenAuth } from "./http";
 
 const sleep = () => Promise.resolve();
 const json = (body: unknown, status = 200) =>
@@ -94,5 +94,73 @@ describe("retry behaviour", () => {
     const f = stubFetch(json({}, 503), json({}, 503), json({}, 503), json({}, 503));
     await expect(mlFetch("GET", url, { sleep })).rejects.toThrow(/No pude conectar/);
     expect(f).toHaveBeenCalledTimes(4);
+  });
+});
+
+describe("stock write exception", () => {
+  const auth: TokenAuth = { getAccessToken: () => Promise.resolve("tok"), refresh: vi.fn(() => Promise.resolve()) };
+  const ML = "https://api.mercadolibre.com";
+
+  it("mlFetch still blocks PUT /items/{id}, even with a stock body", async () => {
+    const f = stubFetch(json({}));
+    await expect(mlFetch("PUT", `${ML}/items/MLA1`, { auth })).rejects.toBeInstanceOf(ReadOnlyViolationError);
+    expect(f).not.toHaveBeenCalled();
+  });
+
+  it("mlPutStock sends exactly one PUT with the stock body and bearer token", async () => {
+    const f = stubFetch(json({ id: "MLA1" }));
+    await mlPutStock(`${ML}/items/MLA1`, { available_quantity: 3 }, auth);
+    expect(f).toHaveBeenCalledOnce();
+    const [url, init] = f.mock.calls[0]! as [string, RequestInit];
+    expect(url).toBe(`${ML}/items/MLA1`);
+    expect(init.method).toBe("PUT");
+    expect(init.body).toBe('{"available_quantity":3}');
+    expect((init.headers as Record<string, string>).Authorization).toBe("Bearer tok");
+  });
+
+  it("variation body is allowed", async () => {
+    const f = stubFetch(json({}));
+    await mlPutStock(`${ML}/items/MLA1`, { variations: [{ id: 55, available_quantity: 0 }] }, auth);
+    expect(f).toHaveBeenCalledOnce();
+  });
+
+  it.each([
+    ["other path", `${ML}/items/MLA1/description`, { available_quantity: 1 }],
+    ["other resource", `${ML}/orders/1`, { available_quantity: 1 }],
+    ["other host", "https://evil.com/items/MLA1", { available_quantity: 1 }],
+    ["mercado pago", "https://api.mercadopago.com/items/MLA1", { available_quantity: 1 }],
+    ["http", "http://api.mercadolibre.com/items/MLA1", { available_quantity: 1 }],
+    ["query string", `${ML}/items/MLA1?x=1`, { available_quantity: 1 }],
+    ["bad item id", `${ML}/items/abc`, { available_quantity: 1 }],
+    ["negative", `${ML}/items/MLA1`, { available_quantity: -1 }],
+    ["fraction", `${ML}/items/MLA1`, { available_quantity: 1.5 }],
+    ["extra key", `${ML}/items/MLA1`, { available_quantity: 1, price: 5 }],
+    ["variation extra key", `${ML}/items/MLA1`, { variations: [{ id: 1, available_quantity: 1, price: 5 }] }],
+    ["empty variations", `${ML}/items/MLA1`, { variations: [] }],
+  ])("blocks %s", async (_n, url, body) => {
+    const f = stubFetch(json({}));
+    await expect(mlPutStock(url, body as never, auth)).rejects.toBeInstanceOf(ReadOnlyViolationError);
+    expect(f).not.toHaveBeenCalled();
+  });
+
+  it("maps HTTP errors to MlWriteError with the status and does not retry", async () => {
+    const f = stubFetch(new Response("bad", { status: 400 }));
+    const e = await mlPutStock(`${ML}/items/MLA1`, { available_quantity: 1 }, auth).catch((x: unknown) => x);
+    expect(e).toBeInstanceOf(MlWriteError);
+    expect((e as MlWriteError).status).toBe(400);
+    expect(f).toHaveBeenCalledOnce();
+  });
+
+  it("network failure is MlWriteError status 0", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("down")));
+    const e = await mlPutStock(`${ML}/items/MLA1`, { available_quantity: 1 }, auth).catch((x: unknown) => x);
+    expect((e as MlWriteError).status).toBe(0);
+  });
+
+  it("401 refreshes the token once and resends", async () => {
+    const f = stubFetch(json({}, 401), json({}));
+    await mlPutStock(`${ML}/items/MLA1`, { available_quantity: 1 }, auth);
+    expect(auth.refresh).toHaveBeenCalled();
+    expect(f).toHaveBeenCalledTimes(2);
   });
 });
