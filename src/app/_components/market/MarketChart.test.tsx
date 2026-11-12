@@ -75,6 +75,26 @@ describe("<MarketTooltip />", () => {
     render(<MarketTooltip active payload={[{ payload: { ...base, soldQuantity: 100, soldExact: false } }]} />);
     expect(screen.getByText(/Vendidos: \+100$/)).toBeTruthy();
   });
+  it("summarises unknown-sales competitors by price instead of plotting them at 0", () => {
+    const base = fixtureResearch.points[0]!;
+    const mk = (id: string, price: number, extra: object) => ({ ...base, itemId: id, isOurs: false, price, ...extra });
+    const data = {
+      ...fixtureResearch,
+      points: [...fixtureResearch.points.filter((p) => p.isOurs), mk("U1", 100, { soldQuantity: null, soldExact: false }), mk("U2", 300, { soldQuantity: null, soldExact: false })],
+    };
+    const { container } = render(<MarketChart data={data} size={SIZE} />);
+    expect(screen.getByTestId("unknown-sales").textContent).toContain("2 competidores");
+    expect(dots(container).filter((d) => d.getAttribute("fill") === "var(--grey)")).toHaveLength(0);
+  });
+
+  it("'Solo nuevos' drops used listings from the plot", () => {
+    const pts = fixtureResearch.points.map((p, i) => ({ ...p, condition: i % 2 ? ("used" as const) : ("new" as const) }));
+    const { container } = render(<MarketChart data={{ ...fixtureResearch, points: pts }} size={SIZE} />);
+    const before = dots(container).length;
+    fireEvent.click(screen.getByLabelText("Solo nuevos"));
+    expect(dots(container).length).toBeLessThan(before);
+  });
+
   it("shows s/d when sales are unknown", () => {
     render(<MarketTooltip active payload={[{ payload: { ...base, soldQuantity: null, soldExact: false } }]} />);
     expect(screen.getByText(/Vendidos: s\/d$/)).toBeTruthy();
