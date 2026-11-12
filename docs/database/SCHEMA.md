@@ -1773,12 +1773,3 @@ erDiagram
     datetime lastReconcileAt "null"
   }
 ```
-
-## Deprecated tables
-
-Kept for one release so the backfill can be verified or re-run, then dropped (see [MIGRATION.md](MIGRATION.md)). Nothing may read or write them.
-
-- `MlToken`: replaced by MarketplaceConnection.
-- `ApiCache`: replaced by Listing, ListingVariation, Seller, Shipment, Order*, Payment*.
-- `UserWorkbook`: replaced by Upload, Product, PnlClosing, CostOverride, ProductMapping, DirectSale and StockReceipt.
-- `MarketResearch`: replaced by MarketScan + MarketOffer.
