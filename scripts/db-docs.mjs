@@ -41,7 +41,7 @@ export const DOMAINS = [
     title: "4. Derived read models",
     blurb:
       "Rebuildable from sections 2 and 3. SaleLine is the table statistics should query; Snapshot is the dashboard exactly as the UI receives it; MarketScan/MarketOffer keep every pull of a catalog product's offers so prices can be charted over time.",
-    models: ["Account", "SaleLine", "Snapshot", "MarketScan", "MarketOffer", "Seller"],
+    models: ["Account", "SaleLine", "Snapshot", "MarketScan", "MarketOffer", "CompetitorSale", "Seller"],
   },
   {
     title: "5. Inventory (stock module)",

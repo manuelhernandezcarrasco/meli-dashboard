@@ -217,6 +217,7 @@ model Account {
   returnCases       ReturnCase[]
   webhookEvents     WebhookEvent[]
   inventorySettings InventorySettings?
+  competitorSales   CompetitorSale[]
 }
 
 /// The user's OAuth link to one marketplace (replaces MlToken). Refresh tokens are single use, so the
@@ -772,6 +773,25 @@ model MarketOffer {
   @@id([scanId, position])
   @@index([itemId])
   @@index([sellerId])
+}
+
+/// Units another seller's listing has sold, read by the user's browser collector from the public
+/// listing page (the API does not disclose it). Latest reading per listing; feeds the market regressions.
+model CompetitorSale {
+  accountId   String
+  marketplace Marketplace
+  /// Competitor's listing id (upper case).
+  itemId      String
+  /// Units sold as shown on the listing page.
+  sold        Int
+  /// Seller nickname shown on the page, if any.
+  nickname    String?
+  /// When the collector sent the reading.
+  collectedAt DateTime    @default(now()) @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, marketplace, itemId])
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

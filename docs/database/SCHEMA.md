@@ -2,7 +2,7 @@
 
 # Database schema
 
-37 tables in 5 domains (PostgreSQL, managed with Prisma). Diagrams and the data dictionary below are generated from `prisma/schema.prisma`; the reasoning behind the design is in [ANALYSIS.md](ANALYSIS.md) and the history of changes in [CHANGELOG.md](CHANGELOG.md).
+38 tables in 5 domains (PostgreSQL, managed with Prisma). Diagrams and the data dictionary below are generated from `prisma/schema.prisma`; the reasoning behind the design is in [ANALYSIS.md](ANALYSIS.md) and the history of changes in [CHANGELOG.md](CHANGELOG.md).
 
 Reading the diagrams: `||--o{` is one-to-many, `||--o|` one-to-one, `PK`/`FK` mark key columns, `null` marks nullable columns. Every business table carries `accountId` as the first column of its primary key.
 
@@ -573,6 +573,7 @@ erDiagram
   Account ||--o{ Snapshot : account
   Account ||--o{ MarketScan : account
   MarketScan ||--o{ MarketOffer : scan
+  Account ||--o{ CompetitorSale : account
   Account {
     string id PK
     datetime createdAt
@@ -636,6 +637,14 @@ erDiagram
     boolean isOurs
     string permalink "null"
     OfferExclusion excluded "null"
+  }
+  CompetitorSale {
+    string accountId PK, FK
+    Marketplace marketplace PK
+    string itemId PK
+    int sold
+    string nickname "null"
+    datetime collectedAt
   }
   Seller {
     Marketplace marketplace PK
@@ -742,6 +751,21 @@ One seller's offer in a MarketScan. `title` and `permalink` are null when they e
 Foreign keys: `(scanId)` → `MarketScan` (on delete Cascade).
 
 Extra indexes: `(itemId)`, `(sellerId)`.
+
+#### CompetitorSale
+
+Units another seller's listing has sold, read by the user's browser collector from the public listing page (the API does not disclose it). Latest reading per listing; feeds the market regressions.
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `accountId` | string |  | PK FK |  |
+| `marketplace` | enum Marketplace |  | PK |  |
+| `itemId` | string |  | PK | Competitor's listing id (upper case). |
+| `sold` | int |  |  | Units sold as shown on the listing page. |
+| `nickname` | string | null |  | Seller nickname shown on the page, if any. |
+| `collectedAt` | timestamptz(3) |  |  | When the collector sent the reading. |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade).
 
 ## 5. Inventory (stock module)
 
@@ -1315,6 +1339,7 @@ erDiagram
   Account ||--o{ Snapshot : account
   Account ||--o{ MarketScan : account
   MarketScan ||--o{ MarketOffer : scan
+  Account ||--o{ CompetitorSale : account
   Account ||--o{ InventoryProduct : account
   Account ||--o{ StockMovement : account
   InventoryProduct ||--o{ StockMovement : product
@@ -1569,6 +1594,14 @@ erDiagram
     boolean isOurs
     string permalink "null"
     OfferExclusion excluded "null"
+  }
+  CompetitorSale {
+    string accountId PK, FK
+    Marketplace marketplace PK
+    string itemId PK
+    int sold
+    string nickname "null"
+    datetime collectedAt
   }
   InventoryProduct {
     bigint id PK

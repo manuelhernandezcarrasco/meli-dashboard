@@ -6,6 +6,18 @@ How to add an entry: see "Changing the schema" in [README.md](README.md).
 
 ---
 
+## 20261112175811_competitor_sale (2026-11-12)
+
+**Why.** The browser collector's competitor sales (PR #27) were still stored as `sold:<itemId>` JSON rows in the deprecated `ApiCache`, which the follow-up migration drops (and a docs test forbids using).
+
+**Added.** `CompetitorSale (accountId, marketplace, itemId)`: latest `sold` reading and `nickname` per competitor listing. Existing `sold:` rows of `ApiCache` are copied by the migration.
+
+**Code.** New `src/server/store/competitorSales.ts`; `src/server/market/sales.ts` uses it instead of `db.apiCache`.
+
+**Rollout.** `prisma migrate deploy`; additive. Rollback = drop `CompetitorSale`.
+
+---
+
 ## 20261112174736_stock_module (2026-11-12)
 
 **Why.** The app becomes the source of truth for stock and weighted-average cost (plan: [../tickets/stock/PLAN.md](../tickets/stock/PLAN.md)). This migration only creates structure; no existing row changes and no data is migrated.

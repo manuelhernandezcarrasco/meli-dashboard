@@ -64,6 +64,7 @@ flowchart TB
 | `decideMatch` (`src/server/sync/matches.ts`) | `MatchDecision` |
 | OAuth callback and token refresh (`src/server/ml/tokens.ts`) | `MarketplaceConnection` |
 | market `touch` (`src/server/market/service.ts`) | `MarketScan`, `MarketOffer`, `Seller` |
+| `submitSales` → `saveSales` (`src/server/market/sales.ts`) | `CompetitorSale` |
 | `appendMovement` (S1, `src/server/store/stockMovements.ts`) | `StockMovement`, `ProductCostEntry`; the `onHand`, `inRepair`, `unitCost` caches of `InventoryProduct` |
 | stock product/link store (S5) | `InventoryProduct` (other columns), `ListingLink`, `ListingLinkComponent` |
 | push engine (S3) | `ListingSyncState`, `MlPushLog`; `InventoryProduct.syncMode` |
