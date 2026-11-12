@@ -121,3 +121,86 @@ export async function mlFetch(
   }
   throw new Error(`No pude conectar con ${safeUrl(fullUrl)}`);
 }
+
+/* ---------- The single write exception (ticket S3) ---------- */
+
+/** Body of the one allowed write: `available_quantity` of an item or of its variations, nothing else. */
+export type StockWriteBody =
+  | { available_quantity: number }
+  | { variations: { id: number; available_quantity: number }[] };
+
+/** Failure of the write call; `status` is the HTTP status (0 = network error / timeout). */
+export class MlWriteError extends Error {
+  constructor(readonly status: number, message: string) {
+    super(message);
+    this.name = "MlWriteError";
+  }
+}
+
+const ITEM_ID_RE = /^[A-Z]{3}\d+$/;
+const isNonNegInt = (n: unknown): n is number => typeof n === "number" && Number.isInteger(n) && n >= 0;
+
+/** Throws ReadOnlyViolationError unless this is exactly `PUT https://api.mercadolibre.com/items/{id}` with a stock-only body. */
+function assertStockWrite(url: string, body: StockWriteBody): void {
+  let u: URL;
+  try {
+    u = new URL(url);
+  } catch {
+    throw new ReadOnlyViolationError("PUT", url);
+  }
+  const m = /^\/items\/([^/]+)$/.exec(u.pathname);
+  if (u.protocol !== "https:" || u.hostname !== ML_HOST || u.search || u.hash || !m || !ITEM_ID_RE.test(m[1]!)) {
+    throw new ReadOnlyViolationError("PUT", url);
+  }
+  const keys = Object.keys(body);
+  if (keys.length !== 1) throw new ReadOnlyViolationError("PUT", url);
+  if ("available_quantity" in body) {
+    if (!isNonNegInt(body.available_quantity)) throw new ReadOnlyViolationError("PUT", url);
+    return;
+  }
+  const vs = (body as { variations?: unknown }).variations;
+  if (
+    !Array.isArray(vs) || vs.length === 0 ||
+    !vs.every((v: unknown) => {
+      const o = v as Record<string, unknown> | null;
+      return !!o && Object.keys(o).length === 2 && Number.isInteger(o.id) && isNonNegInt(o.available_quantity);
+    })
+  ) {
+    throw new ReadOnlyViolationError("PUT", url);
+  }
+}
+
+/**
+ * The ONLY function that sends a write to Mercado Libre; used by `setAvailableQuantity` (stock-write.ts) and
+ * nothing else. One attempt (plus one token refresh on 401): retries and backoff belong to the push engine.
+ * Never throws ReadOnlyViolationError for ML errors; those are MlWriteError.
+ */
+export async function mlPutStock(url: string, body: StockWriteBody, auth: TokenAuth): Promise<unknown> {
+  assertStockWrite(url, body);
+  const send = async (): Promise<Response> => {
+    let res: Response;
+    try {
+      res = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await auth.getAccessToken()}`,
+        },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(TIMEOUT_MS),
+      });
+    } catch (e) {
+      throw new MlWriteError(0, `No pude conectar con ${safeUrl(url)}: ${e instanceof Error ? e.name : "error"}`);
+    }
+    return res;
+  };
+  let res = await send();
+  if (res.status === 401) {
+    await auth.refresh();
+    res = await send();
+  }
+  if (res.ok) return (await res.json().catch(() => null)) as unknown;
+  const txt = await res.text().catch(() => "");
+  throw new MlWriteError(res.status, `HTTP ${res.status} en ${safeUrl(url)}: ${txt.slice(0, 300)}`);
+}
