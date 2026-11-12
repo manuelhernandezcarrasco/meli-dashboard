@@ -1,4 +1,5 @@
 import type { DashboardData } from "~/lib/contracts";
+import { normalizeText } from "~/lib/normalize";
 
 export const MAX_SEARCH_RESULTS = 10;
 
@@ -10,18 +11,14 @@ export interface CatalogIdLookup {
   (ownerId: string, itemId: string): Promise<string | null>;
 }
 
-/** Minimal key/value store; production is backed by `ApiCache`. */
-export interface CatalogCache {
-  get(ownerId: string, key: string): Promise<unknown>;
-  set(ownerId: string, key: string, value: unknown): Promise<void>;
+/** Where an item's catalog id is remembered (production: `Listing.catalogProductId`). */
+export interface CatalogStore {
+  /** undefined = never asked; null = asked and the item has no catalog product. */
+  get(ownerId: string, itemId: string): Promise<string | null | undefined>;
+  set(ownerId: string, itemId: string, catalogProductId: string | null): Promise<void>;
 }
 
-export const catalogCacheKey = (itemId: string) => `catalog:${itemId}`;
-
-/** Lowercase + strip accents, so "Cámara" matches "camara". */
-export function normalizeText(s: string): string {
-  return s.normalize("NFD").replace(/\p{M}+/gu, "").toLowerCase().trim();
-}
+export { normalizeText };
 
 /**
  * Our distinct products (itemId, title) as the snapshot knows them. The snapshot payload only
@@ -37,24 +34,20 @@ export function collectOwnProducts(
   return [...seen.values()];
 }
 
-/** Catalog id for one item, cached (including "no catalog") as `catalog:<itemId>`. */
+/** Catalog id for one item, remembered (including "no catalog") so Mercado Libre is asked once. */
 export async function cachedCatalogId(
-  deps: { ownerId: string; lookup: CatalogIdLookup; cache: CatalogCache },
+  deps: { ownerId: string; lookup: CatalogIdLookup; cache: CatalogStore },
   itemId: string,
 ): Promise<string | null> {
-  const key = catalogCacheKey(itemId);
-  const hit = await deps.cache.get(deps.ownerId, key);
-  if (hit && typeof hit === "object" && "catalogProductId" in hit) {
-    const v = (hit as { catalogProductId: unknown }).catalogProductId;
-    if (v === null || typeof v === "string") return v;
-  }
+  const hit = await deps.cache.get(deps.ownerId, itemId);
+  if (hit !== undefined) return hit;
   const id = await deps.lookup(deps.ownerId, itemId);
-  await deps.cache.set(deps.ownerId, key, { catalogProductId: id });
+  await deps.cache.set(deps.ownerId, itemId, id);
   return id;
 }
 
 export async function searchOwnProducts(
-  deps: { ownerId: string; lookup: CatalogIdLookup; cache: CatalogCache; products: OwnProduct[] },
+  deps: { ownerId: string; lookup: CatalogIdLookup; cache: CatalogStore; products: OwnProduct[] },
   query: string,
 ): Promise<OwnProductHit[]> {
   const q = normalizeText(query);

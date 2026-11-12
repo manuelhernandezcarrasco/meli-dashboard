@@ -33,7 +33,7 @@ interface Stored {
 /** The snapshot of the month the dashboard shows (other months are kept only as history). */
 async function latestSnapshot(ownerId: string, now: Date): Promise<Stored | null> {
   const row = await db.snapshot.findUnique({
-    where: { ownerId_month: { ownerId, month: targetMonth(now) } },
+    where: { accountId_month: { accountId: ownerId, month: targetMonth(now) } },
   });
   if (!row) return null;
   return { data: DashboardDataSchema.parse(row.payload), computedAt: row.computedAt };

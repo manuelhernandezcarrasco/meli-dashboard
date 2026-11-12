@@ -2,15 +2,15 @@ import { describe, expect, it, vi } from "vitest";
 
 import {
   cachedCatalogId, collectOwnProducts, normalizeText, searchOwnProducts,
-  type CatalogCache, type OwnProduct,
+  type CatalogStore, type OwnProduct,
 } from "./ownProducts";
 
-const memCache = (): CatalogCache & { store: Map<string, unknown> } => {
-  const store = new Map<string, unknown>();
+const memCache = (): CatalogStore & { store: Map<string, string | null> } => {
+  const store = new Map<string, string | null>();
   return {
     store,
-    get: (o, k) => Promise.resolve(store.get(`${o}|${k}`)),
-    set: (o, k, v) => { store.set(`${o}|${k}`, v); return Promise.resolve(); },
+    get: (o, id) => Promise.resolve(store.get(`${o}|${id}`)),
+    set: (o, id, v) => { store.set(`${o}|${id}`, v); return Promise.resolve(); },
   };
 };
 const setup = (products: OwnProduct[], ids: Record<string, string | null> = {}) => {
@@ -57,14 +57,15 @@ describe("searchOwnProducts", () => {
 });
 
 describe("cachedCatalogId", () => {
-  it("looks up once and caches as catalog:<itemId>, nulls included", async () => {
+  it("looks up once and remembers the answer, nulls included", async () => {
     const { deps, lookup, cache } = setup([], { MLA1: "MLA-C1" });
     expect(await cachedCatalogId(deps, "MLA1")).toBe("MLA-C1");
     expect(await cachedCatalogId(deps, "MLA1")).toBe("MLA-C1");
     expect(await cachedCatalogId(deps, "MLA9")).toBeNull();
     expect(await cachedCatalogId(deps, "MLA9")).toBeNull();
     expect(lookup).toHaveBeenCalledTimes(2);
-    expect(cache.store.get("u1|catalog:MLA1")).toEqual({ catalogProductId: "MLA-C1" });
+    expect(cache.store.get("u1|MLA1")).toBe("MLA-C1");
+    expect(cache.store.get("u1|MLA9")).toBeNull();
   });
 
   it("does not cache lookup failures", async () => {

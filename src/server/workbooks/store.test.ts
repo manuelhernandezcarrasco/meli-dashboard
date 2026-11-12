@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 vi.hoisted(() => {
-  process.env.DATABASE_URL = "postgresql://pnl:pnl@localhost:5432/pnl_t6";
+  process.env.DATABASE_URL = process.env.TEST_DATABASE_URL ?? "postgresql://pnl:pnl@localhost:5432/pnl_t6";
 });
 vi.mock("~/env", () => ({ env: { NODE_ENV: "test" } }));
 
@@ -18,10 +18,10 @@ const A = "upload_user_a";
 const B = "upload_user_b";
 
 beforeEach(async () => {
-  await db.userWorkbook.deleteMany({ where: { ownerId: { in: [A, B] } } });
+  await db.account.deleteMany({ where: { id: { in: [A, B] } } });
 });
 afterAll(async () => {
-  await db.userWorkbook.deleteMany({ where: { ownerId: { in: [A, B] } } });
+  await db.account.deleteMany({ where: { id: { in: [A, B] } } });
   await db.$disconnect();
 });
 
@@ -43,9 +43,10 @@ describe("uploaded workbook store", () => {
   it("re-uploading replaces, delete removes and the current snapshot is dropped", async () => {
     const cur = targetMonth(new Date());
     for (const month of [cur, "2020-01"]) {
+      await db.account.createMany({ data: [{ id: A }], skipDuplicates: true });
       await db.snapshot.upsert({
-        where: { ownerId_month: { ownerId: A, month } },
-        create: { ownerId: A, month, payload: {}, computedAt: new Date() },
+        where: { accountId_month: { accountId: A, month } },
+        create: { accountId: A, month, payload: {}, computedAt: new Date() },
         update: {},
       });
     }
@@ -55,7 +56,7 @@ describe("uploaded workbook store", () => {
     expect(list).toHaveLength(1);
     expect(list[0]!.fileName).toBe("dos.xlsx");
     // the month on screen is recomputed; older months stay as history for “Recalcular histórico”
-    expect((await db.snapshot.findMany({ where: { ownerId: A } })).map((x) => x.month)).toEqual(["2020-01"]);
+    expect((await db.snapshot.findMany({ where: { accountId: A } })).map((x) => x.month)).toEqual(["2020-01"]);
 
     await deleteUpload(A, "pnl");
     expect(await loadUploaded(A)).toEqual({});

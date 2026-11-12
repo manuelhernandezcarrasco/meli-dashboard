@@ -1,9 +1,10 @@
 import { TRPCError } from "@trpc/server";
 
-import { db } from "~/server/db";
 import { buildResearch } from "~/server/market/stats";
 import { MlClient } from "~/server/ml";
 import { MlMarketClient } from "~/server/ml/market";
+import { MERCADOLIBRE } from "~/server/store/marketplace";
+import { loadLatestScan, saveScan } from "~/server/store/market";
 
 import { MARKET_TTL_MS, type MarketPoint, type MarketResearch, type MarketState } from "~/lib/market";
 
@@ -103,23 +104,11 @@ export function createMarketService(ownerId: string, deps: MarketDeps): MarketSe
   return { get, touch };
 }
 
-/** Prisma-backed store. */
+/** Store backed by `MarketScan` / `MarketOffer`: loads the latest scan, saving appends a new one. */
 export function prismaMarketStore(ownerId: string): MarketDeps["store"] {
   return {
-    async load(catalogProductId) {
-      const row = await db.marketResearch.findUnique({
-        where: { ownerId_catalogProductId: { ownerId, catalogProductId } },
-      });
-      return row ? (row.payload as unknown as MarketResearch) : null;
-    },
-    async save(r) {
-      const payload = r as unknown as object;
-      await db.marketResearch.upsert({
-        where: { ownerId_catalogProductId: { ownerId, catalogProductId: r.catalogProductId } },
-        create: { ownerId, catalogProductId: r.catalogProductId, payload, fetchedAt: new Date(r.fetchedAt) },
-        update: { payload, fetchedAt: new Date(r.fetchedAt) },
-      });
-    },
+    load: (catalogProductId) => loadLatestScan(ownerId, MERCADOLIBRE, catalogProductId),
+    save: (r) => saveScan(ownerId, MERCADOLIBRE, r),
   };
 }
 

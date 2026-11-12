@@ -4,59 +4,45 @@ import { z } from "zod";
 import { DashboardDataSchema } from "~/lib/contracts";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { db } from "~/server/db";
+import { getCatalogId, searchListings, setCatalogId } from "~/server/store/listings";
+import { MERCADOLIBRE } from "~/server/store/marketplace";
+import { normalizeText } from "~/lib/normalize";
 import {
-  cachedCatalogId, collectOwnProducts, searchOwnProducts,
-  type CatalogCache, type CatalogIdLookup, type OwnProduct, type OwnProductHit,
+  cachedCatalogId, collectOwnProducts, searchOwnProducts, MAX_SEARCH_RESULTS,
+  type CatalogStore, type CatalogIdLookup, type OwnProduct, type OwnProductHit,
 } from "~/server/market/ownProducts";
 
-const apiCacheStore: CatalogCache = {
-  async get(ownerId, key) {
-    return (await db.apiCache.findUnique({ where: { ownerId_key: { ownerId, key } } }))?.value;
-  },
-  async set(ownerId, key, value) {
-    await db.apiCache.upsert({
-      where: { ownerId_key: { ownerId, key } },
-      create: { ownerId, key, value: value as object },
-      update: { value: value as object },
-    });
-  },
+/** Catalog ids live on the listing (`Listing.catalogProductId`, asked-at in `catalogCheckedAt`). */
+const listingCatalogStore: CatalogStore = {
+  get: (ownerId, itemId) => getCatalogId(ownerId, MERCADOLIBRE, itemId),
+  set: (ownerId, itemId, id) => setCatalogId(ownerId, MERCADOLIBRE, itemId, id),
 };
-
-/** Listings the sync saved as `catalog:<itemId>` (title + Excel product + catalog id). */
-async function storedProducts(ownerId: string): Promise<OwnProduct[]> {
-  const rows = await db.apiCache.findMany({ where: { ownerId, key: { startsWith: "catalog:" } } });
-  const out: OwnProduct[] = [];
-  for (const r of rows) {
-    const v = r.value as { title?: unknown; desc?: unknown } | null;
-    if (!v || typeof v.title !== "string") continue;
-    out.push({
-      itemId: r.key.slice("catalog:".length),
-      title: v.title,
-      ...(typeof v.desc === "string" && v.desc ? { desc: v.desc } : {}),
-    });
-  }
-  return out;
-}
 
 /** Placeholder until T9 merges; T12 passes `getCatalogProductId` here. */
 const unavailableLookup: CatalogIdLookup = () =>
   Promise.reject(new TRPCError({ code: "NOT_IMPLEMENTED", message: "Catalog lookup not wired yet" }));
 
-export function createMarketSearchRouter(lookup: CatalogIdLookup = unavailableLookup, cache: CatalogCache = apiCacheStore) {
+export function createMarketSearchRouter(lookup: CatalogIdLookup = unavailableLookup, cache: CatalogStore = listingCatalogStore) {
   return createTRPCRouter({
     searchOwnProducts: protectedProcedure
       .input(z.object({ query: z.string().max(200) }))
       .query(async ({ ctx, input }): Promise<OwnProductHit[]> => {
-        const snap = await db.snapshot.findFirst({
-          where: { ownerId: ctx.userId },
-          orderBy: { computedAt: "desc" },
-        });
-        // Products saved by the sync (every sold listing, with its Excel name) first, then the
-        // snapshot's lists for anything older than the first sync that stored them.
-        const stored = await storedProducts(ctx.userId);
-        const seen = new Set(stored.map((p) => p.itemId));
-        const fromSnap = snap ? collectOwnProducts(DashboardDataSchema.parse(snap.payload)) : [];
-        const products = [...stored, ...fromSnap.filter((p) => !seen.has(p.itemId))];
+        const q = normalizeText(input.query);
+        if (!q) return [];
+        // Listings the sync saved (every sold listing, with its Excel name), matched in the database
+        // through the trigram index. Only when they do not fill the page, the latest snapshot's
+        // lists add listings older than the first sync that stored them.
+        const stored = await searchListings(ctx.userId, MERCADOLIBRE, q, MAX_SEARCH_RESULTS);
+        let products: OwnProduct[] = stored;
+        if (stored.length < MAX_SEARCH_RESULTS) {
+          const snap = await db.snapshot.findFirst({
+            where: { accountId: ctx.userId },
+            orderBy: { computedAt: "desc" },
+          });
+          const seen = new Set(stored.map((p) => p.itemId));
+          const fromSnap = snap ? collectOwnProducts(DashboardDataSchema.parse(snap.payload)) : [];
+          products = [...stored, ...fromSnap.filter((p) => !seen.has(p.itemId))];
+        }
         return searchOwnProducts({ ownerId: ctx.userId, lookup, cache, products }, input.query);
       }),
     catalogIdForItem: protectedProcedure

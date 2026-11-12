@@ -71,3 +71,8 @@ export function normCat(x: unknown): string {
   for (const c of CATEGORIAS) if (s.includes(c)) return c;
   return s || "OTRAS";
 }
+
+/** Lowercase + strip accents, so "Cámara" matches "camara". Mirrors `norm_text` in the 20261112000000 migration. */
+export function normalizeText(s: string): string {
+  return s.normalize("NFD").replace(/\p{M}+/gu, "").toLowerCase().trim();
+}

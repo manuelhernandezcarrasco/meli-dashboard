@@ -2,7 +2,7 @@ import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import path from "node:path";
 
 vi.hoisted(() => {
-  process.env.DATABASE_URL = "postgresql://pnl:pnl@localhost:5432/pnl_t6";
+  process.env.DATABASE_URL = process.env.TEST_DATABASE_URL ?? "postgresql://pnl:pnl@localhost:5432/pnl_t6";
 });
 vi.mock("~/env", () => ({
   env: {
@@ -36,8 +36,7 @@ async function demoSource() {
 }
 
 beforeEach(async () => {
-  await db.snapshot.deleteMany();
-  await db.apiCache.deleteMany();
+  await db.account.deleteMany({ where: { id: { in: [OWNER, OTHER] } } }); // cascades to every table the sync writes
 });
 afterAll(() => db.$disconnect());
 
@@ -47,7 +46,7 @@ describe("runSync (demo)", () => {
     DashboardDataSchema.parse(data);
     expect(data.monthLabel).toBe("Octubre 2026");
     expect(data.rows.length).toBeGreaterThan(100);
-    const snap = await db.snapshot.findUnique({ where: { ownerId_month: { ownerId: OWNER, month: "2026-10" } } });
+    const snap = await db.snapshot.findUnique({ where: { accountId_month: { accountId: OWNER, month: "2026-10" } } });
     expect(snap?.computedAt.toISOString()).toBe(NOW.toISOString());
     expect(DashboardDataSchema.parse(snap?.payload)).toEqual(data);
   });
@@ -121,6 +120,75 @@ describe("enrich caching", () => {
   });
 });
 
+describe("what is asked again, and when", () => {
+  const DAY = 86_400_000;
+
+  it("a listing with no catalog product is asked again only after 24 h", async () => {
+    const ds = await demoSource();
+    const orders = (await ds.getOrdersMonth(2026, 10)).filter((o) => o.status === "paid");
+    const ids = [...new Set(orders.flatMap((o) => o.items.map((i) => i.itemId.toUpperCase())))];
+    const cat = vi.spyOn(ds, "getCatalogIds").mockImplementation((asked) => Promise.resolve(Object.fromEntries(asked.map((i) => [i, null]))));
+    await enrich(OWNER, ds, orders, new Date());
+    expect(cat.mock.calls[0]![0]).toHaveLength(ids.length);
+    cat.mockClear();
+    await enrich(OWNER, ds, orders, new Date()); // same day: everything was just answered
+    expect(cat).not.toHaveBeenCalled();
+    await enrich(OWNER, ds, orders, new Date(Date.now() + DAY + 60_000)); // a day later
+    expect(cat.mock.calls[0]![0]).toHaveLength(ids.length);
+  });
+
+  it("a payment Mercado Pago has no tax detail for is asked again after 6 h, not on every sync", async () => {
+    const ds = await demoSource();
+    const orders = (await ds.getOrdersMonth(2026, 9)).filter((o) => o.status === "paid");
+    const later = new Date(Date.now() + 40 * DAY); // every order is old, so only the "no detail" rule applies
+    const first = await enrich(OWNER, ds, orders, later);
+    const approved = orders.flatMap((o) => o.payments.filter((p) => p.status === "approved").map((p) => String(p.id)));
+    const noDetail = approved.filter((id) => !(id in first.taxes));
+    expect(noDetail.length).toBeGreaterThan(0);
+    const tax = vi.spyOn(ds, "getPaymentTaxes");
+    await enrich(OWNER, ds, orders, new Date(later.getTime() + 3_600_000)); // 1 h later
+    expect(tax).not.toHaveBeenCalled();
+    await enrich(OWNER, ds, orders, new Date(later.getTime() + 7 * 3_600_000)); // 7 h later
+    expect(new Set(tax.mock.calls.flatMap((c) => c[0]))).toEqual(new Set(noDetail));
+  });
+
+  it("a sync persists the month's orders and the economics lines it computed", async () => {
+    const data = await runSync(OWNER, NOW);
+    const lines = await db.saleLine.findMany({ where: { accountId: OWNER, period: "2026-10" } });
+    expect(lines.length).toBe(data.rows.length);
+    const revenue = lines.reduce((s, l) => s + l.revenue.toNumber(), 0);
+    expect(revenue).toBeCloseTo(data.rows.reduce((s, r) => s + r.sale, 0), 0);
+    expect(await db.order.count({ where: { accountId: OWNER } })).toBeGreaterThan(0);
+    expect(await db.orderPeriod.findMany({ where: { accountId: OWNER }, select: { month: true, isFinal: true } })).toEqual(
+      expect.arrayContaining([{ month: "2026-10", isFinal: false }, { month: "2026-09", isFinal: true }]),
+    );
+  });
+
+  it("rebuildAll with refetch marks everything stale but keeps the old values until new ones arrive", async () => {
+    await runSync(OWNER, NOW);
+    const orders = await db.order.count({ where: { accountId: OWNER } });
+    const ds = await demoSource();
+    const ship = vi.spyOn(ds, "getShipmentCosts");
+    await rebuildAll(OWNER, { now: NOW, refetch: true });
+    expect(await db.order.count({ where: { accountId: OWNER } })).toBeGreaterThanOrEqual(orders); // nothing wiped
+    expect(await db.shipment.count({ where: { accountId: OWNER, costFetchedAt: null, sellerCost: { not: null } } })).toBe(0);
+    ship.mockRestore();
+  });
+
+  it("a closed month that is final is read from the database, not downloaded again", async () => {
+    const ds = await demoSource();
+    const spy = vi.spyOn(ds, "getOrdersMonth");
+    const first = await fetchMonth(OWNER, ds, 2026, 9, true, 20);
+    spy.mockClear();
+    const again = await fetchMonth(OWNER, ds, 2026, 9, true, 21);
+    expect(spy).not.toHaveBeenCalled();
+    // same orders; orders created in the same instant come back ordered by id, not by API order
+    const byTime = (a: { dateCreated: string; id: number }, b: { dateCreated: string; id: number }) =>
+      a.dateCreated < b.dateCreated ? -1 : a.dateCreated > b.dateCreated ? 1 : a.id - b.id;
+    expect(again).toEqual([...first].sort(byTime));
+  });
+});
+
 describe("fetchMonth", () => {
   it("never caches the current month; caches a closed one", async () => {
     const ds = await demoSource();
@@ -188,7 +256,7 @@ describe("sync service", () => {
     expect(sync).toHaveBeenCalledTimes(1);
     expect((await svc.status()).syncing).toBe(true);
     await vi.waitFor(async () => expect((await svc.status()).syncing).toBe(false));
-    const snap = await db.snapshot.findFirst();
+    const snap = await db.snapshot.findFirst({ where: { accountId: OWNER } });
     expect(snap?.computedAt.getTime()).toBe(clock.t);
   });
 
@@ -238,9 +306,11 @@ describe("sync service", () => {
 describe("per-user isolation", () => {
   it("snapshots and caches of one user are invisible to another", async () => {
     await runSync(OWNER, NOW);
-    expect(await db.snapshot.count({ where: { ownerId: OTHER } })).toBe(0);
-    expect(await db.apiCache.count({ where: { ownerId: OTHER } })).toBe(0);
-    expect(await db.apiCache.count({ where: { ownerId: OWNER } })).toBeGreaterThan(0);
+    expect(await db.snapshot.count({ where: { accountId: OTHER } })).toBe(0);
+    expect(await db.order.count({ where: { accountId: OTHER } })).toBe(0);
+    expect(await db.saleLine.count({ where: { accountId: OTHER } })).toBe(0);
+    expect(await db.order.count({ where: { accountId: OWNER } })).toBeGreaterThan(0);
+    expect(await db.saleLine.count({ where: { accountId: OWNER } })).toBeGreaterThan(0);
 
     const svc = createSyncService({
       ownerId: OTHER,
@@ -256,7 +326,7 @@ describe("per-user isolation", () => {
 describe("rebuildAll without snapshots of earlier months", () => {
   it("still recomputes the previous month, so history is never skipped", async () => {
     await runSync(OWNER, NOW);
-    await db.snapshot.deleteMany({ where: { month: { not: "2026-10" } } });
+    await db.snapshot.deleteMany({ where: { accountId: OWNER, month: { not: "2026-10" } } });
     const r = await rebuildAll(OWNER, { now: NOW });
     expect(r.months.at(-1)).toBe("2026-10");
     expect(r.months).toContain("2026-09");
@@ -268,12 +338,12 @@ describe("rebuildAll", () => {
   it("recomputes every stored month and keeps the current one as latest", async () => {
     await runSync(OWNER, new Date("2026-09-20T12:00:00-03:00"));
     await runSync(OWNER, NOW);
-    await db.snapshot.updateMany({ data: { payload: {} } }); // simulate stale snapshots
+    await db.snapshot.updateMany({ where: { accountId: OWNER }, data: { payload: {} } }); // simulate stale snapshots
     const r = await rebuildAll(OWNER, { now: NOW });
     expect(r.failed).toEqual([]);
     expect(r.months).toEqual(["2026-08", "2026-09", "2026-10"]); // + the month Sept was compared with
-    const latest = await db.snapshot.findFirst({ where: { ownerId: OWNER }, orderBy: { computedAt: "desc" } });
+    const latest = await db.snapshot.findFirst({ where: { accountId: OWNER }, orderBy: { computedAt: "desc" } });
     expect(latest?.month).toBe("2026-10");
-    for (const s of await db.snapshot.findMany()) DashboardDataSchema.parse(s.payload);
+    for (const s of await db.snapshot.findMany({ where: { accountId: OWNER } })) DashboardDataSchema.parse(s.payload);
   });
 });

@@ -1,6 +1,7 @@
-import { Prisma } from "../../../generated/prisma";
+import { itemPermalink } from "~/lib/market";
 import { toNum } from "~/lib/normalize";
-import { db } from "~/server/db";
+import { MERCADOLIBRE } from "~/server/store/marketplace";
+import { readSellerNicknames, saveSellerNicknames } from "~/server/store/sellers";
 import { mlFetch, type MlFetchOpts } from "./http";
 import { tokenAuthFor } from "./tokens";
 
@@ -34,38 +35,18 @@ export interface Offer {
   condition: "new" | "used" | null;
 }
 
-/** Public permalink for an item id; ML redirects `MLA-<digits>` to the canonical listing page. */
-export const itemPermalink = (itemId: string) => `https://articulo.mercadolibre.com.ar/${itemId.replace(/^([A-Z]{3})(\d+)$/, "$1-$2")}`;
+export { itemPermalink };
 
-/** Nickname cache; default is the per-owner `ApiCache` table under `seller:<id>`. */
+/** Nickname cache; default is the global `Seller` table. */
 export interface NicknameCache {
   get(ids: number[]): Promise<Map<number, string>>;
   set(entries: [number, string][]): Promise<void>;
 }
 
-export function apiCacheNicknames(ownerId: string): NicknameCache {
-  return {
-    async get(ids) {
-      const rows = await db.apiCache.findMany({
-        where: { ownerId, key: { in: ids.map((i) => `seller:${i}`) } },
-      });
-      return new Map(
-        rows.flatMap((r) => (typeof r.value === "string" ? [[Number(r.key.slice(7)), r.value] as const] : [])),
-      );
-    },
-    async set(entries) {
-      await db.$transaction(
-        entries.map(([id, nick]) =>
-          db.apiCache.upsert({
-            where: { ownerId_key: { ownerId, key: `seller:${id}` } },
-            create: { ownerId, key: `seller:${id}`, value: nick as Prisma.InputJsonValue },
-            update: { value: nick as Prisma.InputJsonValue },
-          }),
-        ),
-      );
-    },
-  };
-}
+export const sellerTableNicknames = (): NicknameCache => ({
+  get: (ids) => readSellerNicknames(MERCADOLIBRE, ids),
+  set: (entries) => saveSellerNicknames(MERCADOLIBRE, entries),
+});
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const toCondition = (c: unknown): "new" | "used" | null => (c === "new" || c === "used" ? c : null);
@@ -97,7 +78,7 @@ export class MlMarketClient {
   constructor(
     ownerId: string,
     private readonly sleep?: MlFetchOpts["sleep"],
-    private readonly nicknames: NicknameCache = apiCacheNicknames(ownerId),
+    private readonly nicknames: NicknameCache = sellerTableNicknames(),
   ) {
     this.auth = tokenAuthFor(ownerId);
   }

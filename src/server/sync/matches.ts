@@ -1,5 +1,7 @@
 import type { Inputs } from "~/lib/contracts";
 import { db } from "~/server/db";
+import { ensureAccount } from "~/server/store/bulk";
+import { MERCADOLIBRE } from "~/server/store/marketplace";
 
 export interface MatchDecisions {
   /** itemId -> EAN a person confirmed */
@@ -9,7 +11,7 @@ export interface MatchDecisions {
 }
 
 export async function loadDecisions(ownerId: string): Promise<MatchDecisions> {
-  const rows = await db.matchDecision.findMany({ where: { ownerId }, orderBy: { decidedAt: "asc" } });
+  const rows = await db.matchDecision.findMany({ where: { accountId: ownerId, marketplace: MERCADOLIBRE }, orderBy: { decidedAt: "asc" } });
   const out: MatchDecisions = { confirmed: {}, rejected: {} };
   for (const r of rows) {
     const id = r.itemId.toUpperCase();
@@ -31,14 +33,15 @@ export async function saveDecision(
   decision: "confirmed" | "rejected",
 ): Promise<void> {
   const id = itemId.toUpperCase();
+  await ensureAccount(ownerId);
   await db.$transaction([
     // one confirmed EAN per listing; a new confirmation replaces the old one
     ...(decision === "confirmed"
-      ? [db.matchDecision.deleteMany({ where: { ownerId, itemId: id, decision: "confirmed" } })]
+      ? [db.matchDecision.deleteMany({ where: { accountId: ownerId, marketplace: MERCADOLIBRE, itemId: id, decision: "confirmed" } })]
       : []),
     db.matchDecision.upsert({
-      where: { ownerId_itemId_ean: { ownerId, itemId: id, ean } },
-      create: { ownerId, itemId: id, ean, decision },
+      where: { accountId_marketplace_itemId_ean: { accountId: ownerId, marketplace: MERCADOLIBRE, itemId: id, ean } },
+      create: { accountId: ownerId, marketplace: MERCADOLIBRE, itemId: id, ean, decision },
       update: { decision, decidedAt: new Date() },
     }),
   ]);

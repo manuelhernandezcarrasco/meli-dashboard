@@ -41,6 +41,24 @@ export function partsOfDate(dt: Date): ArgParts {
   };
 }
 
+/** Argentina instants as Mercado Libre writes them: `2026-09-01T23:05:00.000-03:00`. */
+export function toArgIso(dt: Date): string {
+  const a = new Date(dt.getTime() + ARG_OFFSET_HOURS * 3600_000);
+  return (
+    `${a.getUTCFullYear()}-${p2(a.getUTCMonth() + 1)}-${p2(a.getUTCDate())}` +
+    `T${p2(a.getUTCHours())}:${p2(a.getUTCMinutes())}:${p2(a.getUTCSeconds())}.` +
+    `${String(a.getUTCMilliseconds()).padStart(3, "0")}-03:00`
+  );
+}
+
+/** First instant of Argentine month (y, m) and of the next one: `[start, end)`. */
+export function monthRangeArg(y: number, m: number): { start: Date; end: Date } {
+  return {
+    start: new Date(Date.UTC(y, m - 1, 1, 3)),
+    end: new Date(Date.UTC(y + (m === 12 ? 1 : 0), m % 12, 1, 3)),
+  };
+}
+
 /** Converts an ISO 8601 string (any offset) to Argentina date/time. */
 export function toArgParts(iso: string): ArgParts {
   return partsOfDate(new Date(iso));

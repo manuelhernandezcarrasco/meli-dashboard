@@ -1,6 +1,7 @@
 import type { Gtins, Order, PaymentTaxes, ShipCosts } from "~/lib/contracts";
 import { MlClient } from "~/server/ml/client";
 import { compactOrder } from "~/server/ml/compact";
+import { MERCADOLIBRE } from "~/server/store/marketplace";
 import type { DataSource } from "./types";
 
 const CONCURRENCY = 5;
@@ -26,6 +27,8 @@ export async function mapLimit<T, R>(
 }
 
 export class LiveDataSource implements DataSource {
+  readonly marketplace = MERCADOLIBRE;
+
   constructor(private readonly client: MlClient) {}
 
   async getOrdersMonth(y: number, m: number): Promise<Order[]> {

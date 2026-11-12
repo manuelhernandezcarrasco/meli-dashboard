@@ -46,3 +46,6 @@ CLAUDE.local.md
 .vercel/
 .turbo/
 *.log
+
+# Real database dumps for migration rehearsals (contain customer data and tokens: never commit)
+/private/

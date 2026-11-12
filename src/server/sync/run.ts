@@ -12,6 +12,8 @@ import { buildLines, computeDashboard } from "~/server/calc";
 import { computeStock } from "~/server/calc/stock";
 import { loadBusinessConfig } from "~/server/config";
 import { db } from "~/server/db";
+import { ensureAccount } from "~/server/store/bulk";
+import { replaceSaleLines } from "~/server/store/saleLines";
 import { getDataSource } from "~/server/datasource";
 import type { DataSource } from "~/server/datasource/types";
 import { createMatcher } from "~/lib/product-match";
@@ -55,6 +57,7 @@ export async function runSync(
   opts: RunSyncOptions = {},
 ): Promise<DashboardData> {
   const cfg = loadBusinessConfig();
+  await ensureAccount(ownerId);
   const t = nowArg(now);
   let [y, m] = [t.y, t.m];
   const forced = opts.month ?? cfg.mes;
@@ -79,7 +82,9 @@ export async function runSync(
   const ds = opts.dataSource ?? getDataSource(ownerId, base, now);
 
   log(`Descargando órdenes de ${monthLabel(y, m)}…`);
-  const orders = await fetchMonth(ownerId, ds, y, m, false, t.d);
+  // A month before the real current one (history rebuild) is closed: once final it is read from the
+  // Order tables instead of being downloaded again.
+  const orders = await fetchMonth(ownerId, ds, y, m, `${y}-${p2(m)}` < `${t.y}-${p2(t.m)}`, t.d);
   log(`${orders.length} órdenes (${orders.filter((o) => o.status === "paid").length} pagas)`);
   const prevOrders = await fetchMonth(ownerId, ds, py, pm, true, t.d);
   log(`${monthLabel(py, pm)}: ${prevOrders.length} órdenes (para comparar a igual día)`);
@@ -96,7 +101,7 @@ export async function runSync(
   const lines = buildLines(orders, shipCosts, gtins, base, inputs, calCfg, y, m, taxes, fuzzy);
   const ml = lines.filter((l) => l.channel === "ML");
   try {
-    const n = await saveCatalogProducts(ownerId, lines, catalogIds);
+    const n = await saveCatalogProducts(ownerId, ds.marketplace, lines);
     const withCat = Object.values(catalogIds).filter(Boolean).length;
     log(`Catálogo: ${withCat}/${Object.keys(catalogIds).length} publicaciones con catalog_product_id (${n} productos guardados)`);
   } catch (e) {
@@ -120,9 +125,15 @@ export async function runSync(
   const parsed = DashboardDataSchema.parse(data);
   const month = `${y}-${p2(m)}`;
   const computedAt = opts.computedAt ?? now;
+  try {
+    await replaceSaleLines(ownerId, ds.marketplace, month, lines);
+  } catch (e) {
+    // derived data: the next sync rebuilds it, so it must never fail the dashboard
+    log(`Aviso: no pude guardar las líneas de venta (${String((e as Error).message).slice(0, 120)})`);
+  }
   await db.snapshot.upsert({
-    where: { ownerId_month: { ownerId, month } },
-    create: { ownerId, month, payload: parsed, computedAt },
+    where: { accountId_month: { accountId: ownerId, month } },
+    create: { accountId: ownerId, month, payload: parsed, computedAt },
     update: { payload: parsed, computedAt },
   });
   return parsed;

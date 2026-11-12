@@ -6,10 +6,11 @@ vi.mock("~/env", () => ({
 }));
 vi.mock("~/server/db", () => ({
   db: {
-    mlToken: {
+    account: { createMany: vi.fn(() => Promise.resolve({ count: 1 })) },
+    marketplaceConnection: {
       findUnique: vi.fn(() => Promise.resolve(row.v)),
       upsert: vi.fn(({ update }: { update: Record<string, unknown> }) => {
-        row.v = { ownerId: "u1", ...update };
+        row.v = { accountId: "u1", ...update };
         return Promise.resolve();
       }),
     },
@@ -21,10 +22,10 @@ import { ensureToken, exchangeCode, TokenStorageError } from "./tokens";
 beforeEach(() => {
   vi.unstubAllGlobals();
   row.v = {
-    ownerId: "u1",
+    accountId: "u1",
     accessToken: "old-access",
     refreshToken: "old-refresh",
-    userId: 123n,
+    externalUserId: "123",
     expiresAt: new Date(Date.now() - 1000),
   };
 });
@@ -70,7 +71,7 @@ describe("exchangeCode", () => {
   it("wraps a database failure in TokenStorageError", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => ok()));
     const { db } = await import("~/server/db");
-    vi.mocked(db.mlToken.upsert).mockRejectedValueOnce(new Error("db down"));
+    vi.mocked(db.marketplaceConnection.upsert).mockRejectedValueOnce(new Error("db down"));
     await expect(exchangeCode("u1", "TG-x", "verifier")).rejects.toBeInstanceOf(TokenStorageError);
   });
 });

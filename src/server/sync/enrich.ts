@@ -1,18 +1,15 @@
-import { Prisma } from "../../../generated/prisma";
-import type {
-  Gtins,
-  Order,
-  PaymentTaxes,
-  ShipCosts,
-  TaxMap,
-} from "~/lib/contracts";
-import { db } from "~/server/db";
+import type { Gtins, Order, PaymentTaxes, ShipCosts, TaxMap } from "~/lib/contracts";
 import type { DataSource } from "~/server/datasource/types";
+import { CATALOG_RECHECK_MS, readListings, saveCatalogIds, saveGtins } from "~/server/store/listings";
+import { isPeriodFinal, loadOrdersMonth, markPeriod, saveOrders } from "~/server/store/orders";
+import { readPaymentTaxes, savePaymentTaxes } from "~/server/store/payments";
+import { readShipments, saveShipmentCosts } from "~/server/store/shipments";
 
 const DAY_MS = 86_400_000;
-const CHUNK = 500;
 const TAX_BATCH = 20;
 const MAX_TAX_FAILURES = 5;
+/** A payment Mercado Pago had no tax detail for is asked again after this long (or while the order is fresh). */
+const NO_DETAIL_RECHECK_MS = 6 * 3_600_000;
 
 export interface Enriched {
   shipCosts: ShipCosts;
@@ -33,32 +30,13 @@ const chunks = <T>(xs: T[], n: number): T[][] => {
 /** Whole days elapsed, like Python's `(now - created).days`. */
 const ageDays = (iso: string, now: Date) =>
   Math.floor((now.getTime() - new Date(iso).getTime()) / DAY_MS);
+const p2 = (n: number) => String(n).padStart(2, "0");
 
-async function readCache(ownerId: string, keys: string[]): Promise<Map<string, unknown>> {
-  const out = new Map<string, unknown>();
-  for (const part of chunks(keys, 5000)) {
-    const rows = await db.apiCache.findMany({ where: { ownerId, key: { in: part } } });
-    for (const r of rows) out.set(r.key, r.value);
-  }
-  return out;
-}
-
-export async function writeCache(ownerId: string, entries: [string, unknown][]): Promise<void> {
-  for (const part of chunks(entries, CHUNK)) {
-    await db.$transaction(
-      part.map(([key, value]) => {
-        const v = (value === null ? Prisma.JsonNull : value) as Prisma.InputJsonValue;
-        return db.apiCache.upsert({
-          where: { ownerId_key: { ownerId, key } },
-          create: { ownerId, key, value: v },
-          update: { value: v },
-        });
-      }),
-    );
-  }
-}
-
-/** Port of `enrich` (legacy 1167–1212) on top of the `ApiCache` table. */
+/**
+ * Port of `enrich` (legacy 1167–1212) on top of the typed tables: what was already fetched is read
+ * from Shipment / Listing / Payment (one indexed query each), only the missing or stale part is
+ * asked to Mercado Libre / Mercado Pago, and the answers are bulk-upserted.
+ */
 export async function enrich(
   ownerId: string,
   ds: DataSource,
@@ -66,88 +44,86 @@ export async function enrich(
   now: Date,
   log: Log = () => undefined,
 ): Promise<Enriched> {
-  // --- shipment costs: cached per id; re-fetched while the order is < 3 days old
+  // --- shipment costs: stored per shipment; re-fetched while the order is < 3 days old
   const paid = orders.filter((o) => o.status === "paid");
-  const shipKeys = uniq(
-    paid.filter((o) => o.shippingId).map((o) => `ship3:${o.shippingId}`),
-  );
-  const shipCache = await readCache(ownerId, shipKeys);
+  const mp = ds.marketplace;
+  const shipIds = uniq(paid.filter((o) => o.shippingId).map((o) => String(o.shippingId)));
+  const ships = await readShipments(ownerId, mp, shipIds);
   const needShip = uniq(
     paid
-      .filter(
-        (o) =>
-          o.shippingId &&
-          (!shipCache.has(`ship3:${o.shippingId}`) || ageDays(o.dateCreated, now) < 3),
-      )
+      .filter((o) => o.shippingId && (!ships.get(String(o.shippingId))?.fetchedAt || ageDays(o.dateCreated, now) < 3))
       .map((o) => String(o.shippingId)),
   );
   if (needShip.length) {
     log(`Consultando costo de envío de ${needShip.length} envíos…`);
     const got = await ds.getShipmentCosts(needShip);
-    const entries: [string, unknown][] = Object.entries(got).map(([id, c]) => [`ship3:${id}`, c]);
-    await writeCache(ownerId, entries);
-    for (const [k, v] of entries) shipCache.set(k, v);
+    await saveShipmentCosts(ownerId, mp, got, now);
+    for (const [id, cost] of Object.entries(got)) ships.set(id, { cost, fetchedAt: now });
   }
   const shipCosts: ShipCosts = {};
-  for (const [k, v] of shipCache) shipCosts[k.slice(6)] = v as number;
+  for (const [id, s] of ships) if (s.fetchedAt && s.cost !== null) shipCosts[id] = s.cost;
 
-  // --- GTINs: cached per item id (all orders, like Python)
-  const itemIds = uniq(
-    orders.flatMap((o) => o.items.map((i) => i.itemId.toUpperCase())).filter(Boolean),
-  );
-  const gtinCache = await readCache(ownerId, itemIds.map((i) => `gtin:${i}`));
-  const missing = itemIds.filter((i) => !gtinCache.has(`gtin:${i}`));
+  // --- GTINs: stored per listing (all orders, like Python)
+  const itemIds = uniq(orders.flatMap((o) => o.items.map((i) => i.itemId.toUpperCase())).filter(Boolean));
+  const listings = await readListings(ownerId, mp, itemIds);
+  const missing = itemIds.filter((i) => !listings.get(i)?.gtinCheckedAt);
   if (missing.length) {
     const got = await ds.getGtins(missing);
-    const entries: [string, unknown][] = Object.entries(got).map(([id, g]) => [`gtin:${id}`, g]);
-    await writeCache(ownerId, entries);
-    for (const [k, v] of entries) gtinCache.set(k, v);
+    await saveGtins(ownerId, mp, got, now);
+    for (const [id, g] of Object.entries(got)) {
+      const prev = listings.get(id.toUpperCase());
+      listings.set(id.toUpperCase(), {
+        gtinCheckedAt: now,
+        gtins: g,
+        catalogProductId: prev?.catalogProductId ?? null,
+        catalogCheckedAt: prev?.catalogCheckedAt ?? null,
+      });
+    }
   }
   const gtins: Gtins = {};
-  for (const [k, v] of gtinCache) gtins[k.slice(5)] = v as Record<string, string>;
+  for (const [id, l] of listings) if (l.gtinCheckedAt) gtins[id] = l.gtins;
 
-  // --- catalog ids: cached per item as `catalog:<itemId>` (same entry the market search reads).
-  // Items without a catalog id are asked again (a listing can get linked later); a failure here
-  // must never break the sync.
-  const catKeys = itemIds.map((i) => `catalog:${i}`);
-  const catCache = await readCache(ownerId, catKeys);
+  // --- catalog ids: stored on the listing (the market search reads the same column). A listing
+  // with no catalog product is asked again after CATALOG_RECHECK_MS (it can get linked later); a
+  // listing ML did not answer for is asked again next time. A failure here never breaks the sync.
   const catalogIds: Record<string, string | null> = {};
   const needCat: string[] = [];
   for (const i of itemIds) {
-    const v = catCache.get(`catalog:${i}`) as { catalogProductId?: unknown } | undefined;
-    const id = typeof v?.catalogProductId === "string" ? v.catalogProductId : null;
-    catalogIds[i] = id;
-    if (!id) needCat.push(i);
+    const st = listings.get(i);
+    catalogIds[i] = st?.catalogProductId ?? null;
+    if (!st?.catalogProductId && (!st?.catalogCheckedAt || now.getTime() - st.catalogCheckedAt.getTime() >= CATALOG_RECHECK_MS)) {
+      needCat.push(i);
+    }
   }
   if (needCat.length) {
     try {
       const got = await ds.getCatalogIds(needCat);
-      const entries: [string, unknown][] = [];
+      const found: Record<string, string | null> = {};
       for (const i of needCat) {
         if (!(i in got)) continue; // not returned (e.g. ML error): try again next time
-        const prev = catCache.get(`catalog:${i}`) as object | undefined;
         catalogIds[i] = got[i] ?? null;
-        entries.push([`catalog:${i}`, { ...prev, catalogProductId: catalogIds[i] }]);
+        found[i] = catalogIds[i]!;
       }
-      await writeCache(ownerId, entries);
+      await saveCatalogIds(ownerId, mp, found, now);
     } catch (e) {
       log(`Aviso: no pude leer los catálogos de ML (${String((e as Error).message).slice(0, 120)})`);
     }
   }
 
-  // --- payment taxes: cached per payment; re-fetched if null or order < 2 days old
+  // --- payment taxes: stored per payment; re-fetched if never asked, if the order is < 2 days old,
+  // if the entry predates the financing split, or if "no detail" is older than NO_DETAIL_RECHECK_MS
   const pays = paid.flatMap((o) =>
     o.payments
       .filter((p) => p.status === "approved")
       .map((p) => ({ id: String(p.id), fresh: ageDays(o.dateCreated, now) < 2 })),
   );
-  const taxCache = await readCache(ownerId, uniq(pays.map((p) => `tax:${p.id}`)));
+  const taxState = await readPaymentTaxes(ownerId, mp, uniq(pays.map((p) => p.id)));
   const pend = uniq(
     pays
       .filter((p) => {
-        const c = taxCache.get(`tax:${p.id}`) as PaymentTaxes | null | undefined;
-        // entries cached before the financing split lack `financing`: refetch once
-        return p.fresh || (c ?? null) === null || c?.financing === undefined;
+        const st = taxState.get(p.id);
+        if (p.fresh || !st?.fetchedAt || st.legacyNoFinancing) return true;
+        return st.taxes === null && now.getTime() - st.fetchedAt.getTime() >= NO_DETAIL_RECHECK_MS;
       })
       .map((p) => p.id),
   );
@@ -165,32 +141,31 @@ export async function enrich(
             `Aviso: no pude leer pagos de Mercado Pago (${String((e as Error).message).slice(0, 120)}); uso el % estimado`,
           );
         }
-        // keep what we had; payments never seen stay null
-        const entries: [string, unknown][] = batch
-          .filter((id) => !taxCache.has(`tax:${id}`))
-          .map((id) => [`tax:${id}`, null]);
-        await writeCache(ownerId, entries);
-        for (const [k, v] of entries) taxCache.set(k, v);
+        // keep what we had; payments never seen stay without detail
         if (failures >= MAX_TAX_FAILURES) {
           log("Aviso: demasiados errores en Mercado Pago; dejo de consultar impuestos en esta corrida");
           break;
         }
         continue;
       }
-      const entries: [string, unknown][] = batch.map((id) => [`tax:${id}`, got[id] ?? null]);
-      await writeCache(ownerId, entries);
-      for (const [k, v] of entries) taxCache.set(k, v);
+      const entries: [string, PaymentTaxes | null][] = batch.map((id) => [id, got[id] ?? null]);
+      await savePaymentTaxes(ownerId, mp, entries, now);
+      for (const [id, t] of entries) taxState.set(id, { fetchedAt: now, taxes: t, legacyNoFinancing: false });
     }
   }
   const taxes: TaxMap = {};
-  for (const [k, v] of taxCache) if (v !== null && v !== undefined) taxes[k.slice(4)] = v as PaymentTaxes;
+  for (const p of pays) {
+    const t = taxState.get(p.id)?.taxes;
+    if (t) taxes[p.id] = t;
+  }
 
   return { shipCosts, gtins, taxes, catalogIds };
 }
 
 /**
- * Port of `fetch_month` (legacy 1152–1164). The current month is never cached; a closed
- * month is cached and re-downloaded only during days 1–5 of the following month.
+ * Port of `fetch_month` (legacy 1152–1164). The current month is always downloaded; a closed month
+ * is read from the Order tables once it is final and re-downloaded only during days 1–5 of the
+ * following month (late cancellations / payments). Every download is persisted.
  */
 export async function fetchMonth(
   ownerId: string,
@@ -200,12 +175,12 @@ export async function fetchMonth(
   closed: boolean,
   todayDay: number,
 ): Promise<Order[]> {
-  if (!closed) return ds.getOrdersMonth(y, m);
-  const key = `orders:${y}-${String(m).padStart(2, "0")}`;
-  const hit = await db.apiCache.findUnique({ where: { ownerId_key: { ownerId, key } } });
-  const cached = hit?.value as { orders: Order[]; final: boolean } | undefined;
-  if (cached?.final) return cached.orders;
+  const month = `${y}-${p2(m)}`;
+  if (closed && (await isPeriodFinal(ownerId, ds.marketplace, month))) {
+    return loadOrdersMonth(ownerId, ds.marketplace, y, m);
+  }
   const orders = await ds.getOrdersMonth(y, m);
-  await writeCache(ownerId, [[key, { orders, final: todayDay > 5 }]]);
+  await saveOrders(ownerId, ds.marketplace, orders);
+  await markPeriod(ownerId, ds.marketplace, month, closed && todayDay > 5, orders.length);
   return orders;
 }

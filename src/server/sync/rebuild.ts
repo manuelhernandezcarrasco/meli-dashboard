@@ -26,19 +26,19 @@ export function targetMonth(now: Date): string {
 }
 
 /**
- * Every month we have anything for: stored snapshots, months whose orders are cached, the month
+ * Every month we have anything for: stored snapshots, months whose orders were downloaded, the month
  * before the target (always compared against), and optionally everything from `from` ("YYYY-MM").
  * Sorted oldest first; the target month is always last.
  */
 export async function monthsToRebuild(ownerId: string, now: Date, from?: string): Promise<string[]> {
   const target = targetMonth(now);
   const found = new Set<string>();
-  for (const s of await db.snapshot.findMany({ where: { ownerId }, select: { month: true } })) found.add(s.month);
-  const cached = await db.apiCache.findMany({
-    where: { ownerId, key: { startsWith: "orders:" } },
-    select: { key: true },
-  });
-  for (const c of cached) found.add(c.key.slice("orders:".length));
+  const [snaps, periods] = await Promise.all([
+    db.snapshot.findMany({ where: { accountId: ownerId }, select: { month: true } }),
+    db.orderPeriod.findMany({ where: { accountId: ownerId }, select: { month: true } }),
+  ]);
+  for (const s of snaps) found.add(s.month);
+  for (const p of periods) found.add(p.month);
   const [ty, tm] = target.split("-").map(Number) as [number, number];
   const [py, pm] = prevYm(ty, tm);
   found.add(`${py}-${p2(pm)}`);
@@ -52,20 +52,32 @@ export async function monthsToRebuild(ownerId: string, now: Date, from?: string)
   return [...found].filter((x) => /^\d{4}-\d{2}$/.test(x) && x < target).sort().concat(target);
 }
 
+/** Forgets that anything was fetched, so the next sync asks Mercado Libre / Mercado Pago again. */
+async function markEverythingStale(ownerId: string): Promise<void> {
+  const where = { accountId: ownerId };
+  await db.$transaction([
+    db.orderPeriod.updateMany({ where, data: { isFinal: false } }),
+    db.shipment.updateMany({ where, data: { costFetchedAt: null } }),
+    db.payment.updateMany({ where, data: { taxFetchedAt: null } }),
+    db.listing.updateMany({ where, data: { gtinCheckedAt: null, catalogCheckedAt: null } }),
+  ]);
+}
+
 /**
  * Re-computes every month (see `monthsToRebuild`) from the data we already have, so a change in
  * the calculation or in the product costs applies to history too, not only to the next sync.
  *
- * By default the API cache (shipping, GTINs, taxes, closed-month orders) is kept, so this is fast
- * and makes few or no Mercado Libre calls. `refetch: true` also wipes that cache, forcing a full
- * re-download (slow, and subject to API rate limits).
+ * By default what was already downloaded (shipping, GTINs, taxes, closed-month orders) is reused,
+ * so this is fast and makes few or no Mercado Libre calls. `refetch: true` marks all of it stale,
+ * forcing a full re-download (slow, and subject to API rate limits); the old values stay in place
+ * until the new ones arrive, so an interrupted refetch loses nothing.
  */
 export async function rebuildAll(
   ownerId: string,
   opts: { now?: Date; refetch?: boolean; from?: string; onProgress?: (p: Partial<RebuildProgress>) => void } = {},
 ): Promise<RebuildResult> {
   const now = opts.now ?? new Date();
-  if (opts.refetch) await db.apiCache.deleteMany({ where: { ownerId } });
+  if (opts.refetch) await markEverythingStale(ownerId);
 
   const months = await monthsToRebuild(ownerId, now, opts.from);
   const result: RebuildResult = { months: [], failed: [] };

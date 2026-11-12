@@ -1,5 +1,7 @@
 import { env } from "~/env";
 import { db } from "~/server/db";
+import { ensureAccount } from "~/server/store/bulk";
+import { MERCADOLIBRE } from "~/server/store/marketplace";
 import { mlFetch, type TokenAuth } from "./http";
 
 const TOKEN_URL = "https://api.mercadolibre.com/oauth/token";
@@ -21,12 +23,14 @@ export interface StoredTokens {
 }
 
 export async function getTokens(ownerId: string): Promise<StoredTokens | null> {
-  const row = await db.mlToken.findUnique({ where: { ownerId } });
+  const row = await db.marketplaceConnection.findUnique({
+    where: { accountId_marketplace: { accountId: ownerId, marketplace: MERCADOLIBRE } },
+  });
   if (!row) return null;
   return {
     accessToken: row.accessToken,
     refreshToken: row.refreshToken,
-    userId: Number(row.userId),
+    userId: Number(row.externalUserId),
     expiresAt: row.expiresAt,
   };
 }
@@ -35,12 +39,13 @@ export async function saveTokens(ownerId: string, t: StoredTokens): Promise<void
   const data = {
     accessToken: t.accessToken,
     refreshToken: t.refreshToken,
-    userId: BigInt(t.userId),
+    externalUserId: String(t.userId),
     expiresAt: t.expiresAt,
   };
-  await db.mlToken.upsert({
-    where: { ownerId },
-    create: { ownerId, ...data },
+  await ensureAccount(ownerId);
+  await db.marketplaceConnection.upsert({
+    where: { accountId_marketplace: { accountId: ownerId, marketplace: MERCADOLIBRE } },
+    create: { accountId: ownerId, marketplace: MERCADOLIBRE, ...data },
     update: data,
   });
 }
