@@ -3,7 +3,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock("~/env", () => ({ env: { NODE_ENV: "test" } }));
 vi.mock("~/server/stock/sales", () => ({ reconcileAll: vi.fn() }));
 
-import { GET, handlers } from "./route";
+import { handlers } from "./handlers";
+import { GET } from "./route";
 
 const call = (auth?: string) => GET(new Request("http://x/api/cron/stock-reconcile", { headers: auth ? { authorization: auth } : {} }));
 const run = vi.fn();
