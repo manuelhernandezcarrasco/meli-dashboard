@@ -7,6 +7,7 @@ import type {
   ShipCosts,
 } from "~/lib/contracts";
 import { daysIn, nowArg } from "~/lib/dates";
+import { MERCADOLIBRE } from "~/server/store/marketplace";
 import type { DataSource } from "./types";
 
 /** Tiny seeded PRNG returning floats in [0, 1). */
@@ -43,6 +44,7 @@ export interface DemoOptions {
 }
 
 export class DemoDataSource implements DataSource {
+  readonly marketplace = MERCADOLIBRE;
   private readonly base: Base;
   private readonly now: Date;
   private readonly seed: number;

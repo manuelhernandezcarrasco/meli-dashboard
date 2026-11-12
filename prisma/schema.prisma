@@ -1,3 +1,19 @@
+// Database reference: docs/database/README.md  (ERDs, table dictionary, conventions, changelog).
+// Any change here MUST update docs/database/CHANGELOG.md; `pnpm db:docs` regenerates the ERD
+// and a test fails when docs/database/erd.generated.md is stale.
+//
+// Conventions
+//  - Tenant root is `Account` (Clerk user id). Every business row carries `accountId` as the first
+//    column of its primary key, so one index serves "everything of this user" and composite
+//    foreign keys make cross-tenant references impossible.
+//  - Money from Mercado Libre / Mercado Pago and derived money is `Decimal(16,4)` (ARS).
+//    Values read from the user's Excel (weighted costs, margins, ratios) are `Float`.
+//  - Instants are `timestamptz`. Calendar days are `date`. Months are `"YYYY-MM"` (char(7)).
+//  - Marketplace-assigned numeric ids (orders, payments, shipments, sellers) are `BigInt`, and always
+//    keyed together with `marketplace`, because ids from different marketplaces can collide.
+//  - JSON is only used for derived read models (Snapshot.payload, MarketScan.regression), never for
+//    facts that statistics need to filter, join or aggregate.
+
 generator client {
   provider      = "prisma-client-js"
   output        = "../generated/prisma"
@@ -9,7 +25,638 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// Mercado Libre OAuth tokens, one row per signed-in (Clerk) user.
+// ─────────────────────────────────────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Which Excel file an Upload came from.
+enum UploadKind {
+  pnl
+  inputs
+}
+
+/// Identifier that an Excel "Mapeo" row translates to an EAN.
+enum MappingKind {
+  item
+  sku
+}
+
+/// A person's answer to "is this listing that P&L product?".
+enum MatchVerdict {
+  confirmed
+  rejected
+}
+
+/// External sales channels the app syncs from. A new marketplace is one more value here plus a
+/// connector that writes the Marketplace-keyed tables.
+enum Marketplace {
+  mercadolibre
+}
+
+/// How a SaleLine was sold: through a marketplace (see SaleLine.marketplace) or directly ("venta directa").
+enum Channel {
+  marketplace
+  direct
+}
+
+/// Why a market offer was left out of the scatter and the regressions.
+enum OfferExclusion {
+  price_outlier
+  sales_outlier
+  cap
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 1. Tenancy and connection
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// A signed-in user (Clerk user id). Deleting an Account deletes everything it owns.
+model Account {
+  /// Clerk user id (`user_...`).
+  id        String   @id
+  /// First time the app saw this user (or the oldest legacy row, for migrated users).
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  connections    MarketplaceConnection[]
+  uploads        Upload[]
+  products       Product[]
+  pnlClosing     PnlClosing?
+  costOverrides  CostOverride[]
+  mappings       ProductMapping[]
+  directSales    DirectSale[]
+  stockReceipts  StockReceipt[]
+  matchDecisions MatchDecision[]
+  listings       Listing[]
+  shipments      Shipment[]
+  orders         Order[]
+  orderPeriods   OrderPeriod[]
+  payments       Payment[]
+  saleLines      SaleLine[]
+  snapshots      Snapshot[]
+  marketScans    MarketScan[]
+}
+
+/// The user's OAuth link to one marketplace (replaces MlToken). Refresh tokens are single use, so the
+/// row is rewritten on every refresh. One row per account and marketplace.
+model MarketplaceConnection {
+  accountId      String
+  marketplace    Marketplace
+  /// The seller's id inside the marketplace (for Mercado Libre: the `seller` filter of every orders query).
+  externalUserId String
+  /// Short-lived bearer token (refreshed when it expires in < 5 min).
+  accessToken    String
+  /// Single-use token that mints the next pair.
+  refreshToken   String
+  /// When `accessToken` stops being valid.
+  expiresAt      DateTime    @db.Timestamptz(3)
+  /// When the user linked their account.
+  linkedAt       DateTime    @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime    @default(now()) @updatedAt @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, marketplace])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 2. Business master data (what the user uploads in Excel)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Metadata of the last file uploaded per kind. The raw .xlsx is never kept; it is parsed into the
+/// tables below inside one transaction.
+model Upload {
+  accountId  String
+  /// `pnl` = closing P&L (products + previous totals); `inputs` = direct sales, mappings, overrides, restocking.
+  kind       UploadKind
+  /// Name of the file as uploaded (display only).
+  fileName   String
+  /// Products in a `pnl` file, direct-sale rows in an `inputs` file (shown in the UI).
+  rowCount   Int
+  uploadedAt DateTime   @default(now()) @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, kind])
+}
+
+/// A product of the user's P&L close ("base"): one row per EAN. Replaced as a whole by each "pnl"
+/// upload. Costs are weighted averages (ratios), hence Float.
+model Product {
+  accountId     String
+  /// EAN-13 of the product (the join key to listings through GTIN / mapping).
+  ean           String
+  /// Product name in the Excel ("Descripción").
+  description   String
+  /// Model column of the Excel.
+  model         String
+  /// SONY, PLAY STATION, XBOX, BOSCH, VINOS, ONFAN or OTRAS.
+  category      String
+  /// "CU Pond.": weighted average unit cost of the close.
+  unitCost      Float
+  /// Final stock of the close = initial stock of the month being tracked.
+  stockFinal    Float
+  /// "Mg asum.": margin assumed when no real cost exists (0..1).
+  assumedMargin Float
+  /// Marketplace cost as a fraction of sales in the previous close (null when unknown).
+  prevMlCostPct Float?
+  /// Units sold in the previous close (consumption-rate fallback).
+  prevUnits     Float
+  /// Row order in the uploaded file; ties in the stock ranking fall back to it.
+  position      Int
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, ean])
+  @@index([accountId, category])
+}
+
+/// Totals of the previous close, used to calibrate the tax estimate and as the comparison base.
+model PnlClosing {
+  accountId   String @id
+  /// Sales through Mercado Libre in the previous close.
+  salesMl     Float
+  /// Direct sales in the previous close.
+  salesDirect Float
+  /// Total sales.
+  sales       Float
+  /// Marketplace costs (fees + shipping + taxes) charged by Mercado Libre.
+  mlCosts     Float
+  /// Cost of goods sold.
+  cogs        Float
+  /// Units sold.
+  units       Float
+  /// Net income after marketplace costs.
+  netIncome   Float
+  /// Gross margin of the close.
+  margin      Float
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+/// "Override" sheet: a person-set unit cost for an EAN that wins over the close.
+model CostOverride {
+  accountId   String
+  /// Product the override applies to (may not be in `Product`).
+  ean         String
+  /// Unit cost to use instead of the close's weighted cost.
+  unitCost    Float
+  /// Description to show when the product is not in the close.
+  description String
+  /// Category to use; null = keep the product's.
+  category    String?
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, ean])
+}
+
+/// "Mapeo ML" / "Mapeo SKU" sheets: listing id or seller SKU -> EAN. Replaced by each "inputs" upload.
+model ProductMapping {
+  accountId   String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace Marketplace
+  /// `item` = Mercado Libre listing id, `sku` = seller SKU.
+  kind        MappingKind
+  /// The listing id or SKU being mapped.
+  key         String
+  /// EAN it maps to.
+  ean         String
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, marketplace, kind, key])
+  @@index([accountId, marketplace, ean])
+}
+
+/// "Ventas directas" sheet: sales made outside Mercado Libre.
+model DirectSale {
+  id          BigInt   @id @default(autoincrement())
+  accountId   String
+  /// Day of the sale.
+  saleDate    DateTime @db.Date
+  /// Customer name as written in the sheet.
+  customer    String
+  /// Product sold.
+  ean         String
+  /// Description as written in the sheet.
+  description String
+  /// Units.
+  quantity    Decimal  @db.Decimal(14, 3)
+  /// Price per unit (ARS).
+  unitPrice   Decimal  @db.Decimal(16, 4)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId, saleDate])
+  @@index([accountId, ean])
+}
+
+/// "Ingresos" sheet: stock received (restocking) per EAN and day.
+model StockReceipt {
+  id          BigInt   @id @default(autoincrement())
+  accountId   String
+  /// Day the stock arrived.
+  receiptDate DateTime @db.Date
+  /// Product restocked.
+  ean         String
+  /// Units received.
+  quantity    Decimal  @db.Decimal(14, 3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId, receiptDate])
+  @@index([accountId, ean])
+}
+
+/// A person's yes/no on a title-similarity suggestion. Survives Excel re-uploads (unlike the
+/// mapping sheet). `itemId` and `ean` are soft references on purpose: both come from outside
+/// (Mercado Libre, Excel) and can disappear between uploads without invalidating the decision.
+model MatchDecision {
+  accountId   String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace Marketplace
+  /// Listing id (upper case).
+  itemId      String
+  /// EAN the person answered about.
+  ean         String
+  /// `confirmed`: use this EAN for the listing. `rejected`: never suggest or auto-match it again.
+  decision    MatchVerdict
+  /// When the person answered.
+  decidedAt   DateTime     @default(now()) @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, marketplace, itemId, ean])
+  @@index([accountId, marketplace, itemId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 3. Marketplace facts (what a marketplace API returns, normalized; `marketplace` is part of every key)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// One of the user's listings ("publicación"). Holds what used to live in the `gtin:` and
+/// `catalog:` ApiCache keys, plus the link to the P&L product found by the matcher.
+model Listing {
+  accountId        String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace      Marketplace
+  /// Mercado Libre listing id (`MLA...`), upper case.
+  itemId           String
+  /// Current listing title (null for listings only known through a search).
+  title            String?
+  /// ML `catalog_product_id`; null with `catalogCheckedAt` set = "asked, listing has none".
+  catalogProductId String?
+  catalogCheckedAt DateTime?   @db.Timestamptz(3)
+  /// Item-level GTIN; null with `gtinCheckedAt` set = "asked, no GTIN".
+  gtin             String?
+  gtinCheckedAt    DateTime?   @db.Timestamptz(3)
+  /// EAN of the P&L product this listing was matched to (soft reference to Product.ean).
+  matchedEan       String?
+  /// Lower-cased, accent-free "title + P&L description" for the own-product search.
+  searchText       String      @default("")
+  firstSeenAt      DateTime    @default(now()) @db.Timestamptz(3)
+  /// Last time a column other than `firstSeenAt` changed (no-op syncs do not touch it).
+  updatedAt        DateTime    @default(now()) @db.Timestamptz(3)
+
+  account    Account            @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  variations ListingVariation[]
+  orderItems OrderItem[]
+
+  @@id([accountId, marketplace, itemId])
+  @@index([accountId, marketplace, catalogProductId])
+  @@index([searchText(ops: raw("gin_trgm_ops"))], type: Gin)
+}
+
+/// GTIN of one variation of a listing.
+model ListingVariation {
+  accountId   String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace Marketplace
+  itemId      String
+  /// Mercado Libre variation id.
+  variationId BigInt
+  /// GTIN/EAN/UPC of the variation.
+  gtin        String
+
+  listing Listing @relation(fields: [accountId, marketplace, itemId], references: [accountId, marketplace, itemId], onDelete: Cascade)
+
+  @@id([accountId, marketplace, itemId, variationId])
+}
+
+/// Public seller nicknames per marketplace. Global (not per tenant): a nickname is public data.
+model Seller {
+  /// Mercado Libre seller id.
+  marketplace Marketplace
+  sellerId    BigInt
+  /// Public nickname.
+  nickname    String
+  /// When the nickname was read.
+  fetchedAt   DateTime    @default(now()) @db.Timestamptz(3)
+
+  @@id([marketplace, sellerId])
+}
+
+/// Shipment cost charged to (positive) or credited to (negative) the seller. A row exists as soon
+/// as an order references the shipment; `costFetchedAt` null = cost not asked yet.
+model Shipment {
+  accountId     String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace   Marketplace
+  /// Mercado Libre shipment id.
+  shippingId    BigInt
+  /// Net cost for the seller: positive = charged, negative = credited (Flex bonus).
+  sellerCost    Decimal?    @db.Decimal(16, 4)
+  /// When `sellerCost` was read from the API; null = not asked yet. Shipments of orders < 3 days old are asked again.
+  costFetchedAt DateTime?   @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  orders  Order[]
+
+  @@id([accountId, marketplace, shippingId])
+}
+
+/// A marketplace order, current month included. It belongs to the month of its own `createdAt` (Argentine
+/// calendar), whichever download delivered it. Read back ordered by (createdAt, orderId).
+model Order {
+  accountId   String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace Marketplace
+  /// Mercado Libre order id.
+  orderId     BigInt
+  /// Pack the order belongs to (several orders paid together); null if none.
+  packId      BigInt?
+  /// `paid`, `cancelled`, ... Only `paid` orders count as sales.
+  status      String
+  /// Creation instant (Argentina is UTC-3, no DST).
+  createdAt   DateTime    @db.Timestamptz(3)
+  /// Shipment of the order; null for pick-up / digital.
+  shippingId  BigInt?
+  /// When this row was last rewritten (a sync only rewrites rows that actually changed).
+  updatedAt   DateTime    @default(now()) @db.Timestamptz(3)
+
+  account  Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  shipment Shipment?      @relation(fields: [accountId, marketplace, shippingId], references: [accountId, marketplace, shippingId], onDelete: NoAction)
+  items    OrderItem[]
+  payments OrderPayment[]
+
+  @@id([accountId, marketplace, orderId])
+  @@index([accountId, createdAt])
+  @@index([accountId, marketplace, shippingId])
+}
+
+/// A line of an order. `lineNo` is the position inside the order (ML gives no line id).
+model OrderItem {
+  accountId         String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace       Marketplace
+  orderId           BigInt
+  /// 0-based position inside the order.
+  lineNo            Int
+  /// Listing sold (upper case).
+  itemId            String
+  /// Title at the time of the sale (the listing title can change later).
+  title             String
+  /// SKU the seller set on the listing, if any.
+  sellerSku         String?
+  /// Alternative SKU field, if any.
+  sellerCustomField String?
+  /// Variation sold, if the listing has variations.
+  variationId       BigInt?
+  /// Units sold.
+  quantity          Int
+  /// Price per unit (ARS).
+  unitPrice         Decimal     @db.Decimal(16, 4)
+  /// Marketplace fee per unit (includes the financing fee, see Payment.financingFee).
+  saleFee           Decimal     @db.Decimal(16, 4)
+
+  order   Order   @relation(fields: [accountId, marketplace, orderId], references: [accountId, marketplace, orderId], onDelete: Cascade)
+  listing Listing @relation(fields: [accountId, marketplace, itemId], references: [accountId, marketplace, itemId], onDelete: NoAction)
+
+  @@id([accountId, marketplace, orderId, lineNo])
+  @@index([accountId, marketplace, itemId])
+}
+
+/// A Mercado Pago payment and the taxes billed on it. A payment can be shared by several orders of
+/// a pack, hence the OrderPayment link table.
+/// `taxFetchedAt` null = never asked; set with `taxTotal` null = "asked, no detail available".
+model Payment {
+  accountId    String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace  Marketplace
+  /// Mercado Pago payment id.
+  paymentId    BigInt
+  /// Sum of the taxes billed to the seller on this payment.
+  taxTotal     Decimal?    @db.Decimal(16, 4)
+  /// "Costo por ofrecer cuotas"; part of the order items' saleFee.
+  financingFee Decimal?    @db.Decimal(16, 4)
+  taxFetchedAt DateTime?   @db.Timestamptz(3)
+
+  account Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  taxes   PaymentTax[]
+  orders  OrderPayment[]
+
+  @@id([accountId, marketplace, paymentId])
+}
+
+/// One tax charge of a payment (IVA, IIBB, SIRCREB...).
+model PaymentTax {
+  accountId   String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace Marketplace
+  paymentId   BigInt
+  /// Tax name as Mercado Pago reports it (e.g. `IIBB Retención CABA`).
+  name        String
+  /// Tax amount net of refunds (ARS).
+  amount      Decimal     @db.Decimal(16, 4)
+
+  payment Payment @relation(fields: [accountId, marketplace, paymentId], references: [accountId, marketplace, paymentId], onDelete: Cascade)
+
+  @@id([accountId, marketplace, paymentId, name])
+}
+
+/// Which payments settle which order, with the payment status as the order reports it.
+model OrderPayment {
+  accountId   String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace Marketplace
+  orderId     BigInt
+  paymentId   BigInt
+  /// Payment status inside the order (`approved`, ...). Only approved payments count.
+  status      String
+
+  order   Order   @relation(fields: [accountId, marketplace, orderId], references: [accountId, marketplace, orderId], onDelete: Cascade)
+  payment Payment @relation(fields: [accountId, marketplace, paymentId], references: [accountId, marketplace, paymentId], onDelete: NoAction)
+
+  @@id([accountId, marketplace, orderId, paymentId])
+  @@index([accountId, marketplace, paymentId])
+}
+
+/// Sync state of one month of orders: a closed month marked `isFinal` is read from Order/OrderItem
+/// and never downloaded again.
+model OrderPeriod {
+  accountId   String
+  /// Marketplace the ids of this row belong to (ids from different marketplaces can collide).
+  marketplace Marketplace
+  /// `YYYY-MM`, Argentine calendar.
+  month       String      @db.Char(7)
+  /// Closed month already re-downloaded after day 5 of the next month: never fetched again.
+  isFinal     Boolean
+  /// Orders downloaded for the month.
+  orderCount  Int
+  /// When the month was last downloaded.
+  fetchedAt   DateTime    @default(now()) @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, marketplace, month])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 4. Derived read models (always rebuildable from sections 2 and 3)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// One economics line (what `buildLines` computes): a sold order line or a direct sale, with the
+/// full marketplace cost breakdown. Rebuilt for a whole month on every sync. This is the table the
+/// statistics queries should hit: margin = revenue - marketplaceCost - cogs.
+model SaleLine {
+  accountId       String
+  /// `YYYY-MM` of the sale (same as `saleDate`).
+  period          String       @db.Char(7)
+  /// Position in the month's sorted lines (date, time, channel).
+  lineNo          Int
+  /// Day of the sale, Argentina time.
+  saleDate        DateTime     @db.Date
+  /// "HH:MM" Argentina time; empty for direct sales.
+  saleTime        String       @db.VarChar(5)
+  /// `marketplace` or `direct` (venta directa).
+  /// Marketplace the line was sold on; null for direct sales.
+  marketplace     Marketplace?
+  channel         Channel
+  /// Pack/order id for marketplace lines, customer for direct sales.
+  orderRef        String
+  itemId          String?
+  sku             String?
+  /// P&L product the line was matched to; null = unmatched.
+  ean             String?
+  /// How the EAN was found: "Mapeo item", "GTIN publicación", "Similitud de título", ...
+  matchVia        String
+  matchScore      Float?
+  suggestedEan    String?
+  /// Product description (Excel name when matched, listing title otherwise).
+  description     String
+  listingTitle    String?
+  /// Product category, or `SIN MATCH` when unmatched.
+  category        String
+  /// Units.
+  quantity        Decimal      @db.Decimal(14, 3)
+  /// Price per unit.
+  unitPrice       Decimal      @db.Decimal(16, 4)
+  /// quantity × unitPrice.
+  revenue         Decimal      @db.Decimal(16, 4)
+  /// Selling fee, without the financing part.
+  saleFee         Decimal      @db.Decimal(16, 4)
+  /// Installment-offering fee.
+  financingFee    Decimal      @db.Decimal(16, 4)
+  /// Share of the shipment cost allocated to this line.
+  shippingCost    Decimal      @db.Decimal(16, 4)
+  /// Taxes: real (Mercado Pago) or estimated, see `taxSource`.
+  taxAmount       Decimal      @db.Decimal(16, 4)
+  /// saleFee + financingFee + shippingCost + taxAmount.
+  marketplaceCost Decimal      @db.Decimal(16, 4)
+  /// Cost per unit used (close, override, or assumed margin), see `costSource`.
+  unitCost        Float
+  /// quantity * unitCost.
+  cogs            Decimal      @db.Decimal(16, 4)
+  /// `Real (CU Pond. cierre)`, `Override`, `Asumido xx%`, `Sin match – asumido xx%`.
+  costSource      String
+  /// `Mercado Pago` (real) or `Estimado x%`.
+  taxSource       String
+  /// Per-tax breakdown as text (`name amount; ...`).
+  taxDetail       String?
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, period, lineNo])
+  @@index([accountId, saleDate])
+  @@index([accountId, ean, saleDate])
+  @@index([accountId, itemId])
+}
+
+/// The computed dashboard (`DashboardData`) of a month, served as is to the UI.
+model Snapshot {
+  accountId  String
+  /// `YYYY-MM` the dashboard is about.
+  month      String   @db.Char(7)
+  /// `DashboardData` (src/lib/contracts.ts), validated with Zod on read and write.
+  payload    Json
+  /// When it was computed; decides when a background refresh is due.
+  computedAt DateTime @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, month])
+  @@index([accountId, computedAt(sort: Desc)])
+}
+
+/// One pull of the public offers of a catalog product ("market research"). Kept as history so
+/// price evolution can be charted; older scans are pruned by `pruneMarketScans`.
+model MarketScan {
+  id               BigInt      @id @default(autoincrement())
+  accountId        String
+  marketplace      Marketplace
+  /// Mercado Libre catalog product the offers belong to.
+  catalogProductId String
+  /// Catalog product name.
+  catalogTitle     String
+  /// When the offers were pulled.
+  fetchedAt        DateTime    @db.Timestamptz(3)
+  /// `{ log, linear }` regressions (null when n < 3); tiny, never filtered on.
+  regression       Json
+
+  account Account       @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  offers  MarketOffer[]
+
+  @@index([accountId, marketplace, catalogProductId, fetchedAt(sort: Desc)])
+}
+
+/// One seller's offer in a MarketScan. `title` and `permalink` are null when they equal the
+/// catalog title / the canonical permalink of the item.
+model MarketOffer {
+  /// Scan the offer belongs to.
+  scanId       BigInt
+  /// Order inside the scan (kept points first, then excluded ones).
+  position     Int
+  /// Offer's listing id.
+  itemId       String
+  /// Offer's seller (soft reference to `Seller`; nicknames are only known for some).
+  sellerId     BigInt
+  title        String?
+  /// Listed price (ARS).
+  price        Decimal         @db.Decimal(16, 4)
+  /// Units sold; null when Mercado Libre does not disclose it for other sellers.
+  soldQuantity Int?
+  /// false = lower bound of Mercado Libre's sales bucket.
+  soldExact    Boolean
+  /// The offer belongs to the account's own seller.
+  isOurs       Boolean
+  permalink    String?
+  /// Why the offer is left out of the regressions; null = included.
+  excluded     OfferExclusion?
+
+  scan MarketScan @relation(fields: [scanId], references: [id], onDelete: Cascade)
+
+  @@id([scanId, position])
+  @@index([itemId])
+  @@index([sellerId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DEPRECATED legacy tables. Their data was copied into the tables above by migration
+// 20261112000000_normalize_schema and nothing reads or writes them any more. They are dropped by
+// the follow-up migration (see docs/database/MIGRATION.md) once the backfill is verified.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// @deprecated replaced by MarketplaceConnection.
 model MlToken {
   ownerId      String   @id
   accessToken  String
@@ -19,7 +666,7 @@ model MlToken {
   updatedAt    DateTime @updatedAt
 }
 
-/// Per-user cache of API lookups: ship:<id>, gtin:<itemId>, tax:<paymentId>, orders:YYYY-MM
+/// @deprecated replaced by Listing, ListingVariation, Seller, Shipment, Order*, Payment*.
 model ApiCache {
   ownerId   String
   key       String
@@ -29,19 +676,8 @@ model ApiCache {
   @@id([ownerId, key])
 }
 
-/// Last computed DashboardData per user and month (YYYY-MM).
-model Snapshot {
-  ownerId    String
-  month      String
-  payload    Json
-  computedAt DateTime
-
-  @@id([ownerId, month])
-}
-
-/// Parsed contents of the Excel files a user uploaded. kind = "pnl" (closing P&L -> Base + prev
-/// totals) or "inputs" (direct sales / mapping / cost overrides / stock intake). The raw .xlsx is
-/// not kept: it is parsed on upload and only the normalized result is stored.
+/// @deprecated replaced by Upload, Product, PnlClosing, CostOverride, ProductMapping,
+/// DirectSale and StockReceipt.
 model UserWorkbook {
   ownerId    String
   kind       String
@@ -52,21 +688,7 @@ model UserWorkbook {
   @@id([ownerId, kind])
 }
 
-/// A person's answer to "is this ML listing that P&L product?". decision = "confirmed" (use that
-/// EAN for the listing, like a "Mapeo ML" row) or "rejected" (never suggest/auto-match that EAN
-/// for the listing again). Survives Excel re-uploads, unlike the mapping sheet.
-model MatchDecision {
-  ownerId   String
-  itemId    String
-  ean       String
-  decision  String
-  decidedAt DateTime @default(now())
-
-  @@id([ownerId, itemId, ean])
-}
-
-/// Last market-research result (scatter of every seller's offer) for one catalog product.
-/// payload = MarketResearch JSON (src/lib/market.ts). Refreshed only when `market.touch` is called.
+/// @deprecated replaced by MarketScan + MarketOffer.
 model MarketResearch {
   ownerId          String
   catalogProductId String

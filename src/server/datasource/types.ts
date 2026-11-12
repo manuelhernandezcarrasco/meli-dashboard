@@ -9,7 +9,11 @@ import type {
   ShipCosts,
 } from "~/lib/contracts";
 
+import type { Marketplace } from "~/server/store/marketplace";
+
 export interface DataSource {
+  /** Where the orders come from; every row the sync stores is tagged with it. */
+  readonly marketplace: Marketplace;
   /** Orders created in month (y, m), Argentina time. */
   getOrdersMonth(y: number, m: number): Promise<Order[]>;
   /** shippingId -> seller shipping cost. */

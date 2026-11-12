@@ -39,3 +39,7 @@ export type MarketState =
 
 export const MARKET_TTL_MS = 15 * 60_000; // staleness + client re-poll interval
 export const MARKET_MAX_SELLERS = 500; // cap applied in T8
+
+/** Public permalink for an item id; ML redirects `MLA-<digits>` to the canonical listing page. */
+export const itemPermalink = (itemId: string) =>
+  `https://articulo.mercadolibre.com.ar/${itemId.replace(/^([A-Z]{3})(\d+)$/, "$1-$2")}`;
