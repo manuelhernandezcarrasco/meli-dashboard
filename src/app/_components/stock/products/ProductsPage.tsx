@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { ProductRow, SyncMode } from "~/lib/stock-contracts";
 import { api } from "~/trpc/react";
 import { SortTh, useSort } from "../../dashboard/sort";
+import { CutoverDialog } from "../cutover/CutoverDialog";
 import { CreateProductModal } from "./CreateProductModal";
 import { ProductDrawer } from "./ProductDrawer";
 import {
@@ -38,6 +39,7 @@ export function ProductsPage() {
   const [page, setPage] = useState(0);
   const [openId, setOpenId] = useState<number | null>(null);
   const [creating, setCreating] = useState(false);
+  const [migrating, setMigrating] = useState(false);
 
   const list = api.stockProducts.list.useQuery({ ...(query ? { query } : {}) });
   const all = useMemo(() => list.data ?? [], [list.data]);
@@ -96,6 +98,9 @@ export function ProductsPage() {
         <button type="button" onClick={() => setCreating(true)} className="h-8 rounded-lg bg-navy px-3 text-[13px] font-semibold text-white">
           Nuevo producto
         </button>
+        <button type="button" onClick={() => setMigrating(true)} className="h-8 rounded-lg border border-line bg-card px-3 text-[13px]">
+          Migración inicial
+        </button>
       </div>
 
       {list.isLoading ? (
@@ -112,9 +117,12 @@ export function ProductsPage() {
       ) : all.length === 0 && !query ? (
         <div className="rounded-xl border border-line bg-card p-6 text-center text-[13px]">
           <p className="m-0 mb-2 font-semibold">Todavía no hay productos: corré la migración inicial.</p>
-          <p className="m-0 text-mut">
-            Importá el último Excel de P&amp;L desde <a className="text-blue underline" href="/stock/sync">Sincronización</a>, o creá un producto a mano.
+          <p className="m-0 mb-3 text-mut">
+            Importa los productos del último Excel de P&amp;L (subilo desde <a className="text-blue underline" href="/stock/sync">Sincronización</a>), o creá un producto a mano.
           </p>
+          <button type="button" onClick={() => setMigrating(true)} className="rounded-lg bg-navy px-3 py-1.5 text-[13px] font-semibold text-white">
+            Iniciar migración
+          </button>
         </div>
       ) : (
         <div className="overflow-x-auto rounded-xl border border-line bg-card">
@@ -181,6 +189,7 @@ export function ProductsPage() {
 
       {openId !== null && <ProductDrawer productId={openId} onClose={() => setOpenId(null)} />}
       {creating && <CreateProductModal onClose={() => setCreating(false)} onCreated={(id) => { setCreating(false); setOpenId(id); }} />}
+      {migrating && <CutoverDialog onClose={() => setMigrating(false)} />}
     </div>
   );
 }

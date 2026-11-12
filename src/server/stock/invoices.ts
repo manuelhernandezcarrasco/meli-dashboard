@@ -60,6 +60,8 @@ export interface DraftReview extends Omit<InvoiceReview, "lines"> {
   /** Sentence-ready, e.g. "impuestos y percepciones: +27,00 %, no se descuenta IVA". */
   feeSentence: string;
   unresolvedCount: number;
+  /** ISO timestamp the invoice was applied; null for drafts. */
+  appliedAt: string | null;
   /** Spanish reason why confirm is blocked; null when it is not. */
   blockedReason: string | null;
 }
@@ -214,16 +216,16 @@ export function createInvoiceService(over: Partial<InvoiceDeps> = {}) {
       feeFactor, feeFactorOverridden: inv.feeFactorOverridden, lines,
       warnings: storedWarnings(inv),
       canConfirm, sourceFileName: inv.sourceFileName, feeSentence: feeSentence(feeFactor, inv.feeFactorOverridden),
-      unresolvedCount,
+      unresolvedCount, appliedAt: inv.appliedAt?.toISOString() ?? null,
       blockedReason: inv.status !== "draft" ? "La factura ya fue aplicada." : unresolvedCount > 0
         ? `Faltan ${unresolvedCount} línea(s) por asignar a un producto (o saltearlas).` : lines.length === 0 ? "No quedan líneas para aplicar." : null,
     };
   }
 
-  async function list(accountId: string): Promise<InvoiceListRow[]> {
+  async function list(accountId: string): Promise<(InvoiceListRow & { appliedAt: string | null })[]> {
     return (await store.listInvoices(accountId)).map((r) => ({
       invoiceId: r.id, supplierName: r.supplierName, number: r.number, issueDate: r.issueDate, total: num(r.total),
-      status: r.status, lineCount: r.lineCount, unresolvedLines: r.unresolvedLines,
+      status: r.status, appliedAt: r.appliedAt?.toISOString() ?? null, lineCount: r.lineCount, unresolvedLines: r.unresolvedLines,
     }));
   }
 

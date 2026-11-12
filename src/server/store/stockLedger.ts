@@ -97,6 +97,36 @@ export async function writeMovement(m: MovementWrite): Promise<{ movement: Store
   });
 }
 
+/**
+ * Cost-only change under the product lock: updates the `unitCost` cache and writes a `manual` cost entry.
+ * Stock is not touched. Returns `changed: false` (and writes nothing) when the cost is already that value.
+ */
+export async function writeManualCost(a: {
+  accountId: string; productId: number; unitCost: Decimal; occurredAt: Date; note?: string;
+}): Promise<{ changed: boolean; unitCost: Decimal; onHand: Decimal }> {
+  return db.$transaction(async (tx) => {
+    const locked = await tx.$queryRaw<{ onHand: Decimal; unitCost: Decimal; archivedAt: Date | null }[]>`
+      SELECT "onHand", "unitCost", "archivedAt" FROM "InventoryProduct"
+      WHERE "accountId" = ${a.accountId} AND "id" = ${a.productId} FOR UPDATE`;
+    const product = locked[0];
+    if (!product) throw new StockError("PRODUCT_NOT_FOUND", `Product ${a.productId} not found`);
+    if (product.archivedAt) throw new StockError("PRODUCT_ARCHIVED", `Product ${a.productId} is archived`);
+    const onHand = new Prisma.Decimal(product.onHand);
+    const hasEntry = (await tx.productCostEntry.count({ where: { accountId: a.accountId, productId: a.productId } })) > 0;
+    if (hasEntry && a.unitCost.eq(product.unitCost)) return { changed: false, unitCost: a.unitCost, onHand };
+    await tx.inventoryProduct.update({
+      where: { accountId_id: { accountId: a.accountId, id: a.productId } }, data: { unitCost: a.unitCost },
+    });
+    await tx.productCostEntry.create({
+      data: {
+        accountId: a.accountId, productId: a.productId, effectiveFrom: a.occurredAt, unitCost: a.unitCost,
+        onHandAtChange: onHand, reason: "manual" satisfies CostReason, refType: "manual_cost", note: a.note,
+      },
+    });
+    return { changed: true, unitCost: a.unitCost, onHand };
+  });
+}
+
 /** Latest cost entry with `effectiveFrom <= at`; null when none. Throws PRODUCT_NOT_FOUND for an unknown product. */
 export async function readCostAt(accountId: string, productId: number, at: Date): Promise<Decimal | null> {
   const product = await db.inventoryProduct.findUnique({ where: { accountId_id: { accountId, id: productId } }, select: { id: true } });

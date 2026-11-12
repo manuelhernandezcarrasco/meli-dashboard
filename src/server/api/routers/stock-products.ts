@@ -8,6 +8,8 @@ import {
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { isLinked } from "~/server/ml";
 import { StockError } from "~/server/stock/contracts";
+import { setManualCost } from "~/server/stock/ledger";
+import { applyPendingForListing } from "~/server/stock/sales";
 import { createProductWithStock, getStockServices, linking, type LinkPlan, type UnlinkedListing } from "~/server/stock/linking";
 import {
   costHistory, DuplicateEanError, getProductBase, listProductBases, recentMovements, updateProduct, type ProductBase,
@@ -137,6 +139,28 @@ export const stockProductsRouter = createTRPCRouter({
       });
       return { onHand: Number(r.onHandAfter) };
     })),
+
+  /**
+   * Manual cost (alerts `missing_cost` / "Editar costo"). Goes through the ledger's cost-entry path
+   * (`setManualCost`, reason "manual"); stock is never touched. Then applies the sales parked for lack of a cost.
+   */
+  setCost: linkedProcedure
+    .input(z.object({ productId: z.number().int().positive(), unitCost: z.number().nonnegative(), note: z.string().max(300).optional() }).strict())
+    .mutation(({ ctx, input }): Promise<{ unitCost: number; changed: boolean; salesApplied: number }> =>
+      guard(async () => {
+        const r = await setManualCost({
+          accountId: ctx.userId, productId: input.productId, unitCost: input.unitCost, occurredAt: new Date(), note: input.note,
+        });
+        let salesApplied = 0;
+        for (const l of await linkedListingsOfProduct(ctx.userId, input.productId)) {
+          // the cost is saved either way; a failure here is picked up by the next reconcile
+          salesApplied += await applyPendingForListing(ctx.userId, l.itemId, l.variationId).catch((e) => {
+            console.error("[stock] applying pending sales after setCost failed", e);
+            return 0;
+          });
+        }
+        return { unitCost: Number(r.unitCost), changed: r.changed, salesApplied };
+      })),
 
   previewLink: linkedProcedure.input(LinkListingInputSchema).query(({ ctx, input }): Promise<LinkPlan> =>
     guard(async () => {

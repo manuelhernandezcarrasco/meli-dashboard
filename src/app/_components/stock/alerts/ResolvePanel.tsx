@@ -33,11 +33,6 @@ function useSubmit() {
   return { busy, error, setError, run };
 }
 
-// `stockProducts.setCost` is named by S7's form spec but is not in the merged router yet (reported in the PR).
-type SetCostApi = {
-  setCost: { useMutation: () => { mutateAsync: (i: { productId: number; unitCost: number; note?: string }) => Promise<unknown> } };
-};
-
 function Block({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-3">{children}</div>;
 }
@@ -172,8 +167,7 @@ function CostPanel({ alert, resolve, refresh }: PanelProps) {
   const [editing, setEditing] = useState(!review);
   const [cost, setCost] = useState(alert.amount != null ? String(alert.amount) : "");
   const [note, setNote] = useState("");
-  const { setCost: setCostM } = api.stockProducts as unknown as SetCostApi;
-  const m = setCostM.useMutation();
+  const m = api.stockProducts.setCost.useMutation();
 
   const save = () => run(async () => {
     const c = checkCost(cost);

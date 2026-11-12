@@ -65,6 +65,21 @@ export async function appendMovement(input: AppendMovementInput): Promise<Append
   };
 }
 
+/**
+ * Sets a product's cost by hand (alerts `missing_cost` / `link_cost_review`). Writes a `manual` cost entry and the
+ * cost cache; stock is untouched. A no-op (`changed: false`) when the cost is already that value.
+ */
+export async function setManualCost(input: {
+  accountId: string; productId: number; unitCost: Prisma.Decimal.Value; occurredAt: Date; note?: string;
+}): Promise<{ changed: boolean; unitCost: Decimal; onHand: Decimal }> {
+  const unitCost = dec(input.unitCost, "unitCost");
+  if (unitCost.isNegative()) throw new StockError("INVALID_QUANTITY", "unitCost cannot be negative");
+  return store.writeManualCost({
+    accountId: input.accountId, productId: input.productId, unitCost: unitCost.toDecimalPlaces(4),
+    occurredAt: input.occurredAt, note: input.note?.trim() || undefined,
+  });
+}
+
 /** Cost per unit in effect at `at`, or null when the product has no cost yet at that time. */
 export const costAt = store.readCostAt;
 

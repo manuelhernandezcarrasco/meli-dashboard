@@ -102,6 +102,7 @@ describe("<ProductsPage />", () => {
     listQuery.mockReturnValue(ok([]));
     const b = render(<ProductsPage />);
     expect(screen.getByText(/Todavía no hay productos/)).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Iniciar migración" })).toBeTruthy();
     b.unmount();
     const refetch = vi.fn();
     listQuery.mockReturnValue({ data: undefined, isLoading: false, error: { message: "boom" }, refetch });
