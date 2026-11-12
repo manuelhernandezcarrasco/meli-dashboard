@@ -12,7 +12,8 @@ vi.mock("next/server", async (orig) => ({
 
 import { db } from "~/server/db";
 import { ensureAccount } from "~/server/store/bulk";
-import { handlers, POST } from "./route";
+import { handlers } from "./handlers";
+import { POST } from "./route";
 
 const A = "s4_hook_a";
 const applied: [string, number, string | undefined][] = [];

@@ -7,7 +7,7 @@ import { InvoiceParseError, ScannedPdfError } from "~/server/invoices/parse";
 
 export const runtime = "nodejs";
 
-export const MAX_INVOICE_BYTES = 10 * 1024 * 1024;
+const MAX_INVOICE_BYTES = 10 * 1024 * 1024;
 
 const err = (message: string, status: number, extra: Record<string, unknown> = {}) =>
   NextResponse.json({ error: message, ...extra }, { status });

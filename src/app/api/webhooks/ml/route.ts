@@ -1,14 +1,9 @@
 import { after, NextResponse } from "next/server";
-import { applyOrder } from "~/server/stock/sales";
-import { markProcessed, recordEvent } from "~/server/store/webhookEvents";
-import { accountByExternalUser } from "~/server/store/stockSales";
+import { handlers } from "./handlers";
 
 export const runtime = "nodejs";
 
 const ORDER_RE = /^\/orders\/(\d+)$/;
-
-/** Hooks so tests can swap the heavy part; production uses the defaults. */
-export const handlers = { applyOrder, accountByExternalUser, recordEvent, markProcessed };
 
 /**
  * Mercado Libre `orders_v2` notifications. Public (no Clerk). Stores the event, answers 200 right away and
