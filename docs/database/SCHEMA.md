@@ -2,7 +2,7 @@
 
 # Database schema
 
-24 tables in 4 domains (PostgreSQL, managed with Prisma). Diagrams and the data dictionary below are generated from `prisma/schema.prisma`; the reasoning behind the design is in [ANALYSIS.md](ANALYSIS.md) and the history of changes in [CHANGELOG.md](CHANGELOG.md).
+37 tables in 5 domains (PostgreSQL, managed with Prisma). Diagrams and the data dictionary below are generated from `prisma/schema.prisma`; the reasoning behind the design is in [ANALYSIS.md](ANALYSIS.md) and the history of changes in [CHANGELOG.md](CHANGELOG.md).
 
 Reading the diagrams: `||--o{` is one-to-many, `||--o|` one-to-one, `PK`/`FK` mark key columns, `null` marks nullable columns. Every business table carries `accountId` as the first column of its primary key.
 
@@ -743,6 +743,527 @@ Foreign keys: `(scanId)` → `MarketScan` (on delete Cascade).
 
 Extra indexes: `(itemId)`, `(sellerId)`.
 
+## 5. Inventory (stock module)
+
+The app is the source of truth for stock and weighted-average cost. StockMovement is an append-only ledger; InventoryProduct.onHand/unitCost are caches of it. Purchase invoices feed the ledger after review, ListingLink ties marketplace listings to products (combos supported), pushes to the marketplace are logged, and alerts and returns need a person's decision. Design: docs/tickets/stock/PLAN.md.
+
+```mermaid
+erDiagram
+  Account ||--o{ InventoryProduct : account
+  Account ||--o{ StockMovement : account
+  InventoryProduct ||--o{ StockMovement : product
+  Account ||--o{ ProductCostEntry : account
+  InventoryProduct ||--o{ ProductCostEntry : product
+  Account ||--o{ PurchaseInvoice : account
+  PurchaseInvoice ||--o{ PurchaseInvoiceLine : invoice
+  InventoryProduct |o--o{ PurchaseInvoiceLine : product
+  Account ||--o{ PurchaseInvoiceLine : account
+  Account ||--o{ ListingLink : account
+  Account ||--o{ ListingLinkComponent : account
+  ListingLink ||--o{ ListingLinkComponent : link
+  InventoryProduct ||--o{ ListingLinkComponent : product
+  Account ||--o{ ListingSyncState : account
+  ListingLink ||--o| ListingSyncState : link
+  Account ||--o{ MlPushLog : account
+  Account ||--o{ StockAlert : account
+  InventoryProduct |o--o{ StockAlert : product
+  Account ||--o{ ReturnCase : account
+  InventoryProduct ||--o{ ReturnCase : product
+  OrderItem ||--o{ ReturnCase : orderItem
+  Account |o--o{ WebhookEvent : account
+  Account ||--o| InventorySettings : account
+  Account {
+    string id PK
+    datetime createdAt
+  }
+  InventoryProduct {
+    bigint id PK
+    string accountId PK, FK
+    string ean "null"
+    string sku "null"
+    string name
+    string model
+    string category
+    decimal minUnits "null"
+    decimal onHand
+    decimal inRepair
+    decimal unitCost
+    SyncMode syncMode
+    datetime archivedAt "null"
+    datetime createdAt
+    datetime updatedAt
+  }
+  StockMovement {
+    bigint id PK
+    string accountId PK, FK
+    bigint productId FK
+    MovementType type
+    decimal quantity
+    datetime occurredAt
+    datetime recordedAt
+    decimal onHandAfter
+    decimal unitCostAfter
+    string idempotencyKey
+    string refType "null"
+    string refId "null"
+    string reason "null"
+    string actor
+  }
+  ProductCostEntry {
+    bigint id PK
+    string accountId PK, FK
+    bigint productId FK
+    datetime effectiveFrom
+    decimal unitCost
+    decimal onHandAtChange
+    CostReason reason
+    string refType "null"
+    string refId "null"
+    string note "null"
+  }
+  PurchaseInvoice {
+    bigint id PK
+    string accountId PK, FK
+    string supplierName
+    string supplierTaxId
+    string number
+    datetime issueDate
+    string currency
+    decimal subtotal
+    decimal ivaAmount
+    decimal perceptionsAmount
+    decimal otherTaxesAmount
+    decimal total
+    decimal feeFactor
+    boolean feeFactorOverridden
+    InvoiceStatus status
+    datetime appliedAt "null"
+    datetime createdAt
+    string sourceFileName
+  }
+  PurchaseInvoiceLine {
+    string accountId PK, FK
+    bigint invoiceId PK, FK
+    int lineNo PK
+    string supplierCode
+    string ean "null"
+    string description
+    decimal quantity
+    decimal unitPrice
+    decimal discount
+    decimal lineSubtotal
+    decimal landedUnitCost
+    bigint productId FK "null"
+    LineResolution resolution
+  }
+  ListingLink {
+    bigint id PK
+    string accountId PK, FK
+    Marketplace marketplace
+    string itemId
+    bigint variationId "null"
+    datetime createdAt
+  }
+  ListingLinkComponent {
+    string accountId PK, FK
+    bigint linkId PK, FK
+    bigint productId PK, FK
+    decimal quantity
+  }
+  ListingSyncState {
+    string accountId PK, FK
+    bigint linkId PK, FK
+    int lastObservedMlQty "null"
+    datetime lastObservedAt "null"
+    int lastPushedQty "null"
+    datetime lastPushedAt "null"
+    SyncStatus status
+    string lastError "null"
+  }
+  MlPushLog {
+    bigint id PK
+    string accountId PK, FK
+    Marketplace marketplace
+    string itemId
+    bigint variationId "null"
+    int requestedQty
+    int previousMlQty "null"
+    SyncMode mode
+    PushResult result
+    int httpStatus "null"
+    string error "null"
+    PushTrigger triggerType
+    string triggerRef "null"
+    datetime createdAt
+  }
+  StockAlert {
+    bigint id PK
+    string accountId PK, FK
+    AlertType type
+    AlertStatus status
+    bigint productId FK "null"
+    Marketplace marketplace "null"
+    string itemId "null"
+    string dedupeKey
+    string title
+    string detail
+    decimal quantity "null"
+    decimal amount "null"
+    datetime createdAt
+    datetime acknowledgedAt "null"
+    datetime resolvedAt "null"
+    string resolution "null"
+  }
+  ReturnCase {
+    bigint id PK
+    string accountId PK, FK
+    Marketplace marketplace FK
+    bigint orderId FK
+    int lineNo FK
+    bigint productId FK
+    decimal quantity
+    ReturnOutcome outcome
+    string reason "null"
+    datetime openedAt
+    datetime resolvedAt "null"
+    string note "null"
+  }
+  WebhookEvent {
+    bigint id PK
+    string accountId FK "null"
+    Marketplace marketplace
+    string topic
+    string resource
+    string externalEventId "null"
+    datetime receivedAt
+    datetime processedAt "null"
+    string error "null"
+  }
+  InventorySettings {
+    string accountId PK, FK
+    datetime cutoverAt "null"
+    SyncMode defaultSyncMode
+    datetime lastReconcileAt "null"
+  }
+  OrderItem {
+    string accountId PK, FK
+    Marketplace marketplace PK, FK
+    bigint orderId PK, FK
+    int lineNo PK
+    string itemId FK
+    string title
+    string sellerSku "null"
+    string sellerCustomField "null"
+    bigint variationId "null"
+    int quantity
+    decimal unitPrice
+    decimal saleFee
+  }
+```
+
+### Data dictionary
+
+#### InventoryProduct
+
+A product we hold in stock: the permanent master of what we buy and sell (unlike `Product`, the P&L close snapshot replaced by each upload). `onHand`, `inRepair` and `unitCost` are caches derived from StockMovement / ProductCostEntry and are only changed by `appendMovement`. Archive, never delete.
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `id` | bigint |  | PK |  |
+| `accountId` | string |  | PK FK |  |
+| `ean` | string | null |  | GTIN-13. Unique per account when set; products without one are matched by hand. |
+| `sku` | string | null |  |  |
+| `name` | string |  |  |  |
+| `model` | string |  |  |  |
+| `category` | string |  |  |  |
+| `minUnits` | decimal(14,3) | null |  | Optional minimum units that overrides the day-based low-stock thresholds. |
+| `onHand` | decimal(14,3) |  |  | Sellable units. Can go negative (raises an alert); marketplaces only ever receive max(0, onHand). |
+| `inRepair` | decimal(14,3) |  |  | Units in the repair bucket (not sellable). |
+| `unitCost` | decimal(16,4) |  |  | Current moving weighted-average cost per unit, gross (taxes not netted out), ARS. |
+| `syncMode` | enum SyncMode |  |  | `dry_run` = pushes to the marketplace are logged only; `live` = really sent. |
+| `archivedAt` | timestamptz(3) | null |  |  |
+| `createdAt` | timestamptz(3) |  |  |  |
+| `updatedAt` | timestamptz(3) |  |  |  |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade).
+
+Extra indexes: `(accountId, category)`.
+
+#### StockMovement
+
+Append-only stock ledger. One row per stock event; never updated or deleted. `onHand` of the product is the running sum. Idempotent through `idempotencyKey`.
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `id` | bigint |  | PK |  |
+| `accountId` | string |  | PK FK |  |
+| `productId` | bigint |  | FK |  |
+| `type` | enum MovementType |  |  |  |
+| `quantity` | decimal(14,3) |  |  | Signed units: positive = in, negative = out. |
+| `occurredAt` | timestamptz(3) |  |  | When it happened in the real world (sale date, invoice date, ...). |
+| `recordedAt` | timestamptz(3) |  |  | When we wrote the row. |
+| `onHandAfter` | decimal(14,3) |  |  | Product `onHand` right after this movement. |
+| `unitCostAfter` | decimal(16,4) |  |  | Weighted-average cost right after this movement. |
+| `idempotencyKey` | string |  |  | Caller-chosen key that makes the write safe to repeat, e.g. `sale:MLA:123:0`, `invoice:42:3`. |
+| `refType` | string | null |  | Kind of the thing that caused it: `order`, `invoice`, `return`, `excel`, `cutover`, ... |
+| `refId` | string | null |  | Id of that thing (an order line is `<orderId>:<lineNo>`). |
+| `reason` | string | null |  |  |
+| `actor` | string |  |  | Who caused it: `system`, `user` or `webhook`. |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade); `(accountId, productId)` → `InventoryProduct` (on delete NoAction).
+
+Extra indexes: `(accountId, productId, occurredAt DESC)`, `(accountId, refType, refId)`.
+
+#### ProductCostEntry
+
+Cost history of a product, used to freeze the cost of a sale at the moment it happened: the cost of a sale is the latest entry with `effectiveFrom <= sale time`.
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `id` | bigint |  | PK |  |
+| `accountId` | string |  | PK FK |  |
+| `productId` | bigint |  | FK |  |
+| `effectiveFrom` | timestamptz(3) |  |  |  |
+| `unitCost` | decimal(16,4) |  |  | Weighted-average cost from `effectiveFrom` on, ARS, gross. |
+| `onHandAtChange` | decimal(14,3) |  |  | Stock on hand when the cost changed (the weight of the old cost). |
+| `reason` | enum CostReason |  |  |  |
+| `refType` | string | null |  |  |
+| `refId` | string | null |  |  |
+| `note` | string | null |  |  |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade); `(accountId, productId)` → `InventoryProduct` (on delete NoAction).
+
+Extra indexes: `(accountId, productId, effectiveFrom DESC)`.
+
+#### PurchaseInvoice
+
+A supplier invoice. Parsed into `draft`, reviewed by the user, and only `applied` writes stock and cost. `feeFactor = total / subtotal` spreads taxes and perceptions over every line (gross landed cost).
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `id` | bigint |  | PK |  |
+| `accountId` | string |  | PK FK |  |
+| `supplierName` | string |  |  |  |
+| `supplierTaxId` | string |  |  | Supplier CUIT. Part of the duplicate-invoice guard. |
+| `number` | string |  |  | Invoice number as printed, e.g. `0225-00085935`. |
+| `issueDate` | date |  |  |  |
+| `currency` | string |  |  |  |
+| `subtotal` | decimal(16,4) |  |  |  |
+| `ivaAmount` | decimal(16,4) |  |  |  |
+| `perceptionsAmount` | decimal(16,4) |  |  |  |
+| `otherTaxesAmount` | decimal(16,4) |  |  |  |
+| `total` | decimal(16,4) |  |  |  |
+| `feeFactor` | decimal(12,8) |  |  | Multiplier applied to every line's net price to get its landed unit cost. |
+| `feeFactorOverridden` | boolean |  |  | True when the user edited `feeFactor` in the review screen. |
+| `status` | enum InvoiceStatus |  |  |  |
+| `appliedAt` | timestamptz(3) | null |  |  |
+| `createdAt` | timestamptz(3) |  |  |  |
+| `sourceFileName` | string |  |  | Uploaded PDF file name (display only; the file itself is not kept). |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade).
+
+#### PurchaseInvoiceLine
+
+One line of a PurchaseInvoice, with the product it was resolved to (once resolved).
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `accountId` | string |  | PK FK |  |
+| `invoiceId` | bigint |  | PK FK |  |
+| `lineNo` | int |  | PK | 1-based position on the invoice. |
+| `supplierCode` | string |  |  | Supplier's own code for the item. |
+| `ean` | string | null |  | Normalized GTIN-13 read from the line, if any. |
+| `description` | string |  |  |  |
+| `quantity` | decimal(14,3) |  |  |  |
+| `unitPrice` | decimal(16,4) |  |  |  |
+| `discount` | decimal(16,4) |  |  |  |
+| `lineSubtotal` | decimal(16,4) |  |  |  |
+| `landedUnitCost` | decimal(16,4) |  |  | `unitPrice` after discount times the invoice's `feeFactor`. |
+| `productId` | bigint | null | FK |  |
+| `resolution` | enum LineResolution |  |  |  |
+
+Foreign keys: `(accountId, invoiceId)` → `PurchaseInvoice` (on delete Cascade); `(accountId, productId)` → `InventoryProduct` (on delete NoAction); `(accountId)` → `Account` (on delete Cascade).
+
+Extra indexes: `(accountId, productId)`.
+
+#### ListingLink
+
+Ties a marketplace listing (or one of its variations) to what we stock. The unique index on `(accountId, marketplace, itemId, COALESCE(variationId, 0))` lives only in the migration (NULL counts as one value). `itemId` is a soft reference to `Listing` (a link may exist before the listing is synced).
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `id` | bigint |  | PK |  |
+| `accountId` | string |  | PK FK |  |
+| `marketplace` | enum Marketplace |  |  |  |
+| `itemId` | string |  |  | Listing id, upper case. |
+| `variationId` | bigint | null |  | Null = the whole listing; set = that variation. |
+| `createdAt` | timestamptz(3) |  |  |  |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade).
+
+Extra indexes: `(accountId, marketplace, itemId)`.
+
+#### ListingLinkComponent
+
+A (product, quantity) a link is made of. A simple listing has one component with quantity 1; a combo has several. Available quantity of the link = min over components of floor(onHand / quantity).
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `accountId` | string |  | PK FK |  |
+| `linkId` | bigint |  | PK FK |  |
+| `productId` | bigint |  | PK FK |  |
+| `quantity` | decimal(14,3) |  |  | Units of the product consumed by one unit of the listing. |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade); `(accountId, linkId)` → `ListingLink` (on delete Cascade); `(accountId, productId)` → `InventoryProduct` (on delete NoAction).
+
+Extra indexes: `(accountId, productId)`.
+
+#### ListingSyncState
+
+What we last saw and last pushed for one link.
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `accountId` | string |  | PK FK |  |
+| `linkId` | bigint |  | PK FK |  |
+| `lastObservedMlQty` | int | null |  | `available_quantity` last read from the marketplace. |
+| `lastObservedAt` | timestamptz(3) | null |  |  |
+| `lastPushedQty` | int | null |  |  |
+| `lastPushedAt` | timestamptz(3) | null |  |  |
+| `status` | enum SyncStatus |  |  |  |
+| `lastError` | string | null |  |  |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade); `(accountId, linkId)` → `ListingLink` (on delete Cascade).
+
+#### MlPushLog
+
+Append-only log of every stock push attempt (also the dry-run ones).
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `id` | bigint |  | PK |  |
+| `accountId` | string |  | PK FK |  |
+| `marketplace` | enum Marketplace |  |  |  |
+| `itemId` | string |  |  |  |
+| `variationId` | bigint | null |  |  |
+| `requestedQty` | int |  |  | Quantity we asked the marketplace to set. |
+| `previousMlQty` | int | null |  | Quantity the marketplace had before, when known. |
+| `mode` | enum SyncMode |  |  |  |
+| `result` | enum PushResult |  |  |  |
+| `httpStatus` | int | null |  |  |
+| `error` | string | null |  |  |
+| `triggerType` | enum PushTrigger |  |  |  |
+| `triggerRef` | string | null |  | What triggered it (order id, invoice id, ...). |
+| `createdAt` | timestamptz(3) |  |  |  |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade).
+
+Extra indexes: `(accountId, marketplace, itemId, createdAt DESC)`.
+
+#### StockAlert
+
+Something the user must look at. `dedupeKey` is unique per account while the alert is not resolved (partial unique index in the migration), so raising the same alert twice updates one row.
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `id` | bigint |  | PK |  |
+| `accountId` | string |  | PK FK |  |
+| `type` | enum AlertType |  |  |  |
+| `status` | enum AlertStatus |  |  |  |
+| `productId` | bigint | null | FK |  |
+| `marketplace` | enum Marketplace | null |  |  |
+| `itemId` | string | null |  |  |
+| `dedupeKey` | string |  |  | Identity of the situation, e.g. `low_stock:<productId>`. |
+| `title` | string |  |  |  |
+| `detail` | string |  |  |  |
+| `quantity` | decimal(14,3) | null |  | Numeric context (units, days of coverage, ...). |
+| `amount` | decimal(16,4) | null |  | Numeric context in ARS (cost, margin, ...). |
+| `createdAt` | timestamptz(3) |  |  |  |
+| `acknowledgedAt` | timestamptz(3) | null |  |  |
+| `resolvedAt` | timestamptz(3) | null |  |  |
+| `resolution` | string | null |  | How it was resolved: `auto` (condition cleared) or free text from the user. |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade); `(accountId, productId)` → `InventoryProduct` (on delete NoAction).
+
+Extra indexes: `(accountId, status, type)`.
+
+#### ReturnCase
+
+A returned unit waiting for a decision (never restocked automatically).
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `id` | bigint |  | PK |  |
+| `accountId` | string |  | PK FK |  |
+| `marketplace` | enum Marketplace |  | FK |  |
+| `orderId` | bigint |  | FK |  |
+| `lineNo` | int |  | FK | Position of the order line (same as OrderItem.lineNo). |
+| `productId` | bigint |  | FK |  |
+| `quantity` | decimal(14,3) |  |  |  |
+| `outcome` | enum ReturnOutcome |  |  |  |
+| `reason` | string | null |  |  |
+| `openedAt` | timestamptz(3) |  |  |  |
+| `resolvedAt` | timestamptz(3) | null |  |  |
+| `note` | string | null |  |  |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade); `(accountId, productId)` → `InventoryProduct` (on delete NoAction); `(accountId, marketplace, orderId, lineNo)` → `OrderItem` (on delete NoAction).
+
+#### WebhookEvent
+
+Inbox of marketplace notifications (webhooks). The tenant is not known until the notification is resolved, so `accountId` is nullable and the key is a plain surrogate id (the one exception to tenant-first keys). Exact duplicates are dropped through `externalEventId` or, without it, the topic/resource/receivedAt key.
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `id` | bigint |  | PK |  |
+| `accountId` | string | null | FK |  |
+| `marketplace` | enum Marketplace |  |  |  |
+| `topic` | string |  |  | Notification topic, e.g. `orders_v2`. |
+| `resource` | string |  |  | Resource path the notification points to, e.g. `/orders/123`. |
+| `externalEventId` | string | null |  | Id the marketplace gave the notification, when it gives one. |
+| `receivedAt` | timestamptz(3) |  |  |  |
+| `processedAt` | timestamptz(3) | null |  |  |
+| `error` | string | null |  |  |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade).
+
+Extra indexes: `(processedAt)`.
+
+#### InventorySettings
+
+Per-account inventory configuration.
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `accountId` | string |  | PK FK |  |
+| `cutoverAt` | timestamptz(3) | null |  | Moment the ledger took over from the Excel; null = cutover not done yet. |
+| `defaultSyncMode` | enum SyncMode |  |  | Sync mode given to new products. |
+| `lastReconcileAt` | timestamptz(3) | null |  |  |
+
+Foreign keys: `(accountId)` → `Account` (on delete Cascade).
+
+#### OrderItem
+
+A line of an order. `lineNo` is the position inside the order (ML gives no line id).
+
+| Column | Type | Null | Key | Description |
+|---|---|---|---|---|
+| `accountId` | string |  | PK FK |  |
+| `marketplace` | enum Marketplace |  | PK FK | Marketplace the ids of this row belong to (ids from different marketplaces can collide). |
+| `orderId` | bigint |  | PK FK |  |
+| `lineNo` | int |  | PK | 0-based position inside the order. |
+| `itemId` | string |  | FK | Listing sold (upper case). |
+| `title` | string |  |  | Title at the time of the sale (the listing title can change later). |
+| `sellerSku` | string | null |  | SKU the seller set on the listing, if any. |
+| `sellerCustomField` | string | null |  | Alternative SKU field, if any. |
+| `variationId` | bigint | null |  | Variation sold, if the listing has variations. |
+| `quantity` | int |  |  | Units sold. |
+| `unitPrice` | decimal(16,4) |  |  | Price per unit (ARS). |
+| `saleFee` | decimal(16,4) |  |  | Marketplace fee per unit (includes the financing fee, see Payment.financingFee). |
+
+Foreign keys: `(accountId, marketplace, orderId)` → `Order` (on delete Cascade); `(accountId, marketplace, itemId)` → `Listing` (on delete NoAction).
+
+Extra indexes: `(accountId, marketplace, itemId)`.
+
 ## Enums
 
 - `UploadKind`: `pnl`, `inputs` — Which Excel file an Upload came from.
@@ -751,6 +1272,17 @@ Extra indexes: `(itemId)`, `(sellerId)`.
 - `Marketplace`: `mercadolibre` — External sales channels the app syncs from. A new marketplace is one more value here plus a connector that writes the Marketplace-keyed tables.
 - `Channel`: `marketplace`, `direct` — How a SaleLine was sold: through a marketplace (see SaleLine.marketplace) or directly ("venta directa").
 - `OfferExclusion`: `price_outlier`, `sales_outlier`, `cap` — Why a market offer was left out of the scatter and the regressions.
+- `MovementType`: `initial_count`, `purchase_in`, `sale`, `sale_cancel`, `return_restock`, `repair_in`, `repair_out`, `loss`, `manual_adjust`, `excel_reset` — Why an InventoryProduct's stock changed. The sign of StockMovement.quantity says the direction.
+- `SyncMode`: `dry_run`, `live` — Whether ML pushes for a product are only logged or really sent.
+- `AlertType`: `low_stock`, `out_of_stock`, `negative_stock`, `push_failed`, `stock_drift`, `margin_drop`, `unmatched_sale`, `suggested_match`, `auto_match`, `missing_cost`, `unmatched_listing`, `link_cost_review` — Kinds of StockAlert.
+- `AlertStatus`: `open`, `acknowledged`, `resolved` — Lifecycle of a StockAlert.
+- `InvoiceStatus`: `draft`, `applied`, `voided` — Lifecycle of a PurchaseInvoice. Nothing touches stock while it is a draft.
+- `ReturnOutcome`: `pending`, `lost`, `in_repair`, `restocked` — What was decided for a returned unit.
+- `PushResult`: `dry_run`, `ok`, `failed`, `skipped` — Result of one stock push to a marketplace.
+- `LineResolution`: `auto_ean`, `manual_match`, `created_product`, `unresolved` — How an invoice line was tied to a product.
+- `CostReason`: `invoice`, `excel`, `initial`, `manual` — Why a ProductCostEntry was written.
+- `SyncStatus`: `never`, `in_sync`, `drift`, `failed` — Per-listing push state.
+- `PushTrigger`: `sale`, `invoice`, `adjust`, `reconcile`, `manual` — What caused a push.
 
 ## Full diagram
 
@@ -783,6 +1315,29 @@ erDiagram
   Account ||--o{ Snapshot : account
   Account ||--o{ MarketScan : account
   MarketScan ||--o{ MarketOffer : scan
+  Account ||--o{ InventoryProduct : account
+  Account ||--o{ StockMovement : account
+  InventoryProduct ||--o{ StockMovement : product
+  Account ||--o{ ProductCostEntry : account
+  InventoryProduct ||--o{ ProductCostEntry : product
+  Account ||--o{ PurchaseInvoice : account
+  PurchaseInvoice ||--o{ PurchaseInvoiceLine : invoice
+  InventoryProduct |o--o{ PurchaseInvoiceLine : product
+  Account ||--o{ PurchaseInvoiceLine : account
+  Account ||--o{ ListingLink : account
+  Account ||--o{ ListingLinkComponent : account
+  ListingLink ||--o{ ListingLinkComponent : link
+  InventoryProduct ||--o{ ListingLinkComponent : product
+  Account ||--o{ ListingSyncState : account
+  ListingLink ||--o| ListingSyncState : link
+  Account ||--o{ MlPushLog : account
+  Account ||--o{ StockAlert : account
+  InventoryProduct |o--o{ StockAlert : product
+  Account ||--o{ ReturnCase : account
+  InventoryProduct ||--o{ ReturnCase : product
+  OrderItem ||--o{ ReturnCase : orderItem
+  Account |o--o{ WebhookEvent : account
+  Account ||--o| InventorySettings : account
   Account {
     string id PK
     datetime createdAt
@@ -1014,6 +1569,175 @@ erDiagram
     boolean isOurs
     string permalink "null"
     OfferExclusion excluded "null"
+  }
+  InventoryProduct {
+    bigint id PK
+    string accountId PK, FK
+    string ean "null"
+    string sku "null"
+    string name
+    string model
+    string category
+    decimal minUnits "null"
+    decimal onHand
+    decimal inRepair
+    decimal unitCost
+    SyncMode syncMode
+    datetime archivedAt "null"
+    datetime createdAt
+    datetime updatedAt
+  }
+  StockMovement {
+    bigint id PK
+    string accountId PK, FK
+    bigint productId FK
+    MovementType type
+    decimal quantity
+    datetime occurredAt
+    datetime recordedAt
+    decimal onHandAfter
+    decimal unitCostAfter
+    string idempotencyKey
+    string refType "null"
+    string refId "null"
+    string reason "null"
+    string actor
+  }
+  ProductCostEntry {
+    bigint id PK
+    string accountId PK, FK
+    bigint productId FK
+    datetime effectiveFrom
+    decimal unitCost
+    decimal onHandAtChange
+    CostReason reason
+    string refType "null"
+    string refId "null"
+    string note "null"
+  }
+  PurchaseInvoice {
+    bigint id PK
+    string accountId PK, FK
+    string supplierName
+    string supplierTaxId
+    string number
+    datetime issueDate
+    string currency
+    decimal subtotal
+    decimal ivaAmount
+    decimal perceptionsAmount
+    decimal otherTaxesAmount
+    decimal total
+    decimal feeFactor
+    boolean feeFactorOverridden
+    InvoiceStatus status
+    datetime appliedAt "null"
+    datetime createdAt
+    string sourceFileName
+  }
+  PurchaseInvoiceLine {
+    string accountId PK, FK
+    bigint invoiceId PK, FK
+    int lineNo PK
+    string supplierCode
+    string ean "null"
+    string description
+    decimal quantity
+    decimal unitPrice
+    decimal discount
+    decimal lineSubtotal
+    decimal landedUnitCost
+    bigint productId FK "null"
+    LineResolution resolution
+  }
+  ListingLink {
+    bigint id PK
+    string accountId PK, FK
+    Marketplace marketplace
+    string itemId
+    bigint variationId "null"
+    datetime createdAt
+  }
+  ListingLinkComponent {
+    string accountId PK, FK
+    bigint linkId PK, FK
+    bigint productId PK, FK
+    decimal quantity
+  }
+  ListingSyncState {
+    string accountId PK, FK
+    bigint linkId PK, FK
+    int lastObservedMlQty "null"
+    datetime lastObservedAt "null"
+    int lastPushedQty "null"
+    datetime lastPushedAt "null"
+    SyncStatus status
+    string lastError "null"
+  }
+  MlPushLog {
+    bigint id PK
+    string accountId PK, FK
+    Marketplace marketplace
+    string itemId
+    bigint variationId "null"
+    int requestedQty
+    int previousMlQty "null"
+    SyncMode mode
+    PushResult result
+    int httpStatus "null"
+    string error "null"
+    PushTrigger triggerType
+    string triggerRef "null"
+    datetime createdAt
+  }
+  StockAlert {
+    bigint id PK
+    string accountId PK, FK
+    AlertType type
+    AlertStatus status
+    bigint productId FK "null"
+    Marketplace marketplace "null"
+    string itemId "null"
+    string dedupeKey
+    string title
+    string detail
+    decimal quantity "null"
+    decimal amount "null"
+    datetime createdAt
+    datetime acknowledgedAt "null"
+    datetime resolvedAt "null"
+    string resolution "null"
+  }
+  ReturnCase {
+    bigint id PK
+    string accountId PK, FK
+    Marketplace marketplace FK
+    bigint orderId FK
+    int lineNo FK
+    bigint productId FK
+    decimal quantity
+    ReturnOutcome outcome
+    string reason "null"
+    datetime openedAt
+    datetime resolvedAt "null"
+    string note "null"
+  }
+  WebhookEvent {
+    bigint id PK
+    string accountId FK "null"
+    Marketplace marketplace
+    string topic
+    string resource
+    string externalEventId "null"
+    datetime receivedAt
+    datetime processedAt "null"
+    string error "null"
+  }
+  InventorySettings {
+    string accountId PK, FK
+    datetime cutoverAt "null"
+    SyncMode defaultSyncMode
+    datetime lastReconcileAt "null"
   }
 ```
 

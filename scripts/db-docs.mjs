@@ -43,6 +43,16 @@ export const DOMAINS = [
       "Rebuildable from sections 2 and 3. SaleLine is the table statistics should query; Snapshot is the dashboard exactly as the UI receives it; MarketScan/MarketOffer keep every pull of a catalog product's offers so prices can be charted over time.",
     models: ["Account", "SaleLine", "Snapshot", "MarketScan", "MarketOffer", "Seller"],
   },
+  {
+    title: "5. Inventory (stock module)",
+    blurb:
+      "The app is the source of truth for stock and weighted-average cost. StockMovement is an append-only ledger; InventoryProduct.onHand/unitCost are caches of it. Purchase invoices feed the ledger after review, ListingLink ties marketplace listings to products (combos supported), pushes to the marketplace are logged, and alerts and returns need a person's decision. Design: docs/tickets/stock/PLAN.md.",
+    models: [
+      "Account", "InventoryProduct", "StockMovement", "ProductCostEntry", "PurchaseInvoice", "PurchaseInvoiceLine",
+      "ListingLink", "ListingLinkComponent", "ListingSyncState", "MlPushLog", "StockAlert", "ReturnCase",
+      "WebhookEvent", "InventorySettings", "OrderItem",
+    ],
+  },
 ];
 
 const MERMAID_TYPE = {

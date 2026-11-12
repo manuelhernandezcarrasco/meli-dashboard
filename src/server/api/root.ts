@@ -1,5 +1,10 @@
 import { dashboardRouter } from "~/server/api/routers/dashboard";
 import { marketRouter } from "~/server/api/routers/market";
+import { stockAlertsRouter } from "~/server/api/routers/stock-alerts";
+import { stockInvoicesRouter } from "~/server/api/routers/stock-invoices";
+import { stockProductsRouter } from "~/server/api/routers/stock-products";
+import { stockReturnsRouter } from "~/server/api/routers/stock-returns";
+import { stockSyncRouter } from "~/server/api/routers/stock-sync";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -10,6 +15,11 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 export const appRouter = createTRPCRouter({
   dashboard: dashboardRouter,
   market: marketRouter,
+  stockProducts: stockProductsRouter,
+  stockInvoices: stockInvoicesRouter,
+  stockAlerts: stockAlertsRouter,
+  stockReturns: stockReturnsRouter,
+  stockSync: stockSyncRouter,
 });
 
 // export type definition of API

@@ -6,6 +6,22 @@ How to add an entry: see "Changing the schema" in [README.md](README.md).
 
 ---
 
+## 20261112174736_stock_module (2026-11-12)
+
+**Why.** The app becomes the source of truth for stock and weighted-average cost (plan: [../tickets/stock/PLAN.md](../tickets/stock/PLAN.md)). This migration only creates structure; no existing row changes and no data is migrated.
+
+**Added** (13 tables): `InventoryProduct`, `StockMovement` (append-only ledger), `ProductCostEntry`, `PurchaseInvoice`, `PurchaseInvoiceLine`, `ListingLink`, `ListingLinkComponent`, `ListingSyncState`, `MlPushLog`, `StockAlert`, `ReturnCase`, `WebhookEvent`, `InventorySettings`. Enums: `MovementType`, `SyncMode`, `AlertType`, `AlertStatus`, `InvoiceStatus`, `ReturnOutcome`, `PushResult`, `LineResolution`, `CostReason`, `SyncStatus`, `PushTrigger`.
+
+**Conventions.** Surrogate ids are `id BigInt autoincrement` inside the tenant-first primary key `(accountId, id)`, so composite foreign keys `(accountId, productId)` work. `WebhookEvent` is the one exception (plain `id`, nullable `accountId`: the tenant is unknown when a notification arrives). `ReturnCase` references `OrderItem` by its full key.
+
+**Raw SQL in the migration** (Prisma cannot express it, `migrate diff` still reports no drift): unique index on `ListingLink (accountId, marketplace, itemId, COALESCE(variationId, 0))`; partial unique index on `StockAlert (accountId, dedupeKey) WHERE status <> 'resolved'`; `CHECK (quantity <> 0)` on `StockMovement`.
+
+**Code.** None yet: tickets S1-S9 add the writers (see "Who writes what" in [README.md](README.md)). `ListingLink.itemId` is a soft reference to `Listing` (a link can exist before the listing is synced).
+
+**Rollout.** `prisma migrate deploy`; additive, no downtime, rollback = drop the 13 tables and 11 enums.
+
+---
+
 ## 20261112000000_normalize_schema (2026-11-12)
 
 **Why.** `ApiCache` held six different kinds of data as untyped JSON keyed by string prefix, orders were one JSON row per month, and the Excel data and market research were JSON blobs. Nothing could be queried, joined or kept incrementally. Details and measurements: [ANALYSIS.md](ANALYSIS.md).
