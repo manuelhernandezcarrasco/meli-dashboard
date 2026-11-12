@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
-import { reconcileAll } from "~/server/stock/sales";
+import { handlers } from "./handlers";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
-
-export const handlers = { reconcileAll };
 
 function authorized(header: string | null): boolean {
   const secret = process.env.CRON_SECRET;
