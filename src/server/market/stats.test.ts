@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { MARKET_MAX_SELLERS, type MarketPoint } from "~/lib/market";
 import {
+  applySales,
   buildResearch,
   fitLinear,
   fitLog,
@@ -65,10 +66,10 @@ describe("regression", () => {
     expect(fitLinear([pt(1, 1), pt(2, 2)])).toBeNull();
     expect(fitLinear([pt(1, 5), pt(2, 5), pt(3, 5)])).toBeNull();
   });
-  it("sold = 0 is dropped from log fit only", () => {
+  it("sold = 0 is dropped from both fits", () => {
     const pts = [pt(10, 0), pt(8, 1), pt(6, 2), pt(5, 4)];
     expect(fitLog(pts)!.n).toBe(3);
-    expect(fitLinear(pts)!.n).toBe(4);
+    expect(fitLinear(pts)!.n).toBe(3);
   });
   it("predictLine returns original units", () => {
     const lin = predictLine({ mode: "linear", slope: 2, intercept: 10, r2: 1, n: 3 }, 0, 4, 4);
@@ -134,5 +135,28 @@ describe("points with unknown sales", () => {
     expect(r.points).toHaveLength(9);
     expect(r.regression.linear).toBeNull();
     expect(r.regression.log).toBeNull();
+  });
+});
+
+describe("applySales", () => {
+  const base = (id: string, price: number, over: Partial<MarketPoint> = {}): MarketPoint => ({
+    itemId: id, sellerId: 1, sellerNickname: "1", title: "t", price, soldQuantity: null, soldExact: false,
+    permalink: "", isOurs: false, ...over,
+  });
+  it("fills unknown sales, keeps ours untouched and refits", () => {
+    const pts = [base("A", 100), base("B", 80), base("C", 60), base("O", 90, { isOurs: true, soldQuantity: 7, soldExact: true })];
+    const research = { catalogProductId: "X", catalogTitle: "t", points: pts, excluded: [], regression: { log: null, linear: null }, fetchedAt: "" };
+    const out = applySales(research, new Map([
+      ["A", { sold: 10, nickname: "SELLER_A" }], ["B", { sold: 50, nickname: null }], ["C", { sold: 100, nickname: null }],
+      ["O", { sold: 999, nickname: "nope" }],
+    ]));
+    expect(out.points.find((p) => p.itemId === "A")).toMatchObject({ soldQuantity: 10, soldExact: false, sellerNickname: "SELLER_A" });
+    expect(out.points.find((p) => p.itemId === "B")!.sellerNickname).toBe("1");
+    expect(out.points.find((p) => p.itemId === "O")!.soldQuantity).toBe(7);
+    expect(out.regression.linear?.n).toBe(4);
+  });
+  it("is a no-op without sales", () => {
+    const research = { catalogProductId: "X", catalogTitle: "t", points: [], excluded: [], regression: { log: null, linear: null }, fetchedAt: "" };
+    expect(applySales(research, new Map())).toBe(research);
   });
 });

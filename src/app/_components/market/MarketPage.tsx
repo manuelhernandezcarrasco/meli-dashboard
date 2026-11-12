@@ -8,6 +8,7 @@ import type { MarketResearch, MarketState } from "~/lib/market";
 import { api } from "~/trpc/react";
 import { MarketChart } from "./MarketChart";
 import { useMarketResearch } from "./useMarketResearch";
+import { useSalesCollector } from "./useSalesCollector";
 
 function MarketSkeleton() {
   return (
@@ -52,6 +53,11 @@ function MarketResearchView({ catalogProductId }: { catalogProductId: string }) 
   }, []);
 
   const data = dataOf(state);
+  const utils = api.useUtils();
+  const submit = api.market.submitSales.useMutation({
+    onSuccess: () => void utils.market.get.invalidate({ catalogProductId }),
+  });
+  const collector = useSalesCollector(data, (items) => submit.mutate({ items }));
   const running = state?.status === "running";
   const failed = state?.status === "failed" ? state : null;
   const unknownCatalog = state?.status === "ready" && state.data.points.length === 0 && !state.data.catalogTitle;
@@ -74,6 +80,27 @@ function MarketResearchView({ catalogProductId }: { catalogProductId: string }) 
                 Actualizando…
               </span>
             ) : null}
+          </div>
+          <div className="mt-1 flex flex-wrap items-center gap-2 text-[13px] text-mut" data-testid="sales-collector">
+            {collector.installed ? (
+              <>
+                <button
+                  type="button"
+                  onClick={collector.reload}
+                  disabled={!data || collector.progress != null}
+                  className="cursor-pointer rounded-lg border border-line bg-card px-3 py-1 text-[13px] font-semibold text-ink disabled:cursor-default disabled:opacity-60"
+                >
+                  Recargar ventas
+                </button>
+                {collector.progress ? (
+                  <span role="status">Leyendo ventas {collector.progress.done}/{collector.progress.total}…</span>
+                ) : null}
+              </>
+            ) : (
+              <span>
+                Ventas de otros vendedores: <a href="/pnl-market-collector.user.js" className="text-blue">instalá el colector</a> (Tampermonkey) para verlas.
+              </span>
+            )}
           </div>
         </div>
         <UserButton />

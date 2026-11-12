@@ -23,6 +23,7 @@ export type MarketPoint = {
   soldQuantity: number | null;
   soldExact: boolean;
   permalink: string;
+  condition?: "new" | "used" | null;
   isOurs: boolean;
 };
 
@@ -30,6 +31,7 @@ export interface Offer {
   itemId: string;
   sellerId: number | null;
   price: number;
+  condition: "new" | "used" | null;
 }
 
 /** Public permalink for an item id; ML redirects `MLA-<digits>` to the canonical listing page. */
@@ -66,6 +68,8 @@ export function apiCacheNicknames(ownerId: string): NicknameCache {
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+const toCondition = (c: unknown): "new" | "used" | null => (c === "new" || c === "used" ? c : null);
+
 const chunks = <T>(xs: T[], n: number): T[][] => {
   const out: T[][] = [];
   for (let i = 0; i < xs.length; i += n) out.push(xs.slice(i, i + n));
@@ -123,7 +127,7 @@ export class MlMarketClient {
       for (const o of res) {
         const itemId = o?.item_id ?? o?.id;
         if (typeof itemId !== "string") continue;
-        out.push({ itemId, sellerId: o.seller_id != null ? toNum(o.seller_id) : null, price: toNum(o.price) });
+        out.push({ itemId, sellerId: o.seller_id != null ? toNum(o.seller_id) : null, price: toNum(o.price), condition: toCondition(o.condition) });
       }
       const total = toNum(r?.paging?.total);
       offset += PAGE;
@@ -175,7 +179,7 @@ export class MlMarketClient {
       await mapLimit(chunks(mine.map((o) => o.itemId), MULTIGET), CONCURRENCY, async (part) => {
         const r = (await this.get(`${API}/items`, {
           ids: part.join(","),
-          attributes: "id,title,price,sold_quantity,permalink,status,seller_id",
+          attributes: "id,title,price,sold_quantity,permalink,status,seller_id,condition",
         })) as any[] | null;
         return (r ?? []).map((x) => x?.body).filter((b) => b?.id) as any[];
       })
@@ -195,6 +199,7 @@ export class MlMarketClient {
         soldQuantity: toNum(b.sold_quantity),
         soldExact: true,
         permalink: String(b.permalink ?? ""),
+        condition: toCondition(b.condition),
         isOurs: true,
       };
     });
@@ -207,6 +212,7 @@ export class MlMarketClient {
       soldQuantity: null,
       soldExact: false,
       permalink: itemPermalink(o.itemId),
+      condition: o.condition,
       isOurs: false,
     }));
     const points = [...fromCatalog, ...fromOffers];

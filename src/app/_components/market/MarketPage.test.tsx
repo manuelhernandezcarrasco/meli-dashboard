@@ -25,7 +25,7 @@ vi.mock("~/trpc/react", async () => {
     api: {
       useUtils: () => {
         const qc = rq.useQueryClient();
-        return { market: { get: { setData: (i: unknown, d: unknown) => qc.setQueryData(["market.get", i], d) } } };
+        return { market: { get: { setData: (i: unknown, d: unknown) => qc.setQueryData(["market.get", i], d), invalidate: () => Promise.resolve() } } };
       },
       dashboard: { connection: { useQuery: () => ({ data: { linked: h.linked } }) } },
       market: {
@@ -33,6 +33,7 @@ vi.mock("~/trpc/react", async () => {
           useQuery: (input: { catalogProductId: string }, opts: Record<string, unknown>) =>
             rq.useQuery({ queryKey: ["market.get", input], queryFn: async () => h.get(input), ...opts, retry: false }),
         },
+        submitSales: { useMutation: (opts: Record<string, unknown>) => rq.useMutation({ mutationFn: async () => ({ saved: 0 }), ...opts }) },
         touch: {
           useMutation: (opts: Record<string, unknown>) =>
             rq.useMutation({ mutationFn: async (i: { catalogProductId: string }) => h.touch(i), ...opts }),

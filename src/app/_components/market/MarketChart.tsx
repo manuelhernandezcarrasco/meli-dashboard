@@ -7,7 +7,7 @@ import {
 
 import { fmtInt, short } from "~/lib/dashboard-math";
 import type { MarketResearch, RegressionMode } from "~/lib/market";
-import { predictLine } from "~/server/market/stats";
+import { fitLinear, fitLog, predictLine } from "~/server/market/stats";
 import { Card } from "../dashboard/ui";
 import { MarketTooltip } from "./MarketTooltip";
 
@@ -38,25 +38,36 @@ export function MarketChart({ data, size }: {
 }) {
   // Other sellers' sales are unknown (their items are closed to us): they sit on the baseline,
   // which a log axis can't draw, so the scale is forced linear while any are present.
-  const hasUnknownSales = data.points.some((p) => p.soldQuantity == null);
-  const modes = (["log", "linear"] as const).filter((m) => data.regression[m] != null && !(hasUnknownSales && m === "log"));
+  const [onlyNew, setOnlyNew] = useState(false);
+  const points = useMemo(
+    () => (onlyNew ? data.points.filter((p) => p.condition === "new") : data.points),
+    [data.points, onlyNew],
+  );
+  const hasCondition = data.points.some((p) => p.condition != null);
+  const regression = useMemo(
+    () => (onlyNew ? { log: fitLog(points), linear: fitLinear(points) } : data.regression),
+    [onlyNew, points, data.regression],
+  );
+  const modes = (["log", "linear"] as const).filter((m) => regression[m] != null);
   const [picked, setPicked] = useState<RegressionMode>("log");
-  const mode: RegressionMode = hasUnknownSales ? "linear" : modes.includes(picked) ? picked : (modes[0] ?? "log");
-  const reg = data.regression[mode];
+  const mode: RegressionMode = modes.includes(picked) ? picked : (modes[0] ?? "log");
+  const reg = regression[mode];
   const log = mode === "log";
 
-  const { others, ours } = useMemo(() => ({
-    others: data.points.filter((p) => !p.isOurs),
-    ours: data.points.filter((p) => p.isOurs),
-  }), [data.points]);
+  // Competitors whose sales are unknown can't be placed on the sales axis: they are summarised by price instead.
+  const { others, ours, unknown } = useMemo(() => ({
+    others: points.filter((p) => !p.isOurs && p.soldQuantity != null),
+    ours: points.filter((p) => p.isOurs),
+    unknown: points.filter((p) => !p.isOurs && p.soldQuantity == null),
+  }), [points]);
 
   const line = useMemo(() => {
-    if (!reg || data.points.length === 0) return [];
+    if (!reg) return [];
     // T8's fit is price = f(sold): sample over units sold, plot (price, sold).
-    const sold = data.points.flatMap((p) => (p.soldQuantity == null ? [] : [p.soldQuantity]));
+    const sold = points.flatMap((p) => (p.soldQuantity == null || p.soldQuantity < 1 ? [] : [p.soldQuantity]));
     if (sold.length === 0) return [];
     return predictLine(reg, Math.min(...sold), Math.max(...sold), 40);
-  }, [reg, data.points]);
+  }, [reg, points]);
 
   if (data.points.length === 0) {
     return (
@@ -70,7 +81,7 @@ export function MarketChart({ data, size }: {
   const domain: [string | number, string | number] = log ? ["auto", "auto"] : [0, "auto"];
   // log axes can't draw sold = 0
   const plot = <T extends { soldQuantity: number | null }>(rows: T[]) =>
-    (log ? rows.filter((p) => (p.soldQuantity ?? 0) > 0) : rows.map((p) => ({ ...p, soldQuantity: p.soldQuantity ?? 0 })));
+    (log ? rows.filter((p) => (p.soldQuantity ?? 0) > 0) : rows);
 
   const chart = (
     <ComposedChart {...(size ?? {})} margin={{ top: 8, right: 12, bottom: 4, left: 0 }}>
@@ -104,7 +115,12 @@ export function MarketChart({ data, size }: {
             </button>
           ))}
         </div>
-        {hasUnknownSales && <span>Ventas de otros vendedores no disponibles: se muestran sobre el eje.</span>}
+        {hasCondition && (
+          <label className="inline-flex cursor-pointer items-center gap-1">
+            <input type="checkbox" checked={onlyNew} onChange={(e) => setOnlyNew(e.target.checked)} />
+            Solo nuevos
+          </label>
+        )}
         {reg && <span data-testid="fit-stats">R² {r2Fmt.format(reg.r2)} · n = {fmtInt(reg.n)}</span>}
         <span className="ml-auto flex items-center gap-3">
           <Legend color="var(--grey)" label="Otros" />
@@ -119,8 +135,20 @@ export function MarketChart({ data, size }: {
           <ResponsiveContainer width="100%" height="100%" minWidth={0}>{chart}</ResponsiveContainer>
         </div>
       )}
+      <UnknownSales rows={unknown} />
       <Excluded excluded={data.excluded} />
     </Card>
+  );
+}
+
+function UnknownSales({ rows }: { rows: MarketResearch["points"] }) {
+  if (rows.length === 0) return null;
+  const prices = rows.map((p) => p.price).sort((a, b) => a - b);
+  const mid = prices[Math.floor(prices.length / 2)]!;
+  return (
+    <p data-testid="unknown-sales" className="m-0 mt-2 text-xs text-mut">
+      {fmtInt(rows.length)} competidores sin ventas disponibles (no están en el gráfico ni en el ajuste) · precio {short(prices[0]!)} – {short(mid)} (mediana) – {short(prices[prices.length - 1]!)}
+    </p>
   );
 }
 

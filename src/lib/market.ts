@@ -7,6 +7,7 @@ export type MarketPoint = {
   soldQuantity: number | null; // null = unknown (other sellers' items are closed to us); else exact if soldExact, else lower bound of ML bucket
   soldExact: boolean;
   permalink: string;
+  condition?: "new" | "used" | null; // listing condition, when known
   isOurs: boolean; // sellerId === our ML user id
 };
 

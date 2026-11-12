@@ -57,8 +57,9 @@ export function ols(
 
 const hasSales = (p: MarketPoint): p is MarketPoint & { soldQuantity: number } => p.soldQuantity != null;
 
+/** Points with 0 sales carry no demand signal and would drag the line to the floor, so they are not fitted. */
 export function fitLinear(points: MarketPoint[]): Regression | null {
-  const usable = points.filter(hasSales);
+  const usable = points.filter(hasSales).filter((p) => p.soldQuantity >= 1);
   return ols(
     usable.map((p) => p.soldQuantity),
     usable.map((p) => p.price),
@@ -147,4 +148,30 @@ export function predictLine(
     out.push({ price, sold });
   }
   return out;
+}
+
+/** Sales collected from the user's own browser for other sellers' listings (see public/pnl-market-collector.user.js). */
+export interface CollectedSale {
+  sold: number; // lower bound of ML's "+N vendidos" bucket
+  nickname: string | null;
+}
+
+/**
+ * Overlays collected sales onto a stored research and refits both regressions.
+ * Outlier removal is not redone (it ran at fetch time, before sales were known).
+ */
+export function applySales(research: MarketResearch, sales: ReadonlyMap<string, CollectedSale>): MarketResearch {
+  if (sales.size === 0) return research;
+  const merge = (p: MarketPoint): MarketPoint => {
+    const s = sales.get(p.itemId);
+    if (!s || p.isOurs) return p;
+    return { ...p, soldQuantity: s.sold, soldExact: false, sellerNickname: s.nickname ?? p.sellerNickname };
+  };
+  const points = research.points.map(merge);
+  return {
+    ...research,
+    points,
+    excluded: research.excluded.map((e) => ({ ...e, point: merge(e.point) })),
+    regression: { log: fitLog(points), linear: fitLinear(points) },
+  };
 }
