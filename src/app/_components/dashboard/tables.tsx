@@ -106,7 +106,7 @@ export function TopProducts({ rows: all }: { rows: TopProduct[] }) {
           <tbody>
             {rows.map((x) => (
               <tr key={x.desc}>
-                <td>{x.desc}</td><td>{fmtInt(x.t.qty)}</td><td>{short(x.t.venta)}</td><td>{pct(x.t.mg)}</td>
+                <td>{x.desc}</td><td>{fmtInt(x.t.qty)}</td><td>{short(x.t.venta)}</td><td><Badge value={x.t.mg} plain margin /></td>
               </tr>
             ))}
           </tbody>
