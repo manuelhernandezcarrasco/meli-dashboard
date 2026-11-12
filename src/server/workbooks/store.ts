@@ -4,6 +4,8 @@ import { targetMonth } from "~/server/sync/rebuild";
 import { db } from "~/server/db";
 import { chunks, ensureAccount, type Db } from "~/server/store/bulk";
 import { MERCADOLIBRE } from "~/server/store/marketplace";
+import { applyExcelEvents } from "~/server/stock/cutover";
+import { getCutoverAt } from "~/server/store/stockCutover";
 import { readBase, readInputs } from "./read";
 import type { UploadKind } from "./upload";
 
@@ -13,6 +15,8 @@ export interface UploadSummary {
   uploadedAt: string;
   /** SKUs in the P&L, or direct-sale rows in the inputs file */
   rows: number;
+  /** Spanish note for the UI (S6): what this upload did NOT do because the stock ledger has taken over. */
+  notice?: string;
 }
 
 const ROWS = 1000;
@@ -136,7 +140,21 @@ export async function saveUpload(
     },
     { timeout: 60_000 },
   );
-  return { kind, fileName, uploadedAt: row.uploadedAt.toISOString(), rows };
+  const summary: UploadSummary = { kind, fileName, uploadedAt: row.uploadedAt.toISOString(), rows };
+  // After the cutover the ledger owns stock and cost (S6): a P&L upload becomes an event, and the stock
+  // receipts of an inputs file no longer move stock (invoices replace them). The legacy tables above are
+  // still written for pre-cutover history.
+  if (await getCutoverAt(ownerId)) {
+    if (cfg) {
+      const snapshot = Object.values((parsed as { base: Base }).base).map((b) => ({
+        ean: b.ean, description: b.desc, model: b.modelo, category: b.cat, unitCost: b.cu, stockFinal: b.stock,
+      }));
+      await applyExcelEvents(ownerId, snapshot, { fileName, uploadedAt: row.uploadedAt });
+    } else {
+      summary.notice = "La hoja «Ingresos Stock» se ignora para el stock: desde el corte el stock se carga con facturas. Las ventas directas y demás hojas siguen funcionando.";
+    }
+  }
+  return summary;
 }
 
 export async function listUploads(ownerId: string): Promise<UploadSummary[]> {

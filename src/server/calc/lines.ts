@@ -23,6 +23,23 @@ function fmtThousands(x: number): string {
 const pct0 = (v: number) => `${(v * 100).toFixed(0)}%`;
 const pct1 = (v: number) => `${(v * 100).toFixed(1)}%`;
 
+/**
+ * Frozen cost history of the stock ledger (S6), preloaded so the calculation stays synchronous.
+ * Only present once the account has done its cutover.
+ */
+export interface LedgerCosts {
+  cutoverAt: Date;
+  /** EAN -> inventory product. */
+  products: Map<string, { id: number; name: string; category: string }>;
+  /** Cost per unit in effect at `at` (S1 `costAt`), or null when the product has none yet. */
+  costAt: (productId: number, at: Date) => number | null;
+}
+
+export const LEDGER_COST_SOURCE = "Ledger (costo ponderado)";
+
+/** Direct sales only have a day: use its start in Argentina (UTC-3). */
+const dayStart = (isoDate: string) => new Date(`${isoDate}T00:00:00-03:00`);
+
 /** Port of `build_lines` (legacy 497–598). */
 export function buildLines(
   orders: Order[],
@@ -35,6 +52,7 @@ export function buildLines(
   m: number,
   taxes?: TaxMap,
   fuzzy?: Matcher,
+  ledger?: LedgerCosts,
 ): Line[] {
   const mgDefault: Record<string, number> = {};
   for (const [k, v] of Object.entries(cfg.margenAsumido)) mgDefault[k.toUpperCase()] = v;
@@ -52,7 +70,20 @@ export function buildLines(
     if (o.shippingId) shipRev.set(o.shippingId, (shipRev.get(o.shippingId) ?? 0) + revOf(o));
   }
 
-  const costFor = (ean: string, descFallback: string, unitPrice: number) => {
+  const costFor = (ean: string, descFallback: string, unitPrice: number, saleAt: Date) => {
+    // After the cutover the ledger owns the cost: the one in effect at the sale's instant, frozen forever.
+    if (ledger && ean && saleAt >= ledger.cutoverAt) {
+      const p = ledger.products.get(ean);
+      const cu = p ? ledger.costAt(p.id, saleAt) : null;
+      if (p && cu !== null && cu > 0) {
+        const b = base[ean];
+        return {
+          cu, source: LEDGER_COST_SOURCE, ledger: true,
+          cat: b?.cat || inputs.override[ean]?.cat || p.category || "OTRAS",
+          desc: b?.desc || p.name || descFallback,
+        };
+      }
+    }
     const ov = inputs.override[ean];
     if (ov) {
       const b = base[ean];
@@ -149,8 +180,8 @@ export function buildLines(
       const fee = saleFee - cuotas;
       const shipLine = shipO * share;
       const impLine = hasMp ? txO * share : venta * impPct;
-      const c = costFor(ean, it.title, pu);
-      const cat = ean && !(ean in base) && !(ean in inputs.override) ? "SIN MATCH" : c.cat;
+      const c = costFor(ean, it.title, pu, new Date(o.dateCreated));
+      const cat = ean && !("ledger" in c) && !(ean in base) && !(ean in inputs.override) ? "SIN MATCH" : c.cat;
       lines.push({
         date: f.date,
         time: f.time,
@@ -183,8 +214,8 @@ export function buildLines(
 
   for (const v of inputs.va) {
     if (v.date.slice(0, 7) !== `${y}-${String(m).padStart(2, "0")}`) continue;
-    const c = costFor(v.ean, v.desc, v.pu);
-    const cat = !(v.ean in base) && !(v.ean in inputs.override) ? "SIN MATCH" : c.cat;
+    const c = costFor(v.ean, v.desc, v.pu, dayStart(v.date));
+    const cat = !("ledger" in c) && !(v.ean in base) && !(v.ean in inputs.override) ? "SIN MATCH" : c.cat;
     lines.push({
       date: v.date,
       time: "",

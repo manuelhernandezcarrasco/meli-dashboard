@@ -61,6 +61,8 @@ flowchart TB
 | `enrich` (`src/server/sync/enrich.ts`) | `Shipment.sellerCost`, `Listing` (GTIN, catalog id) + `ListingVariation`, `Payment` tax columns + `PaymentTax` |
 | end of `runSync` (`src/server/sync/run.ts`) | `Listing` (title, matched EAN, search text), `SaleLine`, `Snapshot` |
 | `POST /api/upload`, `deleteUpload` (`src/server/workbooks/store.ts`) | `Upload`, `Product`, `PnlClosing`, `CostOverride`, `ProductMapping`, `DirectSale`, `StockReceipt`; drops the current month's `Snapshot` |
+| cutover (S6, `runCutover` in `src/server/stock/cutover.ts`, `stockCutover` router) | `InventorySettings.cutoverAt`; `InventoryProduct` seeded from `Product`; `initial_count` (or `excel_reset` when the opening stock is not positive) movements + `initial` cost entries, through `appendMovement` |
+| `saveUpload` after the cutover (S6) | besides the legacy tables above: `excel_reset` movements + `excel` cost entries per EAN, new EANs seeded as in the cutover; an `inputs` upload's `Ingresos Stock` no longer reaches stock |
 | `decideMatch` (`src/server/sync/matches.ts`) | `MatchDecision` |
 | OAuth callback and token refresh (`src/server/ml/tokens.ts`) | `MarketplaceConnection` |
 | market `touch` (`src/server/market/service.ts`) | `MarketScan`, `MarketOffer`, `Seller` |
