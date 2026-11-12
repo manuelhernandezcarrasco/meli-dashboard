@@ -12,7 +12,7 @@ PostgreSQL 16, managed with Prisma (`prisma/schema.prisma`, migrations in `prism
 
 ## The shape of the data
 
-Four layers, in the order a fact travels through them:
+Four layers (plus the inventory layer of section 5 in [SCHEMA.md](SCHEMA.md), written by the stock module), in the order a fact travels through them:
 
 ```mermaid
 flowchart TB
@@ -64,6 +64,15 @@ flowchart TB
 | `decideMatch` (`src/server/sync/matches.ts`) | `MatchDecision` |
 | OAuth callback and token refresh (`src/server/ml/tokens.ts`) | `MarketplaceConnection` |
 | market `touch` (`src/server/market/service.ts`) | `MarketScan`, `MarketOffer`, `Seller` |
+| `submitSales` → `saveSales` (`src/server/market/sales.ts`) | `CompetitorSale` |
+| `appendMovement` (S1, `src/server/store/stockMovements.ts`) | `StockMovement`, `ProductCostEntry`; the `onHand`, `inRepair`, `unitCost` caches of `InventoryProduct` |
+| stock product/link store (S5) | `InventoryProduct` (other columns), `ListingLink`, `ListingLinkComponent` |
+| push engine (S3) | `ListingSyncState`, `MlPushLog`; `InventoryProduct.syncMode` |
+| sales ingestion (S4) | `WebhookEvent`; movements of type `sale` / `sale_cancel` through `appendMovement`; `InventorySettings.lastReconcileAt` |
+| cutover and Excel events (S6) | `InventorySettings.cutoverAt`, `initial_count` / `excel_reset` movements, seed of `InventoryProduct` |
+| invoice service (S9) | `PurchaseInvoice`, `PurchaseInvoiceLine`; `purchase_in` movements |
+| alerts engine (S7) | `StockAlert` |
+| returns (S8) | `ReturnCase`; `return_restock`, `repair_*`, `loss` movements |
 | `rebuildAll({ refetch })` | marks `OrderPeriod`, `Shipment`, `Payment`, `Listing` fetch state stale |
 
 All database access for Mercado Libre data goes through `src/server/store/`. Do not add queries on those tables elsewhere.
@@ -81,7 +90,7 @@ All database access for Mercado Libre data goes through `src/server/store/`. Do 
 
 ## Statistics
 
-`cookbook.sql` has ten queries that were impossible or slow before: daily trend, cost breakdown per category, best/worst listings with match quality, unmatched revenue share, orders by hour, taxes by type, shipping cost by week, competitor price history, our price vs the market, and month finality.
+`cookbook.sql` has twelve queries that were impossible or slow before: daily trend, cost breakdown per category, best/worst listings with match quality, unmatched revenue share, orders by hour, taxes by type, shipping cost by week, competitor price history, our price vs the market, month finality, a product's stock ledger and its weighted-cost history.
 
 ## Commands
 

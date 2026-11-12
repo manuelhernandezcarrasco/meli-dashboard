@@ -12,6 +12,7 @@ import { MERCADOLIBRE } from "./marketplace";
 import {
   getCatalogId, readListings, saveCatalogIds, saveGtins, saveListingMatches, searchListings, setCatalogId,
 } from "./listings";
+import { readCompetitorSales, saveCompetitorSales } from "./competitorSales";
 import { loadLatestScan, saveScan } from "./market";
 import { isPeriodFinal, loadOrdersMonth, markPeriod, saveOrders } from "./orders";
 import { readPaymentTaxes, savePaymentTaxes } from "./payments";
@@ -319,5 +320,16 @@ describe("marketplace dimension", () => {
     await replaceSaleLines(A, ML, "2026-09", [line(), line({ channel: "VA", itemId: "", ean: "", time: "" })]);
     const rows = await db.saleLine.findMany({ where: { accountId: A }, orderBy: { lineNo: "asc" }, select: { channel: true, marketplace: true } });
     expect(rows).toEqual([{ channel: "marketplace", marketplace: "mercadolibre" }, { channel: "direct", marketplace: null }]);
+  });
+});
+
+describe("competitor sales", () => {
+  it("keeps the latest reading per listing, upper-cases ids and never crosses tenants", async () => {
+    await saveCompetitorSales(A, ML, [{ itemId: "mla1", sold: 50, nickname: "VENDEDOR" }, { itemId: "MLA2", sold: 5, nickname: null }]);
+    await saveCompetitorSales(A, ML, [{ itemId: "MLA1", sold: 100, nickname: "VENDEDOR" }]);
+    const got = await readCompetitorSales(A, ML, ["MLA1", "MLA2", "MLA3"]);
+    expect([...got.values()].map((r) => [r.itemId, r.sold, r.nickname]).sort()).toEqual([["MLA1", 100, "VENDEDOR"], ["MLA2", 5, null]]);
+    expect((await readCompetitorSales(B, ML, ["MLA1"])).size).toBe(0);
+    expect((await readCompetitorSales(A, ML, [])).size).toBe(0);
   });
 });

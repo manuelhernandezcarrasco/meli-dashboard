@@ -66,6 +66,115 @@ enum OfferExclusion {
   cap
 }
 
+/// Why an InventoryProduct's stock changed. The sign of StockMovement.quantity says the direction.
+enum MovementType {
+  /// Opening stock counted at cutover (or when a product is switched live).
+  initial_count
+  /// Goods received through a confirmed purchase invoice.
+  purchase_in
+  /// Units sold on a marketplace.
+  sale
+  /// A sale cancelled before shipping: units go back.
+  sale_cancel
+  /// A returned unit confirmed as sellable again.
+  return_restock
+  /// Moved from the repair bucket back to sellable stock.
+  repair_in
+  /// Moved from sellable stock into the repair bucket.
+  repair_out
+  /// Units written off (lost, broken, returned and not recoverable).
+  loss
+  /// Manual correction by the user.
+  manual_adjust
+  /// Stock set by an Excel upload after cutover (acts as a correction event).
+  excel_reset
+}
+
+/// Whether ML pushes for a product are only logged or really sent.
+enum SyncMode {
+  dry_run
+  live
+}
+
+/// Kinds of StockAlert.
+enum AlertType {
+  low_stock
+  out_of_stock
+  negative_stock
+  push_failed
+  stock_drift
+  margin_drop
+  unmatched_sale
+  suggested_match
+  auto_match
+  missing_cost
+  unmatched_listing
+  link_cost_review
+}
+
+/// Lifecycle of a StockAlert.
+enum AlertStatus {
+  open
+  acknowledged
+  resolved
+}
+
+/// Lifecycle of a PurchaseInvoice. Nothing touches stock while it is a draft.
+enum InvoiceStatus {
+  draft
+  applied
+  voided
+}
+
+/// What was decided for a returned unit.
+enum ReturnOutcome {
+  pending
+  lost
+  in_repair
+  restocked
+}
+
+/// Result of one stock push to a marketplace.
+enum PushResult {
+  dry_run
+  ok
+  failed
+  skipped
+}
+
+/// How an invoice line was tied to a product.
+enum LineResolution {
+  auto_ean
+  manual_match
+  created_product
+  unresolved
+}
+
+/// Why a ProductCostEntry was written.
+enum CostReason {
+  invoice
+  excel
+  initial
+  manual
+}
+
+/// Per-listing push state.
+enum SyncStatus {
+  never
+  in_sync
+  drift
+  failed
+}
+
+/// What caused a push.
+enum PushTrigger {
+  sale
+  invoice
+  adjust
+  reconcile
+  manual
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // 1. Tenancy and connection
 // ─────────────────────────────────────────────────────────────────────────────
@@ -94,6 +203,21 @@ model Account {
   saleLines      SaleLine[]
   snapshots      Snapshot[]
   marketScans    MarketScan[]
+
+  inventoryProducts InventoryProduct[]
+  stockMovements    StockMovement[]
+  costEntries       ProductCostEntry[]
+  purchaseInvoices  PurchaseInvoice[]
+  invoiceLines      PurchaseInvoiceLine[]
+  listingLinks      ListingLink[]
+  linkComponents    ListingLinkComponent[]
+  syncStates        ListingSyncState[]
+  pushLogs          MlPushLog[]
+  stockAlerts       StockAlert[]
+  returnCases       ReturnCase[]
+  webhookEvents     WebhookEvent[]
+  inventorySettings InventorySettings?
+  competitorSales   CompetitorSale[]
 }
 
 /// The user's OAuth link to one marketplace (replaces MlToken). Refresh tokens are single use, so the
@@ -429,8 +553,9 @@ model OrderItem {
   /// Marketplace fee per unit (includes the financing fee, see Payment.financingFee).
   saleFee           Decimal     @db.Decimal(16, 4)
 
-  order   Order   @relation(fields: [accountId, marketplace, orderId], references: [accountId, marketplace, orderId], onDelete: Cascade)
-  listing Listing @relation(fields: [accountId, marketplace, itemId], references: [accountId, marketplace, itemId], onDelete: NoAction)
+  order   Order        @relation(fields: [accountId, marketplace, orderId], references: [accountId, marketplace, orderId], onDelete: Cascade)
+  listing Listing      @relation(fields: [accountId, marketplace, itemId], references: [accountId, marketplace, itemId], onDelete: NoAction)
+  returns ReturnCase[]
 
   @@id([accountId, marketplace, orderId, lineNo])
   @@index([accountId, marketplace, itemId])
@@ -650,6 +775,25 @@ model MarketOffer {
   @@index([sellerId])
 }
 
+/// Units another seller's listing has sold, read by the user's browser collector from the public
+/// listing page (the API does not disclose it). Latest reading per listing; feeds the market regressions.
+model CompetitorSale {
+  accountId   String
+  marketplace Marketplace
+  /// Competitor's listing id (upper case).
+  itemId      String
+  /// Units sold as shown on the listing page.
+  sold        Int
+  /// Seller nickname shown on the page, if any.
+  nickname    String?
+  /// When the collector sent the reading.
+  collectedAt DateTime    @default(now()) @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, marketplace, itemId])
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // DEPRECATED legacy tables. Their data was copied into the tables above by migration
 // 20261112000000_normalize_schema and nothing reads or writes them any more. They are dropped by
@@ -696,4 +840,346 @@ model MarketResearch {
   fetchedAt        DateTime
 
   @@id([ownerId, catalogProductId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 5. Inventory (stock ledger, cost, purchases, listing links, ML push, alerts, returns)
+//    Surrogate ids: `id BigInt @default(autoincrement())` inside a tenant-first primary key
+//    `(accountId, id)`, so composite foreign keys `(accountId, …Id)` still work.
+//    Design: docs/tickets/stock/PLAN.md
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// A product we hold in stock: the permanent master of what we buy and sell (unlike `Product`, the
+/// P&L close snapshot replaced by each upload). `onHand`, `inRepair` and `unitCost` are caches derived
+/// from StockMovement / ProductCostEntry and are only changed by `appendMovement`. Archive, never delete.
+model InventoryProduct {
+  id         BigInt    @default(autoincrement())
+  accountId  String
+  /// GTIN-13. Unique per account when set; products without one are matched by hand.
+  ean        String?
+  sku        String?
+  name       String
+  model      String    @default("")
+  category   String    @default("")
+  /// Optional minimum units that overrides the day-based low-stock thresholds.
+  minUnits   Decimal?  @db.Decimal(14, 3)
+  /// Sellable units. Can go negative (raises an alert); marketplaces only ever receive max(0, onHand).
+  onHand     Decimal   @default(0) @db.Decimal(14, 3)
+  /// Units in the repair bucket (not sellable).
+  inRepair   Decimal   @default(0) @db.Decimal(14, 3)
+  /// Current moving weighted-average cost per unit, gross (taxes not netted out), ARS.
+  unitCost   Decimal   @default(0) @db.Decimal(16, 4)
+  /// `dry_run` = pushes to the marketplace are logged only; `live` = really sent.
+  syncMode   SyncMode  @default(dry_run)
+  archivedAt DateTime? @db.Timestamptz(3)
+  createdAt  DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime  @default(now()) @updatedAt @db.Timestamptz(3)
+
+  account    Account                @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  movements  StockMovement[]
+  costs      ProductCostEntry[]
+  lines      PurchaseInvoiceLine[]
+  components ListingLinkComponent[]
+  alerts     StockAlert[]
+  returns    ReturnCase[]
+
+  @@id([accountId, id])
+  @@unique([accountId, ean])
+  @@index([accountId, category])
+}
+
+/// Append-only stock ledger. One row per stock event; never updated or deleted. `onHand` of the
+/// product is the running sum. Idempotent through `idempotencyKey`.
+model StockMovement {
+  id             BigInt       @default(autoincrement())
+  accountId      String
+  productId      BigInt
+  type           MovementType
+  /// Signed units: positive = in, negative = out.
+  quantity       Decimal      @db.Decimal(14, 3)
+  /// When it happened in the real world (sale date, invoice date, ...).
+  occurredAt     DateTime     @db.Timestamptz(3)
+  /// When we wrote the row.
+  recordedAt     DateTime     @default(now()) @db.Timestamptz(3)
+  /// Product `onHand` right after this movement.
+  onHandAfter    Decimal      @db.Decimal(14, 3)
+  /// Weighted-average cost right after this movement.
+  unitCostAfter  Decimal      @db.Decimal(16, 4)
+  /// Caller-chosen key that makes the write safe to repeat, e.g. `sale:MLA:123:0`, `invoice:42:3`.
+  idempotencyKey String
+  /// Kind of the thing that caused it: `order`, `invoice`, `return`, `excel`, `cutover`, ...
+  refType        String?
+  /// Id of that thing (an order line is `<orderId>:<lineNo>`).
+  refId          String?
+  reason         String?
+  /// Who caused it: `system`, `user` or `webhook`.
+  actor          String
+
+  account Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  product InventoryProduct @relation(fields: [accountId, productId], references: [accountId, id], onDelete: NoAction)
+
+  @@id([accountId, id])
+  @@unique([accountId, idempotencyKey])
+  @@index([accountId, productId, occurredAt(sort: Desc)])
+  @@index([accountId, refType, refId])
+}
+
+/// Cost history of a product, used to freeze the cost of a sale at the moment it happened:
+/// the cost of a sale is the latest entry with `effectiveFrom <= sale time`.
+model ProductCostEntry {
+  id             BigInt     @default(autoincrement())
+  accountId      String
+  productId      BigInt
+  effectiveFrom  DateTime   @db.Timestamptz(3)
+  /// Weighted-average cost from `effectiveFrom` on, ARS, gross.
+  unitCost       Decimal    @db.Decimal(16, 4)
+  /// Stock on hand when the cost changed (the weight of the old cost).
+  onHandAtChange Decimal    @db.Decimal(14, 3)
+  reason         CostReason
+  refType        String?
+  refId          String?
+  note           String?
+
+  account Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  product InventoryProduct @relation(fields: [accountId, productId], references: [accountId, id], onDelete: NoAction)
+
+  @@id([accountId, id])
+  @@index([accountId, productId, effectiveFrom(sort: Desc)])
+}
+
+/// A supplier invoice. Parsed into `draft`, reviewed by the user, and only `applied` writes stock and cost.
+/// `feeFactor = total / subtotal` spreads taxes and perceptions over every line (gross landed cost).
+model PurchaseInvoice {
+  id                  BigInt        @default(autoincrement())
+  accountId           String
+  supplierName        String
+  /// Supplier CUIT. Part of the duplicate-invoice guard.
+  supplierTaxId       String
+  /// Invoice number as printed, e.g. `0225-00085935`.
+  number              String
+  issueDate           DateTime      @db.Date
+  currency            String        @default("ARS")
+  subtotal            Decimal       @db.Decimal(16, 4)
+  ivaAmount           Decimal       @default(0) @db.Decimal(16, 4)
+  perceptionsAmount   Decimal       @default(0) @db.Decimal(16, 4)
+  otherTaxesAmount    Decimal       @default(0) @db.Decimal(16, 4)
+  total               Decimal       @db.Decimal(16, 4)
+  /// Multiplier applied to every line's net price to get its landed unit cost.
+  feeFactor           Decimal       @db.Decimal(12, 8)
+  /// True when the user edited `feeFactor` in the review screen.
+  feeFactorOverridden Boolean       @default(false)
+  status              InvoiceStatus @default(draft)
+  appliedAt           DateTime?     @db.Timestamptz(3)
+  createdAt           DateTime      @default(now()) @db.Timestamptz(3)
+  /// Uploaded PDF file name (display only; the file itself is not kept).
+  sourceFileName      String
+
+  account Account               @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  lines   PurchaseInvoiceLine[]
+
+  @@id([accountId, id])
+  @@unique([accountId, supplierTaxId, number])
+}
+
+/// One line of a PurchaseInvoice, with the product it was resolved to (once resolved).
+model PurchaseInvoiceLine {
+  accountId      String
+  invoiceId      BigInt
+  /// 1-based position on the invoice.
+  lineNo         Int
+  /// Supplier's own code for the item.
+  supplierCode   String         @default("")
+  /// Normalized GTIN-13 read from the line, if any.
+  ean            String?
+  description    String
+  quantity       Decimal        @db.Decimal(14, 3)
+  unitPrice      Decimal        @db.Decimal(16, 4)
+  discount       Decimal        @default(0) @db.Decimal(16, 4)
+  lineSubtotal   Decimal        @db.Decimal(16, 4)
+  /// `unitPrice` after discount times the invoice's `feeFactor`.
+  landedUnitCost Decimal        @db.Decimal(16, 4)
+  productId      BigInt?
+  resolution     LineResolution @default(unresolved)
+
+  invoice PurchaseInvoice   @relation(fields: [accountId, invoiceId], references: [accountId, id], onDelete: Cascade)
+  product InventoryProduct? @relation(fields: [accountId, productId], references: [accountId, id], onDelete: NoAction)
+  account Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, invoiceId, lineNo])
+  @@index([accountId, productId])
+}
+
+/// Ties a marketplace listing (or one of its variations) to what we stock. The unique index on
+/// `(accountId, marketplace, itemId, COALESCE(variationId, 0))` lives only in the migration (NULL counts
+/// as one value). `itemId` is a soft reference to `Listing` (a link may exist before the listing is synced).
+model ListingLink {
+  id          BigInt      @default(autoincrement())
+  accountId   String
+  marketplace Marketplace
+  /// Listing id, upper case.
+  itemId      String
+  /// Null = the whole listing; set = that variation.
+  variationId BigInt?
+  createdAt   DateTime    @default(now()) @db.Timestamptz(3)
+
+  account    Account                @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  components ListingLinkComponent[]
+  syncState  ListingSyncState?
+
+  @@id([accountId, id])
+  @@index([accountId, marketplace, itemId])
+}
+
+/// A (product, quantity) a link is made of. A simple listing has one component with quantity 1; a combo has several.
+/// Available quantity of the link = min over components of floor(onHand / quantity).
+model ListingLinkComponent {
+  accountId String
+  linkId    BigInt
+  productId BigInt
+  /// Units of the product consumed by one unit of the listing.
+  quantity  Decimal @default(1) @db.Decimal(14, 3)
+
+  account Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  link    ListingLink      @relation(fields: [accountId, linkId], references: [accountId, id], onDelete: Cascade)
+  product InventoryProduct @relation(fields: [accountId, productId], references: [accountId, id], onDelete: NoAction)
+
+  @@id([accountId, linkId, productId])
+  @@index([accountId, productId])
+}
+
+/// What we last saw and last pushed for one link.
+model ListingSyncState {
+  accountId         String
+  linkId            BigInt
+  /// `available_quantity` last read from the marketplace.
+  lastObservedMlQty Int?
+  lastObservedAt    DateTime?  @db.Timestamptz(3)
+  lastPushedQty     Int?
+  lastPushedAt      DateTime?  @db.Timestamptz(3)
+  status            SyncStatus @default(never)
+  lastError         String?
+
+  account Account     @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  link    ListingLink @relation(fields: [accountId, linkId], references: [accountId, id], onDelete: Cascade)
+
+  @@id([accountId, linkId])
+}
+
+/// Append-only log of every stock push attempt (also the dry-run ones).
+model MlPushLog {
+  id            BigInt      @default(autoincrement())
+  accountId     String
+  marketplace   Marketplace
+  itemId        String
+  variationId   BigInt?
+  /// Quantity we asked the marketplace to set.
+  requestedQty  Int
+  /// Quantity the marketplace had before, when known.
+  previousMlQty Int?
+  mode          SyncMode
+  result        PushResult
+  httpStatus    Int?
+  error         String?
+  triggerType   PushTrigger
+  /// What triggered it (order id, invoice id, ...).
+  triggerRef    String?
+  createdAt     DateTime    @default(now()) @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId, id])
+  @@index([accountId, marketplace, itemId, createdAt(sort: Desc)])
+}
+
+/// Something the user must look at. `dedupeKey` is unique per account while the alert is not resolved
+/// (partial unique index in the migration), so raising the same alert twice updates one row.
+model StockAlert {
+  id             BigInt       @default(autoincrement())
+  accountId      String
+  type           AlertType
+  status         AlertStatus  @default(open)
+  productId      BigInt?
+  marketplace    Marketplace?
+  itemId         String?
+  /// Identity of the situation, e.g. `low_stock:<productId>`.
+  dedupeKey      String
+  title          String
+  detail         String       @default("")
+  /// Numeric context (units, days of coverage, ...).
+  quantity       Decimal?     @db.Decimal(14, 3)
+  /// Numeric context in ARS (cost, margin, ...).
+  amount         Decimal?     @db.Decimal(16, 4)
+  createdAt      DateTime     @default(now()) @db.Timestamptz(3)
+  acknowledgedAt DateTime?    @db.Timestamptz(3)
+  resolvedAt     DateTime?    @db.Timestamptz(3)
+  /// How it was resolved: `auto` (condition cleared) or free text from the user.
+  resolution     String?
+
+  account Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  product InventoryProduct? @relation(fields: [accountId, productId], references: [accountId, id], onDelete: NoAction)
+
+  @@id([accountId, id])
+  @@index([accountId, status, type])
+}
+
+/// A returned unit waiting for a decision (never restocked automatically).
+model ReturnCase {
+  id          BigInt        @default(autoincrement())
+  accountId   String
+  marketplace Marketplace
+  orderId     BigInt
+  /// Position of the order line (same as OrderItem.lineNo).
+  lineNo      Int
+  productId   BigInt
+  quantity    Decimal       @db.Decimal(14, 3)
+  outcome     ReturnOutcome @default(pending)
+  reason      String?
+  openedAt    DateTime      @default(now()) @db.Timestamptz(3)
+  resolvedAt  DateTime?     @db.Timestamptz(3)
+  note        String?
+
+  account   Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  product   InventoryProduct @relation(fields: [accountId, productId], references: [accountId, id], onDelete: NoAction)
+  orderItem OrderItem        @relation(fields: [accountId, marketplace, orderId, lineNo], references: [accountId, marketplace, orderId, lineNo], onDelete: NoAction)
+
+  @@id([accountId, id])
+  @@unique([accountId, marketplace, orderId, lineNo])
+}
+
+/// Inbox of marketplace notifications (webhooks). The tenant is not known until the notification is
+/// resolved, so `accountId` is nullable and the key is a plain surrogate id (the one exception to
+/// tenant-first keys). Exact duplicates are dropped through `externalEventId` or, without it, the topic/resource/receivedAt key.
+model WebhookEvent {
+  id              BigInt      @id @default(autoincrement())
+  accountId       String?
+  marketplace     Marketplace
+  /// Notification topic, e.g. `orders_v2`.
+  topic           String
+  /// Resource path the notification points to, e.g. `/orders/123`.
+  resource        String
+  /// Id the marketplace gave the notification, when it gives one.
+  externalEventId String?
+  receivedAt      DateTime    @default(now()) @db.Timestamptz(3)
+  processedAt     DateTime?   @db.Timestamptz(3)
+  error           String?
+
+  account Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([marketplace, externalEventId])
+  @@unique([marketplace, topic, resource, receivedAt])
+  @@index([processedAt])
+}
+
+/// Per-account inventory configuration.
+model InventorySettings {
+  accountId       String
+  /// Moment the ledger took over from the Excel; null = cutover not done yet.
+  cutoverAt       DateTime? @db.Timestamptz(3)
+  /// Sync mode given to new products.
+  defaultSyncMode SyncMode  @default(dry_run)
+  lastReconcileAt DateTime? @db.Timestamptz(3)
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@id([accountId])
 }

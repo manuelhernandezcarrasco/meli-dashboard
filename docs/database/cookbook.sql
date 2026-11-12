@@ -69,3 +69,20 @@ ORDER BY s."catalogProductId", s."fetchedAt" DESC;
 
 -- 10. Which stored months are final, and how many orders each holds
 SELECT month, "isFinal", "orderCount", "fetchedAt" FROM "OrderPeriod" WHERE "accountId" = 'user_2legacyAAA' ORDER BY month;
+
+-- 11. Stock ledger of one product, newest first, with the running stock and cost after each event
+SELECT m."occurredAt", m."type", m."quantity", m."onHandAfter", m."unitCostAfter", m."refType", m."refId", m."actor"
+FROM "StockMovement" m
+WHERE m."accountId" = 'user_2legacyAAA' AND m."productId" = 1
+ORDER BY m."occurredAt" DESC, m."id" DESC;
+
+-- 12. Weighted-cost history of a product, and the cost frozen for a sale at a given instant
+SELECT c."effectiveFrom", c."unitCost", c."onHandAtChange", c."reason", c."refType", c."refId"
+FROM "ProductCostEntry" c
+WHERE c."accountId" = 'user_2legacyAAA' AND c."productId" = 1
+ORDER BY c."effectiveFrom" DESC;
+
+SELECT c."unitCost" AS cost_at_sale
+FROM "ProductCostEntry" c
+WHERE c."accountId" = 'user_2legacyAAA' AND c."productId" = 1 AND c."effectiveFrom" <= '2026-11-05 15:00+00'
+ORDER BY c."effectiveFrom" DESC LIMIT 1;
