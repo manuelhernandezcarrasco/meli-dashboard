@@ -1,23 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import type { DashboardData } from "~/lib/contracts";
 import {
   accumSeries, categories as listCategories, categoryTable, computeDashboard, dailySeries,
-  filterRows, footnote, freshness, salesFeed, stockCounts, stockRows, STOCK_STATES,
-  topProducts, waterfall, type Channel, type StockState,
+  filterRows, footnote, freshness, salesFeed, topProducts, waterfall, type Channel,
 } from "~/lib/dashboard-math";
+import { AlertsBadge } from "../shell/AlertsBadge";
 import { AccumChart, DailyChart, Waterfall } from "./charts";
 import { Header } from "./Header";
 import { KpiRow } from "./Kpi";
-import type { MarketSearch } from "./MarketSearchBox";
-import { Alerts, type MatchDecisionInput, CategoryTable, SalesFeed, StockTable, TopProducts } from "./tables";
+import { CategoryTable, SalesFeed, TopProducts } from "./tables";
 
 
 const FILTER_KEY = "pnlf";
-const STATE_KEY = "pnlest";
-const DEFAULT_STATES: StockState[] = ["Vendido sin stock", "Agotado", "Crítico", "Bajo"];
 
 function readStorage<T>(key: string): T | null {
   try {
@@ -36,18 +33,20 @@ function writeStorage(key: string, value: unknown) {
 }
 
 /** Presentational dashboard: everything it shows comes from `data`. */
-export function Dashboard({ data, demo = false, actions, banner, onMatchDecision, matchPending = false, marketSearch }: {
+export function Dashboard({ data, demo = false, actions, banner }: {
   data: DashboardData;
   demo?: boolean;
   actions?: ReactNode;
   banner?: ReactNode;
-  onMatchDecision?: (d: MatchDecisionInput) => void;
+  /** @deprecated unused since the alerts card moved to /stock/alerts; kept so the page container still compiles. */
+  onMatchDecision?: (d: { itemId: string; ean: string; decision: "confirmed" | "rejected" }) => void;
+  /** @deprecated see `onMatchDecision`. */
   matchPending?: boolean;
-  marketSearch?: MarketSearch;
+  /** @deprecated unused since the stock table left the dashboard. */
+  marketSearch?: unknown;
 }) {
   const [channel, setChannel] = useState<Channel>("all");
   const [cat, setCat] = useState("all");
-  const [states, setStates] = useState<ReadonlySet<StockState>>(new Set(DEFAULT_STATES));
   const [now, setNow] = useState<number | null>(null);
 
   const cats = useMemo(() => listCategories(data), [data]);
@@ -57,8 +56,6 @@ export function Dashboard({ data, demo = false, actions, banner, onMatchDecision
     const f = readStorage<{ canal?: Channel; cat?: string }>(FILTER_KEY);
     if (f?.canal && ["all", "ML", "VA"].includes(f.canal)) setChannel(f.canal);
     if (f?.cat) setCat(f.cat);
-    const s = readStorage<string[]>(STATE_KEY);
-    if (Array.isArray(s)) setStates(new Set(s.filter((x): x is StockState => (STOCK_STATES as readonly string[]).includes(x))));
   }, []);
 
   useEffect(() => {
@@ -78,16 +75,6 @@ export function Dashboard({ data, demo = false, actions, banner, onMatchDecision
     setCat(c);
     writeStorage(FILTER_KEY, { canal: channel, cat: c });
   };
-  const toggleState = useCallback((s: StockState) => {
-    setStates((prev) => {
-      const next = new Set(prev);
-      if (next.has(s)) next.delete(s);
-      else next.add(s);
-      writeStorage(STATE_KEY, [...next]);
-      return next;
-    });
-  }, []);
-
   const view = useMemo(() => {
     const rows = filterRows(data, channel, effectiveCat);
     const d = computeDashboard(data, channel, effectiveCat);
@@ -103,7 +90,6 @@ export function Dashboard({ data, demo = false, actions, banner, onMatchDecision
   }, [data, channel, effectiveCat]);
 
   const fresh = now === null ? null : freshness(data, now);
-  const prevMonth = data.comp.prevLabel.split(" ")[0] ?? data.comp.prevLabel;
   const { d } = view;
 
   return (
@@ -123,6 +109,7 @@ export function Dashboard({ data, demo = false, actions, banner, onMatchDecision
         actions={actions}
       />
       {banner}
+      <AlertsBadge />
 
       <KpiRow block={d.kHoy} />
       <KpiRow block={d.kMes} />
@@ -136,21 +123,10 @@ export function Dashboard({ data, demo = false, actions, banner, onMatchDecision
           monthLabel={data.monthLabel} showPrev={d.full} />
         <CategoryTable rows={view.cats.rows} total={view.cats.total} />
       </div>
-      <div className="mt-3 grid gap-3 min-[1000px]:grid-cols-3">
+      <div className="mt-3 grid gap-3 min-[1000px]:grid-cols-2">
         <SalesFeed rows={view.feed} />
         <TopProducts rows={view.top} />
-        <Alerts data={data} assumed={d.mes.assumed} onMatchDecision={onMatchDecision} matchPending={matchPending} />
       </div>
-
-      <StockTable
-        data={data}
-        rows={stockRows(data.stock, effectiveCat, states)}
-        counts={stockCounts(data.stock, effectiveCat)}
-        selected={states}
-        onToggle={toggleState}
-        prevMonth={prevMonth}
-        marketSearch={marketSearch}
-      />
 
       <footer className="mt-[22px] text-xs leading-relaxed text-mut">{footnote(data)}</footer>
     </div>
