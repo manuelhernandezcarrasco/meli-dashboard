@@ -86,3 +86,15 @@ export async function coverage(accountId: string, productId: number, now = new D
   const [f] = await readStockFacts(accountId, w.window, productId);
   return f ? coverageOf(f, w, loadBusinessConfig().reposicionDias) : null;
 }
+
+/** Units sold per day for each product (this month so far, else last month's average) from one set-based read. */
+export async function dailyRates(accountId: string, productIds: number[], now = new Date()): Promise<Map<number, number | null>> {
+  const w = factsWindow(now);
+  const cfg = loadBusinessConfig();
+  const wanted = new Set(productIds);
+  const out = new Map<number, number | null>(productIds.map((id) => [id, null]));
+  for (const f of await readStockFacts(accountId, w.window)) {
+    if (wanted.has(f.productId)) out.set(f.productId, coverageOf(f, w, cfg.reposicionDias).rate);
+  }
+  return out;
+}

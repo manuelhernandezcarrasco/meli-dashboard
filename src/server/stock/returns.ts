@@ -1,7 +1,11 @@
 import type { Marketplace, ReturnOutcome } from "~/lib/stock-contracts";
+import { returnsStore } from "~/server/store/stockReturns";
+import { evaluateProducts } from "./alerts";
 import {
   StockError, type LedgerService, type PushService,
 } from "./contracts";
+import { appendMovement } from "./ledger";
+import { requestPush } from "./push";
 
 /**
  * Returns domain (S8). A returned unit never touches stock by itself: a person resolves each case.
@@ -163,16 +167,15 @@ export type ReturnsService = ReturnType<typeof createReturnsService>;
 
 let configured: ReturnsService | undefined;
 
-/**
- * Composition root hook: whoever assembles the stock module (S1 ledger, S3 push, S7 alerts) calls this once
- * with the real services. Until then the router fails loudly instead of guessing.
- */
+/** Test seam: replaces the service `getReturnsService` returns. Production needs no call: the defaults are the real services. */
 export function configureReturnsService(deps: ReturnsDeps): ReturnsService {
   configured = createReturnsService(deps);
   return configured;
 }
 
+/** The returns service wired with the real ledger (S1), push engine (S3) and alert evaluator (S7). */
 export function getReturnsService(): ReturnsService {
-  if (!configured) throw new Error("Returns service is not configured: call configureReturnsService() with the ledger, push and alert services");
-  return configured;
+  return (configured ??= createReturnsService({
+    store: returnsStore, ledger: { appendMovement }, push: { requestPush }, alerts: { evaluateProducts },
+  }));
 }

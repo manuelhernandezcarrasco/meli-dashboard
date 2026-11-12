@@ -13,6 +13,10 @@ import {
   deleteLink, getTarget, hasUnlinkedTarget, listUnlinkedTargets, replaceLink, type ListingTarget,
 } from "~/server/store/stockLinks";
 import { MERCADOLIBRE } from "~/server/store/marketplace";
+import { raiseAlert, resolveAlert } from "./alerts";
+import { dailyRates } from "./forecast";
+import { appendMovement } from "./ledger";
+import { pendingSalesCount } from "./sales";
 import {
   StockError, type AlertService, type DecimalInput, type LedgerService, type LinkListingArgs,
 } from "./contracts";
@@ -32,11 +36,11 @@ export interface UnlinkedListing {
   variations: { variationId: number; gtin: string }[];
 }
 
-/** Collaborators owned by other tickets; injected so this one works (and is tested) before they merge. */
+/** Collaborators owned by other tickets (defaults are the real services); injectable for tests. */
 export interface LinkingDeps {
   /** S7. */
   alerts: Pick<AlertService, "raiseAlert" | "resolveAlert">;
-  /** S4: number of paid sales of this listing parked for lack of a link. Until S4 merges nothing is pending. */
+  /** S4: number of paid sales of this listing parked for lack of a link. */
   pendingSales: (accountId: string, itemId: string, variationId: number | null) => Promise<number>;
 }
 
@@ -47,28 +51,19 @@ export interface StockServices {
   dailyRates: (accountId: string, productIds: number[]) => Promise<Map<number, number | null>>;
 }
 
-const unwired = (what: string) => () => { throw new Error(`${what} is not wired yet (waiting for its ticket to merge)`); };
-let warned = false;
-
 const defaultDeps: LinkingDeps = {
-  alerts: {
-    raiseAlert: async () => {
-      if (!warned) { warned = true; console.warn("[stock] AlertService (S7) not wired: alerts are dropped"); }
-      return { alertId: 0, created: false };
-    },
-    resolveAlert: async () => undefined,
-  },
-  pendingSales: async () => 0,
+  alerts: { raiseAlert, resolveAlert },
+  pendingSales: pendingSalesCount,
 };
 
 const defaultServices: StockServices = {
-  ledger: { appendMovement: unwired("LedgerService (S1)") as unknown as LedgerService["appendMovement"] },
-  dailyRates: async (_a, ids) => new Map(ids.map((i) => [i, null])),
+  ledger: { appendMovement },
+  dailyRates,
 };
 
 let deps: LinkingDeps = defaultDeps;
 let services: StockServices = defaultServices;
-/** Wiring point for the integration step (X1 / whoever merges S1, S4, S7). */
+/** Test seam: production uses the real ledger, alerts, sales and forecast by default. */
 export function configureStock(next: { linking?: Partial<LinkingDeps>; services?: Partial<StockServices> }): void {
   deps = { ...deps, ...next.linking };
   services = { ...services, ...next.services };

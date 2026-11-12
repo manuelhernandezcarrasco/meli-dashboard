@@ -15,6 +15,8 @@ import {
   StockError,
   type AlertService, type AppendMovementInput, type AvailableQuantity, type LedgerService, type PushTriggerInfo,
 } from "./contracts";
+import { raiseAlert, resolveAlert } from "./alerts";
+import { appendMovement, availableQuantity } from "./ledger";
 
 const MAX_ATTEMPTS = 3;
 const driftKey = (linkId: number) => `drift:${linkId}`;
@@ -33,29 +35,6 @@ export interface PushDeps {
   sleep: (ms: number) => Promise<void>;
 }
 
-/**
- * TEMPORARY until S1 (ledger) merges: same contract as the real pure function (min over components of
- * floor(onHand / quantity), empty -> 0). Replace with the import from "./ledger" and delete this.
- */
-const localAvailableQuantity: AvailableQuantity = (components) => {
-  if (components.length === 0) return 0;
-  return Math.min(
-    ...components.map((c) => new Prisma.Decimal(c.onHand).div(new Prisma.Decimal(c.quantity)).floor().toNumber()),
-  );
-};
-
-/** TEMPORARY until S7 (alerts) merges: no alert table writer exists yet, so surface it in the server log. */
-const localRaiseAlert: PushDeps["raiseAlert"] = (i) => {
-  console.warn(`[stock-alert] ${i.type} ${i.dedupeKey}: ${i.title}`);
-  return Promise.resolve({ alertId: 0, created: false });
-};
-const localResolveAlert: PushDeps["resolveAlert"] = () => Promise.resolve();
-
-/** TEMPORARY until S1 (ledger) merges. */
-const localAppendMovement: PushDeps["appendMovement"] = () => {
-  throw new StockError("INVALID_QUANTITY", "El libro de stock (S1) todavía no está integrado");
-};
-
 const realSleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
 export const defaultDeps: PushDeps = {
@@ -63,10 +42,10 @@ export const defaultDeps: PushDeps = {
     getItemsStock: (accountId, ids) => getItemsStock(accountId, ids),
     setAvailableQuantity: (a) => setAvailableQuantity(a),
   },
-  availableQuantity: localAvailableQuantity,
-  raiseAlert: localRaiseAlert,
-  resolveAlert: localResolveAlert,
-  appendMovement: localAppendMovement,
+  availableQuantity,
+  raiseAlert,
+  resolveAlert,
+  appendMovement,
   sleep: realSleep,
 };
 

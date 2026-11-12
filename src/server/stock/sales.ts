@@ -9,7 +9,6 @@ import { mlFetch } from "~/server/ml/http";
 import { tokenAuthFor } from "~/server/ml/tokens";
 import { saveOrders } from "~/server/store/orders";
 import { MERCADOLIBRE } from "~/server/store/marketplace";
-import { returnsStore } from "~/server/store/stockReturns";
 import { findLink } from "~/server/store/stockLinks";
 import {
   readPendingLines, readSalesOrder, readSalesSettings, readSaleMovements, reconcilableAccounts, saleRef,
@@ -17,10 +16,10 @@ import {
 } from "~/server/store/stockSales";
 import type { Actor } from "~/lib/stock-contracts";
 import type { AlertService, LedgerService, PushService } from "./contracts";
-import { raiseAlert, resolveAlert } from "./alerts";
+import { evaluateAlerts, raiseAlert, resolveAlert } from "./alerts";
 import { appendMovement } from "./ledger";
 import { compareWithMl, requestPush } from "./push";
-import { createReturnsService } from "./returns";
+import { getReturnsService } from "./returns";
 
 const API = "https://api.mercadolibre.com";
 const DAY_MS = 86_400_000;
@@ -42,6 +41,7 @@ export interface SalesDeps {
   requestPush: PushService["requestPush"];
   compareWithMl(accountId: string): Promise<unknown>;
   openReturn(i: { accountId: string; orderId: number; lineNo: number; productId: number; quantity: number; reason?: string }): Promise<unknown>;
+  evaluateAlerts(accountId: string): Promise<unknown>;
   now(): Date;
 }
 
@@ -87,13 +87,8 @@ const defaultDeps: SalesDeps = {
   resolveAlert,
   requestPush,
   compareWithMl,
-  // S8's service; only its store is needed to open a case
-  openReturn: (i) => createReturnsService({
-    store: returnsStore,
-    ledger: { appendMovement },
-    push: { requestPush },
-    alerts: { evaluateProducts: async () => undefined },
-  }).openReturn(i),
+  openReturn: (i) => getReturnsService().openReturn(i),
+  evaluateAlerts: (a) => evaluateAlerts(a),
   now: () => new Date(),
 };
 
@@ -165,6 +160,12 @@ export function createSales(over: Partial<SalesDeps> = {}) {
     return { cancelled: sales.length, returns: 0, products };
   }
 
+  /** Push the new quantities, then re-evaluate the stock alerts. Neither may undo a stock change already written. */
+  async function afterStockChange(accountId: string, productIds: number[], ref: string): Promise<void> {
+    await d.requestPush(accountId, productIds, { type: "sale", ref });
+    await d.evaluateAlerts(accountId).catch((e) => console.error("[stock] alert evaluation after sale failed", e));
+  }
+
   /** Persist + apply an order already read from Mercado Libre. Caller holds the account lock. */
   async function applyFetched(accountId: string, order: Order, actor: Actor): Promise<ApplyOutcome> {
     await saveOrders(accountId, MERCADOLIBRE, [order]);
@@ -184,12 +185,12 @@ export function createSales(over: Partial<SalesDeps> = {}) {
         movements += products.length;
         products.forEach((p) => touched.add(p));
       }
-      if (touched.size) await d.requestPush(accountId, [...touched], { type: "sale", ref: String(stored.orderId) });
+      if (touched.size) await afterStockChange(accountId, [...touched], String(stored.orderId));
       return { status: "applied", movements, unmatched, cancelled: 0, returns: 0 };
     }
     if (stored.status === "cancelled") {
       const r = await cancelOrder(accountId, stored, actor);
-      if (r.products.length) await d.requestPush(accountId, [...new Set(r.products)], { type: "sale", ref: String(stored.orderId) });
+      if (r.products.length) await afterStockChange(accountId, [...new Set(r.products)], String(stored.orderId));
       return { status: "applied", movements: 0, unmatched: 0, cancelled: r.cancelled, returns: r.returns };
     }
     return { status: "ignored" };
@@ -221,7 +222,7 @@ export function createSales(over: Partial<SalesDeps> = {}) {
         applied++;
         products.forEach((p) => touched.add(p));
       }
-      if (touched.size) await d.requestPush(accountId, [...touched], { type: "sale", ref: `pending:${itemId}` });
+      if (touched.size) await afterStockChange(accountId, [...touched], `pending:${itemId}`);
       const left = await readPendingLines(accountId, settings.cutoverAt, { itemId });
       const stillUnlinked = (await Promise.all(left.map((l) => linkOf(accountId, l.itemId, l.variationId)))).some((l) => !l);
       if (!stillUnlinked) await d.resolveAlert(accountId, itemId.toUpperCase(), "auto");
@@ -255,6 +256,7 @@ export function createSales(over: Partial<SalesDeps> = {}) {
       }
     }
     try { await d.compareWithMl(accountId); } catch (e) { res.errors++; console.error(`[stock-reconcile] compare: ${e instanceof Error ? e.message : String(e)}`); }
+    try { await d.evaluateAlerts(accountId); } catch (e) { res.errors++; console.error(`[stock-reconcile] alerts: ${e instanceof Error ? e.message : String(e)}`); }
     if (res.errors === 0) await setLastReconcileAt(accountId, started);
     return res;
   }
