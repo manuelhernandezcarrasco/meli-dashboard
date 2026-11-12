@@ -19,3 +19,19 @@ services:
         sync: false
       - key: DATA_SOURCE
         value: live
+      - key: CRON_SECRET # shared with the stock-reconcile cron job below
+        sync: false
+
+  # Stock reconcile safety net (S4): calls the web service every 15 minutes.
+  - type: cron
+    name: pnl-stock-reconcile
+    runtime: image
+    image:
+      url: docker.io/curlimages/curl:8.10.1
+    schedule: "*/15 * * * *"
+    dockerCommand: sh -c 'curl -fsS -H "Authorization: Bearer $CRON_SECRET" "$APP_URL/api/cron/stock-reconcile"'
+    envVars:
+      - key: APP_URL # https://<service>.onrender.com
+        sync: false
+      - key: CRON_SECRET
+        sync: false
