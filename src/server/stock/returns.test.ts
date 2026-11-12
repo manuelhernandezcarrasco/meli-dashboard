@@ -1,4 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.hoisted(() => {
+  process.env.DATABASE_URL = process.env.TEST_DATABASE_URL ?? "postgresql://pnl:pnl@localhost:5432/pnl_s8";
+});
+vi.mock("~/env", () => ({ env: { NODE_ENV: "test" } }));
 
 import type { AppendMovementInput } from "./contracts";
 import {

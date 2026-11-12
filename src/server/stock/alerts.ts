@@ -20,8 +20,26 @@ export const resolveAlert: AlertService["resolveAlert"] = async (accountId, dedu
 export const acknowledgeAlert = (accountId: string, id: number) => store.acknowledgeById(accountId, id);
 
 /** User resolution by id; returns false when it was already resolved or does not exist. */
-export const resolveAlertById = (accountId: string, id: number, resolution: string) =>
-  store.resolveByIds(accountId, [id], resolution).then((n) => n > 0);
+export async function resolveAlertById(accountId: string, id: number, resolution: string): Promise<boolean> {
+  const alert = await store.getAlert(accountId, id);
+  const resolved = (await store.resolveByIds(accountId, [id], resolution)) > 0;
+  if (resolved && alert?.type === "link_cost_review") await applyPendingAfterCostReview(accountId, alert);
+  return resolved;
+}
+
+/**
+ * The cost review of a new link is the gate for the sales parked while the listing was unlinked: once the person
+ * accepts or edits the cost, those sales are applied (S4). Key: `link_cost_review:<marketplace>:<itemId>:<variationId|0>[:<productId>]`.
+ */
+async function applyPendingAfterCostReview(accountId: string, alert: Pick<store.StoredAlert, "itemId" | "dedupeKey">): Promise<void> {
+  const [, , itemKey, variation] = alert.dedupeKey.split(":");
+  const itemId = alert.itemId ?? itemKey;
+  if (!itemId) return;
+  const variationId = Number(variation);
+  // lazy import: sales raises alerts, so a static import would be circular
+  const { applyPendingForListing } = await import("./sales");
+  await applyPendingForListing(accountId, itemId, Number.isInteger(variationId) && variationId > 0 ? variationId : null);
+}
 
 /* ---------- evaluator ---------- */
 
@@ -114,6 +132,14 @@ export async function evaluateAlerts(accountId: string, now = new Date()): Promi
   // 3. alerts raised by S3: clear when the sync state recovered
   resolved += await autoResolveSyncAlerts(accountId, now);
   return { raised, resolved };
+}
+
+/**
+ * Evaluator entry used by returns (S8): the evaluation is one set-based pass over the account, so the product
+ * ids only document what changed.
+ */
+export async function evaluateProducts(accountId: string, _productIds?: number[]): Promise<void> {
+  await evaluateAlerts(accountId);
 }
 
 async function evaluateMarginDrops(accountId: string, now: Date): Promise<number> {
