@@ -101,10 +101,6 @@ Before the contract step, the legacy tables still hold the original data, but th
 
 ## Contract step: dropping the legacy tables
 
-Do this in a later release, after at least one full week on the new schema and a checked backup. The SQL is prepared in [`prisma/pending/drop_legacy_tables.sql`](../../prisma/pending/drop_legacy_tables.sql). To apply it:
+Done in `20261112190000_drop_legacy_tables` (the four `@deprecated` models were removed from `prisma/schema.prisma`). Before deploying it: take a checked backup (`pg_dump -Fc`) and confirm the dashboard numbers on the new schema. The drop is irreversible; rollback = restore the backup.
 
-1. Delete the four `@deprecated` models (`MlToken`, `ApiCache`, `UserWorkbook`, `MarketResearch`) from `prisma/schema.prisma`.
-2. `git mv prisma/pending/drop_legacy_tables.sql prisma/migrations/<timestamp>_drop_legacy_tables/migration.sql`.
-3. Add its entry to [CHANGELOG.md](CHANGELOG.md), run `pnpm db:docs`, and run the tests.
-
-(The test suite already fails if any code under `src/` touches the deprecated tables.)
+(The test suite fails if any code under `src/` touches the dropped tables.)

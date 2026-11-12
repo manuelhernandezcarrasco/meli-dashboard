@@ -795,54 +795,6 @@ model CompetitorSale {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DEPRECATED legacy tables. Their data was copied into the tables above by migration
-// 20261112000000_normalize_schema and nothing reads or writes them any more. They are dropped by
-// the follow-up migration (see docs/database/MIGRATION.md) once the backfill is verified.
-// ─────────────────────────────────────────────────────────────────────────────
-
-/// @deprecated replaced by MarketplaceConnection.
-model MlToken {
-  ownerId      String   @id
-  accessToken  String
-  refreshToken String
-  userId       BigInt
-  expiresAt    DateTime
-  updatedAt    DateTime @updatedAt
-}
-
-/// @deprecated replaced by Listing, ListingVariation, Seller, Shipment, Order*, Payment*.
-model ApiCache {
-  ownerId   String
-  key       String
-  value     Json
-  updatedAt DateTime @updatedAt
-
-  @@id([ownerId, key])
-}
-
-/// @deprecated replaced by Upload, Product, PnlClosing, CostOverride, ProductMapping,
-/// DirectSale and StockReceipt.
-model UserWorkbook {
-  ownerId    String
-  kind       String
-  fileName   String
-  payload    Json
-  uploadedAt DateTime @default(now())
-
-  @@id([ownerId, kind])
-}
-
-/// @deprecated replaced by MarketScan + MarketOffer.
-model MarketResearch {
-  ownerId          String
-  catalogProductId String
-  payload          Json
-  fetchedAt        DateTime
-
-  @@id([ownerId, catalogProductId])
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // 5. Inventory (stock ledger, cost, purchases, listing links, ML push, alerts, returns)
 //    Surrogate ids: `id BigInt @default(autoincrement())` inside a tenant-first primary key
 //    `(accountId, id)`, so composite foreign keys `(accountId, …Id)` still work.

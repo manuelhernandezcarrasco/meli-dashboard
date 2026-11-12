@@ -6,6 +6,18 @@ How to add an entry: see "Changing the schema" in [README.md](README.md).
 
 ---
 
+## 20261112190000_drop_legacy_tables (2026-11-12)
+
+**Why.** Contract half of the `normalize_schema` migration: the four JSON-store tables held a duplicate of data now stored in typed tables and nothing reads them, so they only cost disk.
+
+**Dropped.** `MlToken`, `ApiCache`, `UserWorkbook`, `MarketResearch` (and their models in `schema.prisma`). Their data was copied by `20261112000000_normalize_schema` (and `sold:` rows by `20261112175811_competitor_sale`). `ship:` / `ship2:` cache keys were never migrated: superseded, unread.
+
+**Code.** None: no code under `src/` references them (enforced by `src/server/store/docs.test.ts`).
+
+**Rollout.** Take a `pg_dump -Fc` backup, then `prisma migrate deploy`. Instant; space is returned to the OS at once. Irreversible: rollback = restore the backup.
+
+---
+
 ## 20261112175811_competitor_sale (2026-11-12)
 
 **Why.** The browser collector's competitor sales (PR #27) were still stored as `sold:<itemId>` JSON rows in the deprecated `ApiCache`, which the follow-up migration drops (and a docs test forbids using).
@@ -47,7 +59,7 @@ How to add an entry: see "Changing the schema" in [README.md](README.md).
 - `Snapshot`: `ownerId` → `accountId` (FK to `Account`), `month` → `char(7)` with a format `CHECK`, `computedAt` → `timestamptz`, new index `(accountId, computedAt DESC)`.
 - `MatchDecision`: `ownerId` → `accountId` (FK), `decision` text → enum `MatchVerdict`, `decidedAt` → `timestamptz`.
 
-**Deprecated, kept for one release:** `MlToken`, `ApiCache`, `UserWorkbook`, `MarketResearch`. Dropped by the follow-up in `prisma/pending/drop_legacy_tables.sql`.
+**Deprecated, kept for one release:** `MlToken`, `ApiCache`, `UserWorkbook`, `MarketResearch`. Dropped by `20261112190000_drop_legacy_tables`.
 
 **Data.** Every legacy row is copied by the migration itself and verified inside it. Mapping and rules: [MIGRATION.md](MIGRATION.md). `SaleLine` is not backfilled: the first sync and "Recalcular histórico" fill it.
 
