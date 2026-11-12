@@ -22,6 +22,10 @@ const listingCatalogStore: CatalogStore = {
 const unavailableLookup: CatalogIdLookup = () =>
   Promise.reject(new TRPCError({ code: "NOT_IMPLEMENTED", message: "Catalog lookup not wired yet" }));
 
+export type RecentScan = { catalogProductId: string; title: string; ean: string | null; lastScanAt: string };
+
+export const RECENT_SCANS_LIMIT = 50;
+
 export function createMarketSearchRouter(lookup: CatalogIdLookup = unavailableLookup, cache: CatalogStore = listingCatalogStore) {
   return createTRPCRouter({
     searchOwnProducts: protectedProcedure
@@ -45,6 +49,33 @@ export function createMarketSearchRouter(lookup: CatalogIdLookup = unavailableLo
         }
         return searchOwnProducts({ ownerId: ctx.userId, lookup, cache, products }, input.query);
       }),
+    /** Catalog products that already have a MarketScan, most recently scanned first. */
+    recent: protectedProcedure.query(async ({ ctx }): Promise<RecentScan[]> => {
+      const scans = await db.marketScan.findMany({
+        where: { accountId: ctx.userId, marketplace: MERCADOLIBRE },
+        orderBy: { fetchedAt: "desc" },
+        distinct: ["catalogProductId"],
+        take: RECENT_SCANS_LIMIT,
+        select: { catalogProductId: true, catalogTitle: true, fetchedAt: true },
+      });
+      if (scans.length === 0) return [];
+      const listings = await db.listing.findMany({
+        where: {
+          accountId: ctx.userId,
+          marketplace: MERCADOLIBRE,
+          catalogProductId: { in: scans.map((s) => s.catalogProductId) },
+          matchedEan: { not: null },
+        },
+        select: { catalogProductId: true, matchedEan: true },
+      });
+      const eanOf = new Map(listings.map((l) => [l.catalogProductId, l.matchedEan]));
+      return scans.map((s) => ({
+        catalogProductId: s.catalogProductId,
+        title: s.catalogTitle,
+        ean: eanOf.get(s.catalogProductId) ?? null,
+        lastScanAt: s.fetchedAt.toISOString(),
+      }));
+    }),
     catalogIdForItem: protectedProcedure
       .input(z.object({ itemId: z.string().min(1) }))
       .query(async ({ ctx, input }): Promise<{ catalogProductId: string | null }> => ({
