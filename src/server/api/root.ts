@@ -1,6 +1,7 @@
 import { dashboardRouter } from "~/server/api/routers/dashboard";
 import { marketRouter } from "~/server/api/routers/market";
 import { stockAlertsRouter } from "~/server/api/routers/stock-alerts";
+import { stockCutoverRouter } from "~/server/api/routers/stock-cutover";
 import { stockInvoicesRouter } from "~/server/api/routers/stock-invoices";
 import { stockProductsRouter } from "~/server/api/routers/stock-products";
 import { stockReturnsRouter } from "~/server/api/routers/stock-returns";
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   dashboard: dashboardRouter,
   market: marketRouter,
   stockProducts: stockProductsRouter,
+  stockCutover: stockCutoverRouter,
   stockInvoices: stockInvoicesRouter,
   stockAlerts: stockAlertsRouter,
   stockReturns: stockReturnsRouter,

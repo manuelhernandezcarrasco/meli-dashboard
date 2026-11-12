@@ -18,6 +18,7 @@ import { getDataSource } from "~/server/datasource";
 import type { DataSource } from "~/server/datasource/types";
 import { createMatcher } from "~/lib/product-match";
 import { workbooks } from "~/server/workbooks";
+import { loadLedgerCosts } from "~/server/store/stockCutover";
 import { loadUploaded } from "~/server/workbooks/store";
 import { enrich, fetchMonth } from "./enrich";
 import { saveCatalogProducts } from "./catalog";
@@ -79,6 +80,7 @@ export async function runSync(
   const decisions = await loadDecisions(ownerId);
   const inputs = withConfirmed(uploaded.inputs ?? demo?.inputs ?? EMPTY_INPUTS, decisions);
   const fuzzy = createMatcher(base, decisions.rejected);
+  const ledger = await loadLedgerCosts(ownerId);
   const ds = opts.dataSource ?? getDataSource(ownerId, base, now);
 
   log(`Descargando órdenes de ${monthLabel(y, m)}…`);
@@ -93,12 +95,12 @@ export async function runSync(
 
   const data = computeDashboard({
     orders, prevOrders, shipCosts, gtins, taxes, base, prevCierre, inputs, cfg,
-    y, m, now, stockFn: computeStock, fuzzy,
+    y, m, now, stockFn: computeStock, fuzzy, ledger,
   });
 
   // Control lines (legacy 1280–1290); never log order contents.
   const calCfg = { ...cfg, impuestosMlPctEstimado: data.taxPct };
-  const lines = buildLines(orders, shipCosts, gtins, base, inputs, calCfg, y, m, taxes, fuzzy);
+  const lines = buildLines(orders, shipCosts, gtins, base, inputs, calCfg, y, m, taxes, fuzzy, ledger);
   const ml = lines.filter((l) => l.channel === "ML");
   try {
     const n = await saveCatalogProducts(ownerId, ds.marketplace, lines);
@@ -111,7 +113,7 @@ export async function runSync(
     const con = ml.filter((l) => l.taxSource === "Mercado Pago").length;
     log(`Impuestos: ${con}/${ml.length} líneas ML con detalle real de Mercado Pago; el resto, estimado`);
   }
-  const pml = buildLines(prevOrders, shipCosts, gtins, base, inputs, calCfg, py, pm, taxes, fuzzy).filter(
+  const pml = buildLines(prevOrders, shipCosts, gtins, base, inputs, calCfg, py, pm, taxes, fuzzy, ledger).filter(
     (l) => l.channel === "ML",
   );
   if (pml.length && prevCierre.costoMl) {

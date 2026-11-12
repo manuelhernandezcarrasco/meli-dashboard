@@ -12,7 +12,7 @@ import type {
   StockRow,
   TaxMap,
 } from "~/lib/contracts";
-import { buildLines } from "./lines";
+import { buildLines, type LedgerCosts } from "./lines";
 import type { Matcher } from "~/lib/product-match";
 import { calibrateTaxPct, matchProposalsFrom, unmatchedFrom } from "./tax";
 import { buildComparison, cutDayFor } from "./comparison";
@@ -46,6 +46,8 @@ export interface ComputeDashboardInput {
   cutDay?: number;
   /** Title-similarity fallback for listings without SKU / EAN / GTIN; off when omitted. */
   fuzzy?: Matcher;
+  /** Frozen cost history of the stock ledger; absent before the account's cutover. */
+  ledger?: LedgerCosts;
 }
 
 const round2 = (x: number) => Math.round(x * 100) / 100;
@@ -77,13 +79,13 @@ export function computeDashboard(i: ComputeDashboardInput): DashboardData {
     taxPct = i.cfg.impuestosMlPctEstimado;
   } else {
     const zero = { ...i.cfg, impuestosMlPctEstimado: 0 };
-    const p0 = buildLines(i.prevOrders, i.shipCosts, i.gtins, base, inputs, zero, py, pm, undefined, i.fuzzy);
+    const p0 = buildLines(i.prevOrders, i.shipCosts, i.gtins, base, inputs, zero, py, pm, undefined, i.fuzzy, i.ledger);
     taxPct = calibrateTaxPct(p0, i.prevCierre);
   }
   const cfg: BusinessConfig = { ...i.cfg, impuestosMlPctEstimado: taxPct };
 
-  const lines = buildLines(i.orders, i.shipCosts, i.gtins, base, inputs, cfg, y, m, i.taxes, i.fuzzy);
-  const prevLines = buildLines(i.prevOrders, i.shipCosts, i.gtins, base, inputs, cfg, py, pm, i.taxes, i.fuzzy);
+  const lines = buildLines(i.orders, i.shipCosts, i.gtins, base, inputs, cfg, y, m, i.taxes, i.fuzzy, i.ledger);
+  const prevLines = buildLines(i.prevOrders, i.shipCosts, i.gtins, base, inputs, cfg, py, pm, i.taxes, i.fuzzy, i.ledger);
 
   const cutDay = i.cutDay ?? cutDayFor(lines, y, m, now);
   const comp = buildComparison({ lines, prevLines, prevCierre: i.prevCierre, y, m, now, cutDay });
